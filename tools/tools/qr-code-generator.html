@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Create and download QR codes online with MANJESH Tools.">
+<title>QR Code Generator | MANJESH Tools</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f6f8f7;color:#183c2b}
+header{background:#fff;padding:16px 5%;border-bottom:1px solid #e3eae5;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:21px;font-weight:800;color:#176b43}.brand span{color:#f28c28}
+a{color:#176b43;text-decoration:none;font-weight:600}
+main{max-width:680px;margin:40px auto;padding:0 16px}
+.card{background:#fff;border:1px solid #e0e9e2;border-radius:18px;padding:25px;box-shadow:0 8px 30px #173d2b0b}
+h1{font-size:clamp(27px,5vw,38px);margin:0 0 12px}
+p{color:#65776b;line-height:1.6}
+label{display:block;font-weight:700;margin:20px 0 8px}
+textarea,input,button{width:100%;padding:13px;border-radius:10px;font-size:16px}
+textarea,input{border:1px solid #cbd8ce;background:white}
+button{border:0;background:#176b43;color:white;font-weight:700;cursor:pointer;margin-top:16px}
+#qr{display:flex;justify-content:center;align-items:center;margin:24px auto;min-height:20px}
+#qr img,#qr canvas{max-width:100%;height:auto}
+#result{margin-top:14px;color:#65776b;line-height:1.5}
+footer{text-align:center;padding:25px;color:#65776b;font-size:14px}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">MANJESH <span>Tools</span></div>
+<a href="../index.html">← All Tools</a>
+</header>
+<main>
+<section class="card">
+<h1>QR Code Generator</h1>
+<p>Enter a website link or any text to create a QR code. Scan it with a phone camera to read the content.</p>
+<label for="content">Website URL or text</label>
+<textarea id="content" rows="3" placeholder="https://example.com"></textarea>
+<button id="generate">Generate QR Code</button>
+<div id="qr"></div>
+<div id="result" aria-live="polite"></div>
+<button id="download" style="display:none">Download QR Code</button>
+</section>
+</main>
+<footer>© 2026 MANJESH Tools · Simple Tools. Better Productivity.</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const content=document.getElementById('content');
+const qrBox=document.getElementById('qr');
+const result=document.getElementById('result');
+const generate=document.getElementById('generate');
+const download=document.getElementById('download');
+let ready=false;
+generate.addEventListener('click',()=>{
+const text=content.value.trim();
+qrBox.replaceChildren();
+download.style.display='none';
+ready=false;
+if(!text){result.textContent='Please enter a URL or text first.';return}
+if(!window.QRCode){result.textContent='QR library could not load. Check your internet connection and reload.';return}
+try{
+new QRCode(qrBox,{text:text,width:256,height:256,colorDark:'#183c2b',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M});
+result.textContent='QR code created successfully.';
+ready=true;
+download.style.display='block';
+}catch(e){result.textContent='Could not generate this QR code. Try shorter text.'}
+});
+download.addEventListener('click',()=>{
+if(!ready)return;
+const canvas=qrBox.querySelector('canvas');
+const image=qrBox.querySelector('img');
+let url='';
+if(canvas)url=canvas.toDataURL('image/png');
+else if(image&&image.src)url=image.src;
+if(!url){result.textContent='QR image is not ready yet.';return}
+const a=document.createElement('a');
+a.href=url;a.download='manjesh-qr-code.png';
+document.body.appendChild(a);a.click();a.remove();
+});
+</script>
+</body>
+</html>
