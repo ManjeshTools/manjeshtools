@@ -4,270 +4,416 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Free online photo KB compressor by ManjeshTools.">
-<title>Photo KB Compressor - ManjeshTools</title>
+<meta name="theme-color" content="#176b3a">
+<meta name="description" content="Free online image compressor, image resizer and JPG to PNG converter by ManjeshTools.">
+<title>ManjeshTools - Free Image Tools</title>
 <style>
-:root{--green:#176b3a;--orange:#f28c28;--bg:#f4f8f5;--text:#183126}
+:root{--green:#176b3a;--orange:#f28c28;--bg:#f4f8f5;--ink:#183126}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;color:var(--text);background:var(--bg)}
-header{background:var(--green);color:#fff;padding:22px 14px;text-align:center}
-.logo{font-size:28px;font-weight:800}.logo span{color:var(--orange)}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--green);color:white;text-align:center;padding:24px 14px}
+.logo{font-size:30px;font-weight:800}.logo span{color:var(--orange)}
 header p{margin:8px 0 0;font-size:14px}
-main{max-width:650px;margin:24px auto;padding:0 14px}
-.card{background:#fff;padding:22px;border-radius:18px;box-shadow:0 5px 24px #18312612}
-h1{font-size:25px;margin:0 0 10px}
-.intro{color:#617168;line-height:1.6;font-size:14px}
-label{display:block;margin:18px 0 7px;font-size:14px;font-weight:bold}
-input,select{width:100%;min-height:45px;padding:10px;border:1px solid #d5e0d8;border-radius:9px;font-size:16px;background:#fff}
+main{max-width:760px;margin:22px auto;padding:0 13px}
+.intro{text-align:center;line-height:1.6;color:#596b60}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:20px 0}
+.tab{background:#fff;color:var(--green);border:1px solid #d7e4da;padding:12px 5px;font-size:13px;border-radius:10px}
+.tab.active{background:var(--green);color:#fff}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 5px 24px #1831260d}
+h1{font-size:24px;margin:0 0 8px}h2{font-size:19px;margin:0 0 8px}
+.desc{font-size:14px;line-height:1.6;color:#607166}
+label{display:block;font-size:14px;font-weight:bold;margin:17px 0 7px}
+input,select{width:100%;padding:12px;border:1px solid #d4dfd7;border-radius:9px;background:#fff;font-size:16px;min-height:44px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-button{border:0;border-radius:10px;padding:14px;font-size:16px;font-weight:bold;cursor:pointer}
-.primary{background:var(--green);color:#fff;width:100%;margin-top:20px}
-.secondary{background:var(--orange);color:#231500;width:100%;margin-top:12px}
+button{cursor:pointer;font-weight:bold;border:0;border-radius:9px;padding:13px;font-size:15px}
+.primary{width:100%;margin-top:18px;background:var(--green);color:#fff}
+.secondary{width:100%;margin-top:12px;background:var(--orange);color:#251800}
 button:disabled{opacity:.5;cursor:not-allowed}
-#status{white-space:pre-line;margin-top:16px;padding:12px;background:#eef7f0;border-radius:9px;line-height:1.5;font-size:14px;overflow-wrap:anywhere}
-#preview{display:none;max-width:100%;max-height:280px;object-fit:contain;margin:16px auto 0;border-radius:10px}
-.note{font-size:12px;color:#65736a;line-height:1.6;margin-top:18px}
-footer{text-align:center;padding:20px 12px;color:#65736a;font-size:13px}
+.tool{display:none}.tool.active{display:block}
+.preview{display:none;max-width:100%;max-height:260px;object-fit:contain;margin:15px auto;border-radius:8px}
+.status{white-space:pre-line;overflow-wrap:anywhere;background:#eef7f0;padding:12px;border-radius:9px;margin-top:15px;font-size:14px;line-height:1.55}
+.small{font-size:12px;color:#68776d;line-height:1.6;margin-top:16px}
+footer{text-align:center;color:#68776d;font-size:13px;padding:24px 10px}
+@media(max-width:430px){.tab{font-size:12px;padding:11px 3px}.card{padding:16px}h1{font-size:22px}}
 </style>
 </head>
 <body>
 <header>
   <div class="logo">Manjesh<span>Tools</span></div>
-  <p>Free online tools, all in one place</p>
+  <p>Free online tools for everyday use</p>
 </header>
+
 <main>
-<section class="card">
+<p class="intro">Compress images, resize photo dimensions and convert JPG to PNG — free and simple.</p>
+
+<div class="tabs">
+  <button class="tab active" data-tool="compressor">KB Compressor</button>
+  <button class="tab" data-tool="resizer">Image Resizer</button>
+  <button class="tab" data-tool="converter">JPG to PNG</button>
+</div>
+
+<section class="card tool active" id="compressor">
   <h1>Photo KB Compressor</h1>
-  <p class="intro">Compress your photo to a chosen file size. Your image is processed on your device and is not uploaded to a server.</p>
-
-  <label for="photo">1. Select your photo</label>
-  <input id="photo" type="file" accept="image/*">
-  <img id="preview" alt="Selected photo preview">
-
-  <label for="target">2. Target file size (KB)</label>
-  <input id="target" type="number" min="1" max="10000" value="100" placeholder="For example: 100">
-
-  <div class="row">
-    <div>
-      <label for="width">Width (pixels)</label>
-      <input id="width" type="number" min="1" max="10000" placeholder="Original width">
-    </div>
-    <div>
-      <label for="height">Height (pixels)</label>
-      <input id="height" type="number" min="1" max="10000" placeholder="Original height">
-    </div>
-  </div>
-
-  <label for="format">3. Output format</label>
-  <select id="format">
-    <option value="image/jpeg">JPG (recommended)</option>
-    <option value="image/webp">WebP (smaller file)</option>
+  <p class="desc">Set a maximum file size. If your photo is already smaller and no format conversion is needed, the original file will be kept unchanged.</p>
+  <label for="cfile">Select photo</label>
+  <input id="cfile" type="file" accept="image/*">
+  <img class="preview" id="cpreview" alt="Compressor photo preview">
+  <label for="target">Maximum file size (KB)</label>
+  <input id="target" type="number" min="1" max="20000" value="100">
+  <label for="cformat">Output format</label>
+  <select id="cformat">
+    <option value="original">Keep original format</option>
+    <option value="image/jpeg">JPG</option>
+    <option value="image/webp">WebP</option>
     <option value="image/png">PNG</option>
   </select>
-
-  <button class="primary" id="compress">Compress Photo</button>
-  <div id="status" role="status" aria-live="polite">Select a photo to get started.</div>
-  <button class="secondary" id="download" disabled>Download Compressed Photo</button>
-
-  <p class="note">Note: The exact target size cannot be guaranteed for every image. Lower file sizes may reduce quality. PNG files can remain large. Please check the downloaded photo before using it.</p>
+  <button class="primary" id="compressBtn">Compress Photo</button>
+  <div class="status" id="cstatus" role="status" aria-live="polite">Select a photo to get started.</div>
+  <button class="secondary" id="cdownload" disabled>Download Photo</button>
 </section>
+
+<section class="card tool" id="resizer">
+  <h1>Image Resizer</h1>
+  <p class="desc">Change your photo's width and height in pixels.</p>
+  <label for="rfile">Select photo</label>
+  <input id="rfile" type="file" accept="image/*">
+  <img class="preview" id="rpreview" alt="Resizer photo preview">
+  <div class="row">
+    <div><label for="rwidth">Width (px)</label><input id="rwidth" type="number" min="1" max="10000" placeholder="Width"></div>
+    <div><label for="rheight">Height (px)</label><input id="rheight" type="number" min="1" max="10000" placeholder="Height"></div>
+  </div>
+  <label for="rformat">Output format</label>
+  <select id="rformat">
+    <option value="image/jpeg">JPG</option>
+    <option value="image/png">PNG</option>
+    <option value="image/webp">WebP</option>
+  </select>
+  <button class="primary" id="resizeBtn">Resize Image</button>
+  <div class="status" id="rstatus" role="status" aria-live="polite">Select a photo to get started.</div>
+  <button class="secondary" id="rdownload" disabled>Download Resized Image</button>
+</section>
+
+<section class="card tool" id="converter">
+  <h1>JPG to PNG Converter</h1>
+  <p class="desc">Convert a JPG or JPEG image to PNG format. You can also select another browser-supported image format.</p>
+  <label for="pfile">Select JPG photo</label>
+  <input id="pfile" type="file" accept="image/jpeg,.jpg,.jpeg">
+  <img class="preview" id="ppreview" alt="Converter photo preview">
+  <button class="primary" id="convertBtn">Convert to PNG</button>
+  <div class="status" id="pstatus" role="status" aria-live="polite">Select a JPG photo to get started.</div>
+  <button class="secondary" id="pdownload" disabled>Download PNG Photo</button>
+</section>
+
+<p class="small">Privacy: Images are processed in your browser and are not uploaded by this page. The exact compressed size depends on the image. PNG output may be larger than JPG. Always check the final image before using it.</p>
 </main>
-<footer>© 2026 ManjeshTools · Simple tools for everyday use</footer>
+<footer>© 2026 ManjeshTools · Free Image Tools</footer>
 
 <script>
-const photo = document.getElementById("photo");
-const target = document.getElementById("target");
-const widthInput = document.getElementById("width");
-const heightInput = document.getElementById("height");
-const format = document.getElementById("format");
-const statusBox = document.getElementById("status");
-const preview = document.getElementById("preview");
-const compressButton = document.getElementById("compress");
-const downloadButton = document.getElementById("download");
+const $ = id => document.getElementById(id);
 
-let outputBlob = null;
-let outputName = "manjeshtools-compressed.jpg";
-let currentImage = null;
-let previewURL = null;
+document.querySelectorAll(".tab").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tool").forEach(t => t.classList.remove("active"));
+    button.classList.add("active");
+    $(button.dataset.tool).classList.add("active");
+  });
+});
 
-function showStatus(message) {
-  statusBox.textContent = message;
-}
-
-function loadImageFromFile(file) {
+function loadImage(file) {
   return new Promise((resolve, reject) => {
+    if (!file || !file.type.startsWith("image/")) {
+      reject(new Error("Please select a valid image file."));
+      return;
+    }
     const url = URL.createObjectURL(file);
     const img = new Image();
-    img.onload = () => resolve({ img, url });
+    img.onload = () => resolve({img, url});
     img.onerror = () => {
       URL.revokeObjectURL(url);
-      reject(new Error("This photo could not be opened by your browser. Please try a JPG or PNG photo."));
+      reject(new Error("Could not open this image. Please try another photo."));
     };
     img.src = url;
   });
 }
 
-function canvasToBlob(canvas, mime, quality) {
+function toBlob(canvas, type, quality) {
   return new Promise((resolve, reject) => {
-    if (typeof canvas.toBlob !== "function") {
-      reject(new Error("Your browser does not support image export. Please update Chrome and try again."));
-      return;
-    }
     canvas.toBlob(blob => {
       if (blob) resolve(blob);
-      else reject(new Error("Could not create this image format. Please choose JPG."));
-    }, mime, quality);
+      else reject(new Error("Image export failed. Please try JPG format."));
+    }, type, quality);
   });
 }
 
-photo.addEventListener("change", async () => {
-  outputBlob = null;
-  currentImage = null;
-  downloadButton.disabled = true;
-  if (previewURL) URL.revokeObjectURL(previewURL);
-  preview.style.display = "none";
-
-  const file = photo.files && photo.files[0];
-  if (!file) {
-    showStatus("Select a photo to get started.");
-    return;
+function canvasFor(img, width, height, type) {
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Canvas is not supported in this browser.");
+  if (type === "image/jpeg") {
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, width, height);
   }
-  if (!file.type.startsWith("image/")) {
-    photo.value = "";
-    showStatus("Please select an image file.");
-    return;
-  }
+  ctx.drawImage(img, 0, 0, width, height);
+  return canvas;
+}
 
-  showStatus("Loading photo…");
+function saveBlob(blob, filename, buttonId, statusId, extra) {
+  const button = $(buttonId);
+  button.disabled = false;
+  button.onclick = () => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  };
+}
+
+function showPreview(img, url, previewId) {
+  const p = $(previewId);
+  p.src = url;
+  p.style.display = "block";
+}
+
+function kb(bytes) {
+  return (bytes / 1024).toFixed(1) + " KB";
+}
+
+/* PHOTO KB COMPRESSOR */
+let compressorFile = null;
+let compressorURL = null;
+let compressorBlob = null;
+let compressorName = "manjeshtools-photo.jpg";
+
+$("cfile").addEventListener("change", async () => {
+  $("cdownload").disabled = true;
+  compressorBlob = null;
+  if (compressorURL) URL.revokeObjectURL(compressorURL);
+  const file = $("cfile").files[0];
+  compressorFile = file || null;
+  if (!file) return;
+  $("cstatus").textContent = "Loading photo…";
   try {
-    const loaded = await loadImageFromFile(file);
-    currentImage = loaded.img;
-    previewURL = loaded.url;
-    preview.src = previewURL;
-    preview.style.display = "block";
-    widthInput.value = loaded.img.naturalWidth;
-    heightInput.value = loaded.img.naturalHeight;
-    showStatus("Original: " + (file.size / 1024).toFixed(1) + " KB\nDimensions: " +
-      loaded.img.naturalWidth + " × " + loaded.img.naturalHeight + " px");
-  } catch (error) {
-    showStatus(error.message || "Could not load this photo. Try another image.");
+    const result = await loadImage(file);
+    compressorURL = result.url;
+    showPreview(result.img, result.url, "cpreview");
+    $("cstatus").textContent = "Original size: " + kb(file.size) +
+      "\nDimensions: " + result.img.naturalWidth + " × " + result.img.naturalHeight + " px";
+    result.img.close && result.img.close();
+  } catch (e) {
+    $("cstatus").textContent = e.message;
   }
 });
 
-compressButton.addEventListener("click", async () => {
-  const file = photo.files && photo.files[0];
-  const targetKB = Number(target.value);
-
-  if (!file) {
-    showStatus("Please select a photo first.");
-    return;
-  }
+$("compressBtn").addEventListener("click", async () => {
+  const file = compressorFile;
+  const targetKB = Number($("target").value);
+  if (!file) { $("cstatus").textContent = "Please select a photo first."; return; }
   if (!Number.isFinite(targetKB) || targetKB <= 0) {
-    showStatus("Please enter a target size greater than 0 KB.");
-    return;
+    $("cstatus").textContent = "Enter a target size greater than 0 KB."; return;
   }
 
-  compressButton.disabled = true;
-  downloadButton.disabled = true;
-  outputBlob = null;
-  showStatus("Compressing your photo…");
+  const targetBytes = targetKB * 1024;
+  const requested = $("cformat").value;
+  $("compressBtn").disabled = true;
+  $("cdownload").disabled = true;
+  $("cstatus").textContent = "Processing photo…";
 
-  let sourceURL = null;
+  let tempURL = null;
   try {
-    let image = currentImage;
-    if (!image || !image.complete || !image.naturalWidth) {
-      const loaded = await loadImageFromFile(file);
-      image = loaded.img;
-      sourceURL = loaded.url;
-    }
+    const loaded = await loadImage(file);
+    const img = loaded.img;
+    tempURL = loaded.url;
+    let mime = requested === "original" ? file.type : requested;
+    if (!["image/jpeg","image/png","image/webp"].includes(mime)) mime = "image/jpeg";
 
-    let w = Number(widthInput.value) || image.naturalWidth;
-    let h = Number(heightInput.value) || image.naturalHeight;
-    if (!Number.isFinite(w) || !Number.isFinite(h) || w < 1 || h < 1 || w > 10000 || h > 10000) {
-      throw new Error("Please enter valid width and height values from 1 to 10000.");
-    }
+    /* Keep original file when it already meets the limit and no conversion is requested. */
+    if (requested === "original" && file.size <= targetBytes) {
+      compressorBlob = file;
+      compressorName = file.name || "manjeshtools-photo";
+      $("cstatus").textContent = "Already within your target size — original photo kept unchanged.\nOriginal: " +
+        kb(file.size) + "\nOutput: " + kb(file.size) + "\nNo unnecessary file-size increase.";
+    } else {
+      let w = img.naturalWidth;
+      let h = img.naturalHeight;
+      let best = null;
+      let bestW = w, bestH = h;
 
-    const requestedMime = format.value;
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    if (!ctx) throw new Error("Canvas is unavailable in this browser. Please try an updated Chrome browser.");
-
-    const limit = targetKB * 1024;
-    let bestBlob = null;
-    let bestW = w;
-    let bestH = h;
-
-    for (let pass = 0; pass < 12; pass++) {
-      canvas.width = Math.max(1, Math.round(w));
-      canvas.height = Math.max(1, Math.round(h));
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      if (requestedMime === "image/jpeg") {
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-      }
-      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-      const qualities = requestedMime === "image/png"
-        ? [undefined]
-        : [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1];
-
-      for (const quality of qualities) {
-        const blob = await canvasToBlob(canvas, requestedMime, quality);
-        if (!bestBlob || blob.size < bestBlob.size) {
-          bestBlob = blob;
-          bestW = canvas.width;
-          bestH = canvas.height;
+      for (let pass = 0; pass < 14; pass++) {
+        const canvas = canvasFor(img, w, h, mime);
+        const qualities = mime === "image/png" ? [undefined] : [0.88,0.78,0.68,0.58,0.48,0.38,0.28,0.18];
+        for (const q of qualities) {
+          const blob = await toBlob(canvas, mime, q);
+          if (!best || blob.size < best.size) {
+            best = blob; bestW = w; bestH = h;
+          }
+          if (blob.size <= targetBytes) {
+            best = blob; bestW = w; bestH = h;
+            break;
+          }
         }
-        if (blob.size <= limit) {
-          bestBlob = blob;
-          bestW = canvas.width;
-          bestH = canvas.height;
-          break;
-        }
+        if (best && best.size <= targetBytes) break;
+        w = Math.max(1, Math.floor(w * 0.8));
+        h = Math.max(1, Math.floor(h * 0.8));
       }
 
-      if (bestBlob && bestBlob.size <= limit) break;
-      w = Math.max(1, Math.floor(w * 0.8));
-      h = Math.max(1, Math.floor(h * 0.8));
+      if (!best) throw new Error("Could not create the compressed image.");
+      /* Never replace a smaller original with a larger output when keeping original format. */
+      if (requested === "original" && file.size <= best.size) {
+        compressorBlob = file;
+        compressorName = file.name || "manjeshtools-photo";
+        $("cstatus").textContent = "The original photo is smaller than the compressed result, so the original was kept.\nOriginal: " +
+          kb(file.size) + "\nOutput: " + kb(file.size);
+      } else {
+        compressorBlob = best;
+        const ext = mime === "image/png" ? "png" : mime === "image/webp" ? "webp" : "jpg";
+        compressorName = "manjeshtools-compressed." + ext;
+        $("cstatus").textContent = (best.size <= targetBytes ? "Compression complete!" : "Best available result created; target size not reached.") +
+          "\nOriginal: " + kb(file.size) + "\nOutput: " + kb(best.size) +
+          "\nDimensions: " + bestW + " × " + bestH + " px" +
+          (best.size > targetBytes ? "\nTry a larger target size or JPG/WebP format." : "");
+      }
     }
-
-    if (!bestBlob) throw new Error("Compression did not create an output. Please try another photo.");
-    outputBlob = bestBlob;
-    const actualMime = bestBlob.type || requestedMime;
-    const extension = actualMime === "image/png" ? "png" :
-      actualMime === "image/webp" ? "webp" : "jpg";
-    outputName = "manjeshtools-compressed." + extension;
-    downloadButton.disabled = false;
-
-    const achieved = bestBlob.size <= limit;
-    showStatus((achieved ? "Compression complete!" : "Best result created, but target size was not reached.") +
-      "\nOriginal: " + (file.size / 1024).toFixed(1) + " KB" +
-      "\nOutput: " + (bestBlob.size / 1024).toFixed(1) + " KB" +
-      "\nDimensions: " + bestW + " × " + bestH + " px" +
-      (achieved ? "" : "\nTry a larger target size."));
-  } catch (error) {
-    showStatus("Compression error: " + (error && error.message ? error.message : "Unknown browser error.") +
-      "\nPlease try a JPG photo in Chrome.");
+    saveBlob(compressorBlob, compressorName, "cdownload");
+  } catch (e) {
+    $("cstatus").textContent = "Compression error: " + (e.message || "Please try another image.");
   } finally {
-    if (sourceURL) URL.revokeObjectURL(sourceURL);
-    compressButton.disabled = false;
+    if (tempURL) URL.revokeObjectURL(tempURL);
+    $("compressBtn").disabled = false;
   }
 });
 
-downloadButton.addEventListener("click", () => {
-  if (!outputBlob) {
-    showStatus("Please compress a photo before downloading.");
-    return;
+$("cdownload").addEventListener("click", () => {
+  if (!compressorBlob) return;
+  const url = URL.createObjectURL(compressorBlob);
+  const a = document.createElement("a");
+  a.href = url; a.download = compressorName;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+});
+
+/* IMAGE RESIZER */
+let resizedBlob = null;
+let resizedName = "manjeshtools-resized.jpg";
+let resizerURL = null;
+
+$("rfile").addEventListener("change", async () => {
+  $("rdownload").disabled = true;
+  resizedBlob = null;
+  if (resizerURL) URL.revokeObjectURL(resizerURL);
+  const file = $("rfile").files[0];
+  if (!file) return;
+  $("rstatus").textContent = "Loading photo…";
+  try {
+    const loaded = await loadImage(file);
+    const img = loaded.img;
+    resizerURL = loaded.url;
+    showPreview(img, loaded.url, "rpreview");
+    $("rwidth").value = img.naturalWidth;
+    $("rheight").value = img.naturalHeight;
+    $("rstatus").textContent = "Original dimensions: " + img.naturalWidth + " × " + img.naturalHeight + " px";
+  } catch (e) {
+    $("rstatus").textContent = e.message;
   }
-  const url = URL.createObjectURL(outputBlob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = outputName;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1500);
+});
+
+$("resizeBtn").addEventListener("click", async () => {
+  const file = $("rfile").files[0];
+  const width = Number($("rwidth").value);
+  const height = Number($("rheight").value);
+  if (!file) { $("rstatus").textContent = "Please select a photo first."; return; }
+  if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1 || width > 10000 || height > 10000) {
+    $("rstatus").textContent = "Enter valid width and height from 1 to 10000 pixels."; return;
+  }
+  $("resizeBtn").disabled = true;
+  $("rdownload").disabled = true;
+  let url = null;
+  try {
+    const loaded = await loadImage(file);
+    const img = loaded.img; url = loaded.url;
+    const mime = $("rformat").value;
+    const canvas = canvasFor(img, width, height, mime);
+    resizedBlob = await toBlob(canvas, mime, 0.9);
+    const ext = mime === "image/png" ? "png" : mime === "image/webp" ? "webp" : "jpg";
+    resizedName = "manjeshtools-resized." + ext;
+    $("rstatus").textContent = "Resize complete!\nOriginal: " + img.naturalWidth + " × " + img.naturalHeight +
+      " px\nNew size: " + width + " × " + height + " px\nOutput file: " + kb(resizedBlob.size);
+    saveBlob(resizedBlob, resizedName, "rdownload");
+  } catch (e) {
+    $("rstatus").textContent = "Resize error: " + (e.message || "Please try again.");
+  } finally {
+    if (url) URL.revokeObjectURL(url);
+    $("resizeBtn").disabled = false;
+  }
+});
+
+$("rdownload").addEventListener("click", () => {
+  if (!resizedBlob) return;
+  const url = URL.createObjectURL(resizedBlob);
+  const a = document.createElement("a");
+  a.href = url; a.download = resizedName;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+});
+
+/* JPG TO PNG CONVERTER */
+let pngBlob = null;
+let pngURL = null;
+
+$("pfile").addEventListener("change", async () => {
+  $("pdownload").disabled = true;
+  pngBlob = null;
+  if (pngURL) URL.revokeObjectURL(pngURL);
+  const file = $("pfile").files[0];
+  if (!file) return;
+  $("pstatus").textContent = "Loading JPG…";
+  try {
+    const loaded = await loadImage(file);
+    pngURL = loaded.url;
+    showPreview(loaded.img, loaded.url, "ppreview");
+    $("pstatus").textContent = "Selected image: " + kb(file.size) +
+      "\nDimensions: " + loaded.img.naturalWidth + " × " + loaded.img.naturalHeight + " px";
+  } catch (e) {
+    $("pstatus").textContent = e.message;
+  }
+});
+
+$("convertBtn").addEventListener("click", async () => {
+  const file = $("pfile").files[0];
+  if (!file) { $("pstatus").textContent = "Please select a JPG photo first."; return; }
+  $("convertBtn").disabled = true;
+  $("pdownload").disabled = true;
+  let url = null;
+  try {
+    const loaded = await loadImage(file);
+    const img = loaded.img; url = loaded.url;
+    const canvas = canvasFor(img, img.naturalWidth, img.naturalHeight, "image/png");
+    pngBlob = await toBlob(canvas, "image/png");
+    $("pstatus").textContent = "Conversion complete!\nOriginal JPG: " + kb(file.size) +
+      "\nPNG output: " + kb(pngBlob.size) +
+      "\nDimensions: " + img.naturalWidth + " × " + img.naturalHeight + " px";
+    $("pdownload").disabled = false;
+  } catch (e) {
+    $("pstatus").textContent = "Conversion error: " + (e.message || "Please try another JPG.");
+  } finally {
+    if (url) URL.revokeObjectURL(url);
+    $("convertBtn").disabled = false;
+  }
+});
+
+$("pdownload").addEventListener("click", () => {
+  if (!pngBlob) return;
+  const url = URL.createObjectURL(pngBlob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "manjeshtools-converted.png";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
 });
 </script>
 </body>
