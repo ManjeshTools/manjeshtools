@@ -980,23 +980,3 @@ document.querySelectorAll(".tool-open").forEach(function(button) {
   });
 });
 </script>
-
-<!-- MANJESH Tools: Supabase connection -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="./supabase-client.js"></script>
-<script>
-  if (
-    window.MANJESH_SUPABASE_CONFIG &&
-    window.supabase
-  ) {
-    window.manjeshSupabase = window.supabase.createClient(
-      window.MANJESH_SUPABASE_CONFIG.url,
-      window.MANJESH_SUPABASE_CONFIG.key
-    );
-    console.log("MANJESH Tools: Supabase client initialized");
-  } else {
-    console.error("Supabase configuration could not be loaded.");
-  }
-</script>
-</body>
-</html>
