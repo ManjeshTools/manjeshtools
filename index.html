@@ -1,540 +1,153 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#176b3a">
-<meta name="description" content="ManjeshTools provides free online image compressor, image resizer and JPG to PNG converter tools.">
-<title>ManjeshTools - Free Online Tools</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b5d3b">
+<title>ManjeshTools — Free Online Image Tools</title>
 <style>
-:root{--green:#176b3a;--green2:#0f512b;--orange:#f28c28;--bg:#f5f8f5;--ink:#193327;--muted:#66776c;--line:#e1e9e2}
+:root{--g:#0b5d3b;--g2:#10794b;--o:#f28c28;--ink:#17392a;--muted:#65766c;--line:#e0e9e2;--bg:#f5f8f6}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink)}
-button,input,select{font:inherit}
-button{cursor:pointer}
-header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
-.nav{max-width:1100px;margin:auto;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand{font-size:25px;font-weight:900;color:var(--green);text-decoration:none;white-space:nowrap}
-.brand span{color:var(--orange)}
-.nav-tag{font-size:12px;color:var(--muted)}
-.hero{background:linear-gradient(140deg,var(--green2),var(--green));color:white;padding:52px 16px 46px;text-align:center}
-.hero-inner{max-width:760px;margin:auto}
-.eyebrow{display:inline-block;padding:7px 12px;border-radius:30px;background:#ffffff19;border:1px solid #ffffff40;font-size:12px;letter-spacing:.4px}
-.hero h1{font-size:clamp(30px,6vw,48px);line-height:1.12;margin:19px 0 12px}
-.hero h1 span{color:#ffb45d}
-.hero p{max-width:570px;margin:0 auto;color:#e1eee5;font-size:15px;line-height:1.7}
-.search{display:flex;gap:8px;background:white;padding:6px;border-radius:13px;max-width:570px;margin:24px auto 0;box-shadow:0 10px 30px #082a152b}
-.search input{flex:1;min-width:0;border:0;outline:0;padding:12px;font-size:15px;color:var(--ink);background:transparent}
-.search button{background:var(--orange);color:#251600;border:0;border-radius:9px;padding:0 18px;font-weight:bold}
-.trust{margin-top:15px;font-size:12px;color:#d9e9dd}
-main{max-width:1100px;margin:0 auto;padding:28px 16px 45px}
-.section-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:17px}
-.section-head h2{font-size:23px;margin:0 0 5px}
-.section-head p{margin:0;font-size:13px;color:var(--muted);line-height:1.5}
-.count{font-size:12px;color:var(--green);background:#e5f2e8;border-radius:20px;padding:7px 10px;white-space:nowrap}
-.categories{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
-.cat{border:1px solid var(--line);border-radius:30px;background:#fff;color:var(--ink);padding:9px 14px;font-size:13px}
-.cat.active{background:var(--green);color:white;border-color:var(--green)}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
-.tool-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:19px;display:flex;flex-direction:column;min-height:208px;transition:transform .15s,box-shadow .15s}
-.tool-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px #1831260d}
-.tool-icon{width:47px;height:47px;border-radius:13px;display:grid;place-items:center;background:#e8f4eb;font-size:24px;margin-bottom:15px}
-.tool-card h3{font-size:17px;margin:0 0 8px}
-.tool-card p{font-size:13px;line-height:1.55;color:var(--muted);margin:0 0 18px;flex:1}
-.open-tool{border:0;background:var(--green);color:white;padding:11px 12px;border-radius:9px;font-weight:bold;font-size:13px}
-.open-tool:hover{background:var(--green2)}
-.empty{display:none;text-align:center;padding:30px 12px;background:#fff;border:1px solid var(--line);border-radius:13px;color:var(--muted)}
-.workspace{display:none;margin-top:28px;scroll-margin-top:85px}
-.workspace.visible{display:block}
-.workspace-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
-.workspace-top h2{font-size:23px;margin:0}
-.back{border:1px solid var(--line);background:#fff;color:var(--green);padding:9px 12px;border-radius:9px;font-weight:bold}
-.tool-panel{display:none;background:#fff;border:1px solid var(--line);border-radius:16px;padding:21px}
-.tool-panel.active{display:block}
-.tool-panel h3{font-size:22px;margin:0 0 8px}
-.desc{font-size:14px;line-height:1.6;color:var(--muted)}
-label{display:block;font-size:14px;font-weight:bold;margin:17px 0 7px}
-input[type=file],input[type=number],select{width:100%;min-height:45px;padding:11px;border:1px solid #d4dfd7;border-radius:9px;background:#fff;font-size:15px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.preview{display:none;max-width:100%;max-height:270px;object-fit:contain;margin:15px auto;border-radius:8px}
-.primary,.secondary{width:100%;margin-top:17px;border:0;border-radius:9px;padding:13px;font-weight:bold}
-.primary{background:var(--green);color:white}
-.secondary{background:var(--orange);color:#251600}
-button:disabled{opacity:.5;cursor:not-allowed}
-.status{white-space:pre-line;overflow-wrap:anywhere;background:#eef7f0;padding:12px;border-radius:9px;margin-top:14px;font-size:14px;line-height:1.6}
-.note{font-size:12px;line-height:1.6;color:var(--muted);margin-top:18px}
-.info{margin-top:38px;padding:23px;background:#fff;border:1px solid var(--line);border-radius:16px}
-.info h2{margin:0 0 9px;font-size:21px}
-.info p{font-size:14px;line-height:1.7;color:var(--muted);margin:0}
-footer{background:#123e25;color:#e0eee3;text-align:center;padding:27px 15px;font-size:13px;line-height:1.8}
-footer strong{color:#ffb45d}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+.wrap{width:min(1100px,92%);margin:auto}
+header{position:sticky;top:0;background:#fffffff0;border-bottom:1px solid var(--line);z-index:5}
+.nav{height:70px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-weight:900;color:var(--g);font-size:1.2rem;display:flex;align-items:center;gap:10px}
+.logo{background:var(--g);color:#fff;border-radius:12px;padding:9px 12px}
+.logo b{color:var(--o)}
+.nav a{color:var(--g);font-weight:750;text-decoration:none}
+.hero{padding:60px 0 45px;background:radial-gradient(circle at 90% 15%,#ffecd7,transparent 25%),linear-gradient(120deg,#eff9f2,#fff)}
+.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:35px;align-items:center}
+.tag{display:inline-block;background:#e5f3e9;color:var(--g);border-radius:30px;padding:8px 13px;font-size:.82rem;font-weight:850}
+h1{font-size:clamp(2.4rem,5vw,4rem);line-height:1.07;letter-spacing:-1.7px;margin:18px 0}
+h1 span{color:var(--g2)}
+p{color:var(--muted);line-height:1.65}
+.hero p{font-size:1.05rem;max-width:580px}
+.search{display:flex;gap:8px;padding:8px;background:white;border:1px solid var(--line);border-radius:14px;max-width:560px}
+.search input{border:0;outline:0;padding:10px;min-width:0;flex:1}
+.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:800;cursor:pointer}
+.primary{background:var(--g);color:white}
+.primary:hover{background:#06472e}
+.light{background:#eaf4ed;color:var(--g)}
+.art{background:white;padding:22px;border:1px solid var(--line);border-radius:24px;box-shadow:0 18px 50px #123b2510}
+.arttop{display:flex;justify-content:space-between;font-weight:850;margin-bottom:18px}
+.badge{background:#fff0df;color:#8b4e0b;border-radius:20px;padding:6px 9px;font-size:.75rem}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.tile{height:100px;border-radius:13px;background:#edf7f0;display:grid;place-items:center;align-content:center;gap:7px;font-weight:800;color:var(--g)}
+.tile:nth-child(2){background:#fff4e5}.tile:nth-child(3){background:#edf2ff}
+.file{background:white;border:1px solid #c7ddce;border-radius:7px;padding:12px 9px;font-size:.75rem}
+.down{text-align:center;color:var(--o);font-size:1.8rem;font-weight:900;padding:9px}
+.pdf{display:flex;gap:12px;align-items:center;background:#f1f8f3;padding:13px;border-radius:13px}
+.pdficon{background:#ffebe4;color:#ad422c;padding:15px 12px;border-radius:9px;font-weight:900}
+.section{padding:45px 0}
+.head{margin-bottom:20px}
+.head h2{font-size:clamp(1.6rem,3vw,2.1rem);margin:0}
+.head p{margin:6px 0}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.filter{border:1px solid var(--line);background:#fff;padding:9px 14px;border-radius:22px;font-weight:800;color:var(--muted);cursor:pointer}
+.filter.active{background:var(--g);color:#fff}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:21px;display:flex;flex-direction:column;min-height:230px}
+.symbol{width:48px;height:48px;background:#e7f4eb;color:var(--g);display:grid;place-items:center;border-radius:14px;font-size:1.4rem;font-weight:900}
+.card:nth-child(2) .symbol{background:#fff0df;color:#9a5b0a}
+.card:nth-child(3) .symbol{background:#ffebe5;color:#ad422c}
+.card h3{margin:16px 0 4px}
+.card p{font-size:.92rem;flex:1;margin:4px 0 18px}
+.workspace{display:none;padding:0 0 42px}
+.workspace.show{display:block}
+.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:clamp(17px,4vw,28px)}
+.workhead{display:flex;justify-content:space-between;gap:15px}
+.workhead h2{margin:0}
+.drop{border:2px dashed #b7d6c1;border-radius:16px;text-align:center;padding:23px;background:#f7fbf8;margin-top:18px}
+.drop input{display:block;max-width:100%;margin:12px auto 0;padding:10px;background:#fff;border:1px solid var(--line);border-radius:9px}
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin-top:16px}
+.control{display:flex;flex-direction:column;gap:6px;flex:1;min-width:140px}
+.control label{font-weight:800;font-size:.85rem}
+.control input,.control select{padding:11px;border:1px solid var(--line);border-radius:9px;background:white}
+.previews{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:10px;margin-top:17px}
+.preview{border:1px solid var(--line);border-radius:12px;padding:8px;min-width:0}
+.preview img{width:100%;height:105px;object-fit:contain;background:#f6f8f6}
+.preview small{display:block;overflow-wrap:anywhere;color:var(--muted);margin:7px 0}
+.preview button{width:100%;border:0;background:#ffefec;color:#a43b2a;padding:7px;border-radius:8px;font-weight:750}
+.status{display:none;padding:12px;background:#eef8f1;color:var(--g);border-radius:10px;margin-top:15px;font-weight:700}
+.status.show{display:block}.status.err{background:#fff0ed;color:#a33224}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.feature{background:white;border:1px solid var(--line);border-radius:15px;padding:18px}
+.feature strong{display:block;margin:8px 0}
+.feature p{margin:0;font-size:.9rem}
+footer{background:#103b2a;color:#fff;padding:28px 0;margin-top:22px}
+footer p{color:#c3d7ca;margin:5px 0}
 .hidden{display:none!important}
-@media(max-width:750px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding:40px 15px}.tool-card{padding:15px;min-height:215px}.nav-tag{font-size:11px}}
-@media(max-width:430px){.grid{grid-template-columns:1fr}.tool-card{min-height:auto}.tool-icon{margin-bottom:10px}.hero h1{font-size:32px}.section-head h2{font-size:20px}.nav{padding:12px}.brand{font-size:23px}.search button{padding:0 12px}.tool-panel{padding:15px}}
+@media(max-width:760px){.hero-grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.features{grid-template-columns:1fr}.hero{padding-top:40px}}
+@media(max-width:520px){.cards{grid-template-columns:1fr}.search{flex-direction:column}.search button{width:100%}.art{padding:15px}}
 </style>
 </head>
 <body>
+<header><div class="wrap nav">
+<a class="brand" href="#" style="text-decoration:none"><span class="logo">M<b>T</b></span>ManjeshTools</a>
+<a href="#tools">Explore Tools ↗</a>
+</div></header>
 
-<header>
-  <nav class="nav">
-    <a class="brand" href="#" id="homeLink">Manjesh<span>Tools</span></a>
-    <div class="nav-tag">FREE ONLINE TOOLS</div>
-  </nav>
-</header>
+<section class="hero"><div class="wrap hero-grid">
+<div>
+<span class="tag">SIMPLE · FREE · ONLINE</span>
+<h1>Your everyday files.<br><span>Made easier.</span></h1>
+<p>Compress photos, resize images, and turn multiple PNG or JPG pictures into one PDF — using simple tools made for mobile and desktop.</p>
+<div class="search"><input id="search" placeholder="Search tools, e.g. Image to PDF…" aria-label="Search tools"><button class="btn primary" onclick="searchTools()">Find a Tool</button></div>
+</div>
+<div class="art">
+<div class="arttop">One simple workspace <span class="badge">Easy to use</span></div>
+<div class="tiles"><div class="tile"><span class="file">JPG</span>Photo 01</div><div class="tile"><span class="file">PNG</span>Photo 02</div><div class="tile"><span class="file">JPG</span>Photo 03</div></div>
+<div class="down">↓</div>
+<div class="pdf"><span class="pdficon">PDF</span><div><b>One PDF file</b><br><small style="color:var(--muted)">Multiple images · One download</small></div><b style="margin-left:auto;color:var(--g)">✓</b></div>
+</div>
+</div></section>
 
-<section class="hero">
-  <div class="hero-inner">
-    <span class="eyebrow">SIMPLE · FREE · ONLINE</span>
-    <h1>Useful tools.<br><span>Made simple.</span></h1>
-    <p>Compress images, resize photos and convert image formats with easy, browser-based tools.</p>
-    <form class="search" id="searchForm">
-      <input id="searchInput" type="search" placeholder="Search for a tool..." aria-label="Search tools">
-      <button type="submit">Search</button>
-    </form>
-    <div class="trust">✓ Free to use &nbsp; · &nbsp; ✓ Mobile friendly &nbsp; · &nbsp; ✓ No account required</div>
-  </div>
-</section>
+<section class="section" id="tools"><div class="wrap">
+<div class="head"><h2>Tools for your everyday needs</h2><p>Choose a tool and finish your task in a few clicks.</p></div>
+<div class="filters"><button class="filter active" onclick="filterTools('all',this)">All Tools</button><button class="filter" onclick="filterTools('image',this)">Image Tools</button><button class="filter" onclick="filterTools('pdf',this)">PDF Tools</button></div>
+<div class="cards" id="cards">
+<article class="card" data-cat="image" data-words="photo kb compressor compress reduce size"><div class="symbol">⇩</div><h3>Photo KB Compressor</h3><p>Reduce the file size of a photo to help meet upload limits.</p><button class="btn primary" onclick="openTool('compress')">Use Compressor →</button></article>
+<article class="card" data-cat="image" data-words="image resizer resize width height"><div class="symbol">↗</div><h3>Image Resizer</h3><p>Change image dimensions and download a resized JPG or PNG.</p><button class="btn primary" onclick="openTool('resize')">Resize Image →</button></article>
+<article class="card" data-cat="pdf" data-words="image to pdf png jpg jpeg multiple pictures"><div class="symbol">▤</div><h3>Image to PDF Converter</h3><p>Combine 1, 2, 5, 10 or more PNG/JPG images into one PDF, with image preview and remove options.</p><button class="btn primary" onclick="openTool('pdf')">Convert to PDF →</button></article>
+</div>
+<p id="none" class="hidden">No tools found. Try another search.</p>
+</div></section>
 
-<main>
-  <section id="homeSection">
-    <div class="section-head">
-      <div>
-        <h2>Explore Our Tools</h2>
-        <p>Choose a tool and get started in seconds.</p>
-      </div>
-      <span class="count" id="toolCount">3 tools</span>
-    </div>
+<section class="workspace" id="workspace"><div class="wrap"><div class="panel">
+<div class="workhead"><div><h2 id="title">Image Tool</h2><p id="desc">Choose your files.</p></div><button class="btn light" onclick="closeTool()">✕ Close</button></div>
+<div class="drop"><div style="font-size:2rem">＋</div><b id="dropTitle">Choose image files</b><p id="dropDesc">Files are processed in your browser, not uploaded to a server.</p><input id="files" type="file" accept="image/png,image/jpeg,.png,.jpg,.jpeg" multiple></div>
+<div id="compressControls" class="controls hidden"><div class="control"><label for="kb">Target size (KB)</label><input id="kb" type="number" min="5" value="100"></div><button class="btn primary" onclick="compress()">Compress & Download</button></div>
+<div id="resizeControls" class="controls hidden"><div class="control"><label for="rw">Width (px)</label><input id="rw" type="number" min="1" value="800"></div><div class="control"><label for="rh">Height (px)</label><input id="rh" type="number" min="1" value="800"></div><div class="control"><label for="rf">Format</label><select id="rf"><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select></div><button class="btn primary" onclick="resize()">Resize & Download</button></div>
+<div id="pdfControls" class="controls hidden"><div class="control"><label for="ps">Page size</label><select id="ps"><option value="a4">A4</option><option value="letter">Letter</option><option value="fit">Fit image to page</option></select></div><div class="control"><label for="orient">Orientation</label><select id="orient"><option value="auto">Auto (match image)</option><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></div><button class="btn primary" onclick="createPDF()">Create & Download PDF</button></div>
+<div id="previews" class="previews"></div><div id="status" class="status" role="status"></div>
+</div></div></section>
 
-    <div class="categories">
-      <button class="cat active" data-category="all">All Tools</button>
-      <button class="cat" data-category="image">Image Tools</button>
-      <button class="cat" data-category="convert">Converters</button>
-    </div>
-
-    <div class="grid" id="toolGrid">
-      <article class="tool-card" data-name="photo kb compressor image compress reduce size" data-category="image">
-        <div class="tool-icon">🗜️</div>
-        <h3>Photo KB Compressor</h3>
-        <p>Reduce photo file size to fit a target KB limit.</p>
-        <button class="open-tool" data-open="compressor">Open Tool →</button>
-      </article>
-
-      <article class="tool-card" data-name="image resizer resize photo width height pixels" data-category="image">
-        <div class="tool-icon">📐</div>
-        <h3>Image Resizer</h3>
-        <p>Change the width and height of your image in pixels.</p>
-        <button class="open-tool" data-open="resizer">Open Tool →</button>
-      </article>
-
-      <article class="tool-card" data-name="jpg to png converter convert image format" data-category="convert">
-        <div class="tool-icon">🔄</div>
-        <h3>JPG to PNG</h3>
-        <p>Convert JPG or JPEG photos into PNG images.</p>
-        <button class="open-tool" data-open="converter">Open Tool →</button>
-      </article>
-    </div>
-    <div class="empty" id="emptyState">No matching tools found. Try another search.</div>
-  </section>
-
-  <section class="workspace" id="workspace">
-    <div class="workspace-top">
-      <h2 id="workspaceTitle">Image Tool</h2>
-      <button class="back" id="backButton">← All tools</button>
-    </div>
-
-    <div class="tool-panel active" id="compressor">
-      <h3>Photo KB Compressor</h3>
-      <p class="desc">Set a maximum file size. When keeping the original format, a photo that already meets the limit is kept unchanged.</p>
-      <label for="cfile">Select photo</label>
-      <input id="cfile" type="file" accept="image/*">
-      <img class="preview" id="cpreview" alt="Selected photo preview">
-      <label for="target">Maximum file size (KB)</label>
-      <input id="target" type="number" min="1" max="20000" value="100">
-      <label for="cformat">Output format</label>
-      <select id="cformat">
-        <option value="original">Keep original format</option>
-        <option value="image/jpeg">JPG</option>
-        <option value="image/webp">WebP</option>
-        <option value="image/png">PNG</option>
-      </select>
-      <button class="primary" id="compressBtn">Compress Photo</button>
-      <div class="status" id="cstatus" role="status" aria-live="polite">Select a photo to get started.</div>
-      <button class="secondary" id="cdownload" disabled>Download Photo</button>
-    </div>
-
-    <div class="tool-panel" id="resizer">
-      <h3>Image Resizer</h3>
-      <p class="desc">Choose new dimensions for your photo. The image will be resized to the exact width and height you enter.</p>
-      <label for="rfile">Select photo</label>
-      <input id="rfile" type="file" accept="image/*">
-      <img class="preview" id="rpreview" alt="Image resizer preview">
-      <div class="row">
-        <div><label for="rwidth">Width (px)</label><input id="rwidth" type="number" min="1" max="10000" placeholder="Width"></div>
-        <div><label for="rheight">Height (px)</label><input id="rheight" type="number" min="1" max="10000" placeholder="Height"></div>
-      </div>
-      <label for="rformat">Output format</label>
-      <select id="rformat">
-        <option value="image/jpeg">JPG</option>
-        <option value="image/png">PNG</option>
-        <option value="image/webp">WebP</option>
-      </select>
-      <button class="primary" id="resizeBtn">Resize Image</button>
-      <div class="status" id="rstatus" role="status" aria-live="polite">Select a photo to get started.</div>
-      <button class="secondary" id="rdownload" disabled>Download Resized Image</button>
-    </div>
-
-    <div class="tool-panel" id="converter">
-      <h3>JPG to PNG Converter</h3>
-      <p class="desc">Convert a JPG or JPEG image to PNG format. The PNG file may be larger than the original JPG.</p>
-      <label for="pfile">Select JPG photo</label>
-      <input id="pfile" type="file" accept="image/jpeg,.jpg,.jpeg">
-      <img class="preview" id="ppreview" alt="JPG preview">
-      <button class="primary" id="convertBtn">Convert to PNG</button>
-      <div class="status" id="pstatus" role="status" aria-live="polite">Select a JPG photo to get started.</div>
-      <button class="secondary" id="pdownload" disabled>Download PNG Photo</button>
-    </div>
-  </section>
-
-  <section class="info">
-    <h2>Welcome to ManjeshTools</h2>
-    <p>ManjeshTools is a simple collection of useful online tools. Start with our image compressor, resize images for your needs, or convert JPG photos to PNG. Image processing happens in your browser, so this page does not upload your selected images to a server.</p>
-  </section>
-  <p class="note">Please review your downloaded file before using it. Compression results vary depending on image content, format and dimensions.</p>
-</main>
-
-<footer>
-  <strong>ManjeshTools</strong><br>
-  Free online tools made simple.<br>
-  © 2026 ManjeshTools. All rights reserved.
-</footer>
+<section class="section"><div class="wrap"><div class="head"><h2>Made to be simple</h2><p>Useful tools without a complicated workflow.</p></div>
+<div class="features"><div class="feature">📱<strong>Mobile-friendly</strong><p>Use the tools comfortably on your phone or computer.</p></div><div class="feature">🔒<strong>Browser-based</strong><p>This page processes selected images locally in your browser.</p></div><div class="feature">⚡<strong>Quick workflow</strong><p>Select files, preview your work, and download the result.</p></div></div>
+</div></section>
+<footer><div class="wrap"><div class="brand" style="color:white"><span class="logo" style="background:white;color:var(--g)">M<b>T</b></span>ManjeshTools</div><p>Simple online tools for everyday tasks.</p><small>© <span id="year"></span> ManjeshTools. All rights reserved.</small></div></footer>
 
 <script>
-const $ = id => document.getElementById(id);
-
-let selectedCategory = "all";
-let searchTerm = "";
-
-function filterTools() {
-  let visible = 0;
-  document.querySelectorAll(".tool-card").forEach(card => {
-    const matchesCategory = selectedCategory === "all" || card.dataset.category === selectedCategory;
-    const matchesSearch = card.dataset.name.includes(searchTerm);
-    const show = matchesCategory && matchesSearch;
-    card.classList.toggle("hidden", !show);
-    if (show) visible++;
-  });
-  $("toolCount").textContent = visible + (visible === 1 ? " tool" : " tools");
-  $("emptyState").style.display = visible ? "none" : "block";
-}
-
-document.querySelectorAll(".cat").forEach(button => {
-  button.addEventListener("click", () => {
-    document.querySelectorAll(".cat").forEach(b => b.classList.remove("active"));
-    button.classList.add("active");
-    selectedCategory = button.dataset.category;
-    filterTools();
-  });
-});
-
-$("searchForm").addEventListener("submit", event => {
-  event.preventDefault();
-  searchTerm = $("searchInput").value.trim().toLowerCase();
-  filterTools();
-});
-
-$("searchInput").addEventListener("input", () => {
-  searchTerm = $("searchInput").value.trim().toLowerCase();
-  filterTools();
-});
-
-function openTool(toolId) {
-  $("workspace").classList.add("visible");
-  document.querySelectorAll(".tool-panel").forEach(panel => panel.classList.remove("active"));
-  $(toolId).classList.add("active");
-  const titles = {
-    compressor: "Photo KB Compressor",
-    resizer: "Image Resizer",
-    converter: "JPG to PNG Converter"
-  };
-  $("workspaceTitle").textContent = titles[toolId] || "Image Tool";
-  $("workspace").scrollIntoView({behavior:"smooth",block:"start"});
-}
-
-document.querySelectorAll("[data-open]").forEach(button => {
-  button.addEventListener("click", () => openTool(button.dataset.open));
-});
-
-$("backButton").addEventListener("click", () => {
-  $("workspace").classList.remove("visible");
-  $("homeSection").scrollIntoView({behavior:"smooth",block:"start"});
-});
-
-$("homeLink").addEventListener("click", event => {
-  event.preventDefault();
-  $("workspace").classList.remove("visible");
-  $("searchInput").value = "";
-  searchTerm = "";
-  selectedCategory = "all";
-  document.querySelectorAll(".cat").forEach(b => b.classList.toggle("active", b.dataset.category === "all"));
-  filterTools();
-  window.scrollTo({top:0,behavior:"smooth"});
-});
-
-function loadImage(file) {
-  return new Promise((resolve, reject) => {
-    if (!file || !file.type.startsWith("image/")) {
-      reject(new Error("Please select a valid image file."));
-      return;
-    }
-    const url = URL.createObjectURL(file);
-    const img = new Image();
-    img.onload = () => resolve({img,url});
-    img.onerror = () => {
-      URL.revokeObjectURL(url);
-      reject(new Error("Could not open this image. Please try another photo."));
-    };
-    img.src = url;
-  });
-}
-
-function toBlob(canvas,type,quality) {
-  return new Promise((resolve,reject) => {
-    canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("Image export failed. Try JPG format.")),type,quality);
-  });
-}
-
-function canvasFor(img,width,height,type) {
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("Canvas is not supported in this browser.");
-  if (type === "image/jpeg") {
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0,0,width,height);
-  }
-  ctx.drawImage(img,0,0,width,height);
-  return canvas;
-}
-
-function kb(bytes) {
-  return (bytes / 1024).toFixed(1) + " KB";
-}
-
-function downloadBlob(blob,filename) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url),2000);
-}
-
-/* PHOTO KB COMPRESSOR */
-let compressorFile = null;
-let compressorBlob = null;
-let compressorName = "manjeshtools-photo";
-
-$("cfile").addEventListener("change", async () => {
-  $("cdownload").disabled = true;
-  compressorBlob = null;
-  const file = $("cfile").files[0];
-  compressorFile = file || null;
-  if (!file) return;
-  $("cstatus").textContent = "Loading photo…";
-  try {
-    const loaded = await loadImage(file);
-    $("cpreview").src = loaded.url;
-    $("cpreview").style.display = "block";
-    $("cstatus").textContent = "Original size: " + kb(file.size) + "\nDimensions: " +
-      loaded.img.naturalWidth + " × " + loaded.img.naturalHeight + " px";
-  } catch(e) {
-    $("cstatus").textContent = e.message;
-  }
-});
-
-$("compressBtn").addEventListener("click", async () => {
-  const file = compressorFile;
-  const targetKB = Number($("target").value);
-  if (!file) { $("cstatus").textContent = "Please select a photo first."; return; }
-  if (!Number.isFinite(targetKB) || targetKB <= 0) {
-    $("cstatus").textContent = "Enter a target size greater than 0 KB."; return;
-  }
-  const targetBytes = targetKB * 1024;
-  const requested = $("cformat").value;
-  $("compressBtn").disabled = true;
-  $("cdownload").disabled = true;
-  $("cstatus").textContent = "Processing photo…";
-  let tempURL = null;
-
-  try {
-    const loaded = await loadImage(file);
-    const img = loaded.img;
-    tempURL = loaded.url;
-    let mime = requested === "original" ? file.type : requested;
-    if (!["image/jpeg","image/png","image/webp"].includes(mime)) mime = "image/jpeg";
-
-    if (requested === "original" && file.size <= targetBytes) {
-      compressorBlob = file;
-      compressorName = file.name || "manjeshtools-photo";
-      $("cstatus").textContent = "Already within your target size — original photo kept unchanged.\nOriginal: " +
-        kb(file.size) + "\nOutput: " + kb(file.size);
-    } else {
-      let w = img.naturalWidth, h = img.naturalHeight;
-      let best = null, bestW = w, bestH = h;
-
-      for (let pass = 0; pass < 14; pass++) {
-        const canvas = canvasFor(img,w,h,mime);
-        const qualities = mime === "image/png" ? [undefined] : [0.88,0.78,0.68,0.58,0.48,0.38,0.28,0.18];
-        for (const q of qualities) {
-          const blob = await toBlob(canvas,mime,q);
-          if (!best || blob.size < best.size) {
-            best = blob; bestW = w; bestH = h;
-          }
-          if (blob.size <= targetBytes) {
-            best = blob; bestW = w; bestH = h;
-            break;
-          }
-        }
-        if (best && best.size <= targetBytes) break;
-        w = Math.max(1,Math.floor(w * 0.8));
-        h = Math.max(1,Math.floor(h * 0.8));
-      }
-
-      if (!best) throw new Error("Could not create the compressed image.");
-      if (requested === "original" && file.size <= best.size) {
-        compressorBlob = file;
-        compressorName = file.name || "manjeshtools-photo";
-        $("cstatus").textContent = "The original photo is smaller than the converted result, so it was kept.\nOriginal: " +
-          kb(file.size) + "\nOutput: " + kb(file.size);
-      } else {
-        compressorBlob = best;
-        const ext = mime === "image/png" ? "png" : mime === "image/webp" ? "webp" : "jpg";
-        compressorName = "manjeshtools-compressed." + ext;
-        $("cstatus").textContent = (best.size <= targetBytes ? "Compression complete!" : "Best result created; target size not reached.") +
-          "\nOriginal: " + kb(file.size) + "\nOutput: " + kb(best.size) +
-          "\nDimensions: " + bestW + " × " + bestH + " px" +
-          (best.size > targetBytes ? "\nTry a larger target size or JPG/WebP format." : "");
-      }
-    }
-    $("cdownload").disabled = false;
-  } catch(e) {
-    $("cstatus").textContent = "Compression error: " + (e.message || "Please try another image.");
-  } finally {
-    if (tempURL) URL.revokeObjectURL(tempURL);
-    $("compressBtn").disabled = false;
-  }
-});
-
-$("cdownload").addEventListener("click", () => {
-  if (compressorBlob) downloadBlob(compressorBlob,compressorName);
-});
-
-/* IMAGE RESIZER */
-let resizedBlob = null;
-let resizedName = "manjeshtools-resized.jpg";
-
-$("rfile").addEventListener("change", async () => {
-  $("rdownload").disabled = true;
-  resizedBlob = null;
-  const file = $("rfile").files[0];
-  if (!file) return;
-  $("rstatus").textContent = "Loading photo…";
-  try {
-    const loaded = await loadImage(file);
-    $("rpreview").src = loaded.url;
-    $("rpreview").style.display = "block";
-    $("rwidth").value = loaded.img.naturalWidth;
-    $("rheight").value = loaded.img.naturalHeight;
-    $("rstatus").textContent = "Original dimensions: " + loaded.img.naturalWidth + " × " + loaded.img.naturalHeight + " px";
-  } catch(e) {
-    $("rstatus").textContent = e.message;
-  }
-});
-
-$("resizeBtn").addEventListener("click", async () => {
-  const file = $("rfile").files[0];
-  const width = Number($("rwidth").value), height = Number($("rheight").value);
-  if (!file) { $("rstatus").textContent = "Please select a photo first."; return; }
-  if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1 || width > 10000 || height > 10000) {
-    $("rstatus").textContent = "Enter valid width and height from 1 to 10000 pixels."; return;
-  }
-  $("resizeBtn").disabled = true;
-  $("rdownload").disabled = true;
-  let url = null;
-  try {
-    const loaded = await loadImage(file);
-    const img = loaded.img; url = loaded.url;
-    const mime = $("rformat").value;
-    const canvas = canvasFor(img,width,height,mime);
-    resizedBlob = await toBlob(canvas,mime,0.9);
-    const ext = mime === "image/png" ? "png" : mime === "image/webp" ? "webp" : "jpg";
-    resizedName = "manjeshtools-resized." + ext;
-    $("rstatus").textContent = "Resize complete!\nOriginal: " + img.naturalWidth + " × " + img.naturalHeight +
-      " px\nNew size: " + width + " × " + height + " px\nOutput file: " + kb(resizedBlob.size);
-    $("rdownload").disabled = false;
-  } catch(e) {
-    $("rstatus").textContent = "Resize error: " + (e.message || "Please try again.");
-  } finally {
-    if (url) URL.revokeObjectURL(url);
-    $("resizeBtn").disabled = false;
-  }
-});
-
-$("rdownload").addEventListener("click", () => {
-  if (resizedBlob) downloadBlob(resizedBlob,resizedName);
-});
-
-/* JPG TO PNG CONVERTER */
-let pngBlob = null;
-
-$("pfile").addEventListener("change", async () => {
-  $("pdownload").disabled = true;
-  pngBlob = null;
-  const file = $("pfile").files[0];
-  if (!file) return;
-  $("pstatus").textContent = "Loading JPG…";
-  try {
-    const loaded = await loadImage(file);
-    $("ppreview").src = loaded.url;
-    $("ppreview").style.display = "block";
-    $("pstatus").textContent = "Selected image: " + kb(file.size) + "\nDimensions: " +
-      loaded.img.naturalWidth + " × " + loaded.img.naturalHeight + " px";
-  } catch(e) {
-    $("pstatus").textContent = e.message;
-  }
-});
-
-$("convertBtn").addEventListener("click", async () => {
-  const file = $("pfile").files[0];
-  if (!file) { $("pstatus").textContent = "Please select a JPG photo first."; return; }
-  $("convertBtn").disabled = true;
-  $("pdownload").disabled = true;
-  let url = null;
-  try {
-    const loaded = await loadImage(file);
-    const img = loaded.img; url = loaded.url;
-    const canvas = canvasFor(img,img.naturalWidth,img.naturalHeight,"image/png");
-    pngBlob = await toBlob(canvas,"image/png");
-    $("pstatus").textContent = "Conversion complete!\nOriginal JPG: " + kb(file.size) +
-      "\nPNG output: " + kb(pngBlob.size) + "\nDimensions: " +
-      img.naturalWidth + " × " + img.naturalHeight + " px";
-    $("pdownload").disabled = false;
-  } catch(e) {
-    $("pstatus").textContent = "Conversion error: " + (e.message || "Please try another JPG.");
-  } finally {
-    if (url) URL.revokeObjectURL(url);
-    $("convertBtn").disabled = false;
-  }
-});
-
-$("pdownload").addEventListener("click", () => {
-  if (pngBlob) downloadBlob(pngBlob,"manjeshtools-converted.png");
-});
+let mode='',picked=[],urls=[];const $=id=>document.getElementById(id);$('year').textContent=new Date().getFullYear();
+function searchTools(){let q=$('search').value.toLowerCase().trim(),n=0;document.querySelectorAll('.card').forEach(c=>{let ok=(c.dataset.words+' '+c.innerText).toLowerCase().includes(q);c.classList.toggle('hidden',!ok);if(ok)n++});$('none').classList.toggle('hidden',n>0);$('tools').scrollIntoView({behavior:'smooth'})}
+$('search').addEventListener('keydown',e=>{if(e.key==='Enter')searchTools()});
+function filterTools(cat,b){document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');let n=0;document.querySelectorAll('.card').forEach(c=>{let ok=cat==='all'||c.dataset.cat===cat;c.classList.toggle('hidden',!ok);if(ok)n++});$('none').classList.toggle('hidden',n>0)}
+function openTool(m){mode=m;resetFiles();$('files').value='';['compress','resize','pdf'].forEach(x=>$(x+'Controls').classList.toggle('hidden',x!==m));let data={compress:['Photo KB Compressor','Reduce a photo to a target file size.','Choose one image','Select a single JPG or PNG image.'],resize:['Image Resizer','Set the width, height and output format.','Choose one image','Select a single JPG or PNG image.'],pdf:['Image to PDF Converter','Combine multiple PNG, JPG or JPEG images into one PDF.','Choose one or more images','Select any number of PNG/JPG images; they will become separate PDF pages.']};$('title').textContent=data[m][0];$('desc').textContent=data[m][1];$('dropTitle').textContent=data[m][2];$('dropDesc').textContent=data[m][3]+' Files stay in your browser.';$('files').multiple=m==='pdf';$('workspace').classList.add('show');$('workspace').scrollIntoView({behavior:'smooth'})}
+function closeTool(){$('workspace').classList.remove('show');resetFiles()}
+function resetFiles(){urls.forEach(URL.revokeObjectURL);urls=[];picked=[];$('previews').innerHTML='';$('status').className='status';$('status').textContent=''}
+$('files').addEventListener('change',e=>{resetFiles();let arr=Array.from(e.target.files||[]).filter(f=>['image/png','image/jpeg'].includes(f.type)||/\.(png|jpe?g)$/i.test(f.name));if(!arr.length)return status('Please choose PNG, JPG or JPEG images.',true);picked=mode==='pdf'?arr:arr.slice(0,1);drawPreviews();status(picked.length+' image(s) selected.')});
+function drawPreviews(){$('previews').innerHTML='';picked.forEach((f,i)=>{let u=URL.createObjectURL(f);urls.push(u);let d=document.createElement('div');d.className='preview';let im=document.createElement('img');im.src=u;im.alt=f.name;let name=document.createElement('small');name.textContent=(i+1)+'. '+f.name;d.append(im,name);if(mode==='pdf'){let b=document.createElement('button');b.textContent='Remove';b.onclick=()=>{picked.splice(i,1);drawPreviews();status(picked.length+' image(s) remaining.')};d.append(b)}$('previews').append(d)})}
+function status(msg,err=false){$('status').textContent=msg;$('status').className='status show'+(err?' err':'')}
+function download(blob,name){let u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)}
+function imgLoad(file){return new Promise((res,rej)=>{let u=URL.createObjectURL(file),im=new Image();im.onload=()=>{URL.revokeObjectURL(u);res(im)};im.onerror=()=>{URL.revokeObjectURL(u);rej(Error('Unable to read '+file.name))};im.src=u})}
+function toBlob(c,type,q){return new Promise((res,rej)=>c.toBlob(b=>b?res(b):rej(Error('Could not export image')),type,q))}
+async function compress(){if(!picked[0])return status('Select an image first.',true);let target=Number($('kb').value);if(!target||target<5)return status('Target must be at least 5 KB.',true);try{let im=await imgLoad(picked[0]),c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;let x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0);let lo=.05,hi=.95,best=null;for(let i=0;i<10;i++){let q=(lo+hi)/2,b=await toBlob(c,'image/jpeg',q);if(b.size<=target*1024){best=b;lo=q}else hi=q}if(!best)best=await toBlob(c,'image/jpeg',.05);download(best,'compressed-image.jpg');status('Downloaded. Final size: '+(best.size/1024).toFixed(1)+' KB. The target may not be possible for every image.')}catch(e){status(e.message,true)}}
+async function resize(){if(!picked[0])return status('Select an image first.',true);let w=Number($('rw').value),h=Number($('rh').value);if(!w||!h||w<1||h<1||w>12000||h>12000)return status('Width and height must be between 1 and 12000.',true);try{let im=await imgLoad(picked[0]),c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);let t=$('rf').value,b=await toBlob(c,t,.92);download(b,t==='image/png'?'resized-image.png':'resized-image.jpg');status('Your resized image has been downloaded.')}catch(e){status(e.message,true)}}
+async function asJpeg(file){let im=await imgLoad(file),c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;let x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0);let b=await toBlob(c,'image/jpeg',.92);return{bytes:new Uint8Array(await b.arrayBuffer()),w:c.width,h:c.height}}
+function buildPDF(pages){let parts=[],len=0,offs=[0];function add(s){let b=new TextEncoder().encode(s);parts.push(b);len+=b.length}function addB(b){parts.push(b);len+=b.length}function obj(id,s){offs[id]=len;add(id+' 0 obj\n'+s+'\nendobj\n')}let ids=pages.map((_,i)=>3+i*3);obj(1,'<< /Type /Catalog /Pages 2 0 R >>');obj(2,'<< /Type /Pages /Kids ['+ids.map(i=>i+' 0 R').join(' ')+'] /Count '+pages.length+' >>');pages.forEach((p,i)=>{let pid=ids[i],iid=pid+1,cid=pid+2;obj(pid,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+p.pw+' '+p.ph+'] /Resources << /XObject << /Im0 '+iid+' 0 R >> >> /Contents '+cid+' 0 R >>');offs[iid]=len;add(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+p.w+' /Height '+p.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+p.bytes.length+' >>\nstream\n');addB(p.bytes);add('\nendstream\nendobj\n');let stream='q\n'+p.w+' 0 0 '+p.h+' 0 0 cm\n/Im0 Do\nQ\n';obj(cid,'<< /Length '+stream.length+' >>\nstream\n'+stream+'endstream')});let xref=len;add('xref\n0 '+offs.length+'\n0000000000 65535 f \n');for(let i=1;i<offs.length;i++)add(String(offs[i]).padStart(10,'0')+' 00000 n \n');add('trailer\n<< /Size '+offs.length+' /Root 1 0 R >>\nstartxref\n'+xref+'\n%%EOF');let out=new Uint8Array(len),p=0;parts.forEach(b=>{out.set(b,p);p+=b.length});return out}
+async function createPDF(){if(!picked.length)return status('Select at least one PNG or JPG image.',true);try{status('Creating your PDF… please keep this page open.');let pages=[],size=$('ps').value,ori=$('orient').value;for(let f of picked){let p=await asJpeg(f);if(size!=='fit'){let pw=size==='letter'?612:595.28,ph=size==='letter'?792:841.89;let landscape=ori==='landscape'||(ori==='auto'&&p.w>p.h);if(ori==='portrait')landscape=false;if(landscape)[pw,ph]=[ph,pw];let scale=Math.min(pw/p.w,ph/p.h),dw=p.w*scale,dh=p.h*scale,c=document.createElement('canvas');c.width=Math.round(pw);c.height=Math.round(ph);let x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);let temp=new Blob([p.bytes],{type:'image/jpeg'}),u=URL.createObjectURL(temp),im=await new Promise((res,rej)=>{let a=new Image();a.onload=()=>{URL.revokeObjectURL(u);res(a)};a.onerror=rej;a.src=u});x.drawImage(im,(c.width-dw)/2,(c.height-dh)/2,dw,dh);let b=await toBlob(c,'image/jpeg',.92);p={bytes:new Uint8Array(await b.arrayBuffer()),w:c.width,h:c.height}}p.pw=p.w;p.ph=p.h;pages.push(p)}let bytes=buildPDF(pages);download(new Blob([bytes],{type:'application/pdf'}),'manjeshtools-images.pdf');status('Success! Created a PDF with '+pages.length+' page(s). Download should start now.')}catch(e){console.error(e);status('Could not create the PDF. Try fewer or smaller images. '+e.message,true)}}
 </script>
 </body>
 </html>
