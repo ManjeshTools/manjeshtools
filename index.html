@@ -1,153 +1,925 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b5d3b">
-<title>ManjeshTools — Free Online Image Tools</title>
-<style>
-:root{--g:#0b5d3b;--g2:#10794b;--o:#f28c28;--ink:#17392a;--muted:#65766c;--line:#e0e9e2;--bg:#f5f8f6}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;color:var(--ink);background:var(--bg)}
-.wrap{width:min(1100px,92%);margin:auto}
-header{position:sticky;top:0;background:#fffffff0;border-bottom:1px solid var(--line);z-index:5}
-.nav{height:70px;display:flex;align-items:center;justify-content:space-between}
-.brand{font-weight:900;color:var(--g);font-size:1.2rem;display:flex;align-items:center;gap:10px}
-.logo{background:var(--g);color:#fff;border-radius:12px;padding:9px 12px}
-.logo b{color:var(--o)}
-.nav a{color:var(--g);font-weight:750;text-decoration:none}
-.hero{padding:60px 0 45px;background:radial-gradient(circle at 90% 15%,#ffecd7,transparent 25%),linear-gradient(120deg,#eff9f2,#fff)}
-.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:35px;align-items:center}
-.tag{display:inline-block;background:#e5f3e9;color:var(--g);border-radius:30px;padding:8px 13px;font-size:.82rem;font-weight:850}
-h1{font-size:clamp(2.4rem,5vw,4rem);line-height:1.07;letter-spacing:-1.7px;margin:18px 0}
-h1 span{color:var(--g2)}
-p{color:var(--muted);line-height:1.65}
-.hero p{font-size:1.05rem;max-width:580px}
-.search{display:flex;gap:8px;padding:8px;background:white;border:1px solid var(--line);border-radius:14px;max-width:560px}
-.search input{border:0;outline:0;padding:10px;min-width:0;flex:1}
-.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:800;cursor:pointer}
-.primary{background:var(--g);color:white}
-.primary:hover{background:#06472e}
-.light{background:#eaf4ed;color:var(--g)}
-.art{background:white;padding:22px;border:1px solid var(--line);border-radius:24px;box-shadow:0 18px 50px #123b2510}
-.arttop{display:flex;justify-content:space-between;font-weight:850;margin-bottom:18px}
-.badge{background:#fff0df;color:#8b4e0b;border-radius:20px;padding:6px 9px;font-size:.75rem}
-.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.tile{height:100px;border-radius:13px;background:#edf7f0;display:grid;place-items:center;align-content:center;gap:7px;font-weight:800;color:var(--g)}
-.tile:nth-child(2){background:#fff4e5}.tile:nth-child(3){background:#edf2ff}
-.file{background:white;border:1px solid #c7ddce;border-radius:7px;padding:12px 9px;font-size:.75rem}
-.down{text-align:center;color:var(--o);font-size:1.8rem;font-weight:900;padding:9px}
-.pdf{display:flex;gap:12px;align-items:center;background:#f1f8f3;padding:13px;border-radius:13px}
-.pdficon{background:#ffebe4;color:#ad422c;padding:15px 12px;border-radius:9px;font-weight:900}
-.section{padding:45px 0}
-.head{margin-bottom:20px}
-.head h2{font-size:clamp(1.6rem,3vw,2.1rem);margin:0}
-.head p{margin:6px 0}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
-.filter{border:1px solid var(--line);background:#fff;padding:9px 14px;border-radius:22px;font-weight:800;color:var(--muted);cursor:pointer}
-.filter.active{background:var(--g);color:#fff}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
-.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:21px;display:flex;flex-direction:column;min-height:230px}
-.symbol{width:48px;height:48px;background:#e7f4eb;color:var(--g);display:grid;place-items:center;border-radius:14px;font-size:1.4rem;font-weight:900}
-.card:nth-child(2) .symbol{background:#fff0df;color:#9a5b0a}
-.card:nth-child(3) .symbol{background:#ffebe5;color:#ad422c}
-.card h3{margin:16px 0 4px}
-.card p{font-size:.92rem;flex:1;margin:4px 0 18px}
-.workspace{display:none;padding:0 0 42px}
-.workspace.show{display:block}
-.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:clamp(17px,4vw,28px)}
-.workhead{display:flex;justify-content:space-between;gap:15px}
-.workhead h2{margin:0}
-.drop{border:2px dashed #b7d6c1;border-radius:16px;text-align:center;padding:23px;background:#f7fbf8;margin-top:18px}
-.drop input{display:block;max-width:100%;margin:12px auto 0;padding:10px;background:#fff;border:1px solid var(--line);border-radius:9px}
-.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin-top:16px}
-.control{display:flex;flex-direction:column;gap:6px;flex:1;min-width:140px}
-.control label{font-weight:800;font-size:.85rem}
-.control input,.control select{padding:11px;border:1px solid var(--line);border-radius:9px;background:white}
-.previews{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:10px;margin-top:17px}
-.preview{border:1px solid var(--line);border-radius:12px;padding:8px;min-width:0}
-.preview img{width:100%;height:105px;object-fit:contain;background:#f6f8f6}
-.preview small{display:block;overflow-wrap:anywhere;color:var(--muted);margin:7px 0}
-.preview button{width:100%;border:0;background:#ffefec;color:#a43b2a;padding:7px;border-radius:8px;font-weight:750}
-.status{display:none;padding:12px;background:#eef8f1;color:var(--g);border-radius:10px;margin-top:15px;font-weight:700}
-.status.show{display:block}.status.err{background:#fff0ed;color:#a33224}
-.features{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
-.feature{background:white;border:1px solid var(--line);border-radius:15px;padding:18px}
-.feature strong{display:block;margin:8px 0}
-.feature p{margin:0;font-size:.9rem}
-footer{background:#103b2a;color:#fff;padding:28px 0;margin-top:22px}
-footer p{color:#c3d7ca;margin:5px 0}
-.hidden{display:none!important}
-@media(max-width:760px){.hero-grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.features{grid-template-columns:1fr}.hero{padding-top:40px}}
-@media(max-width:520px){.cards{grid-template-columns:1fr}.search{flex-direction:column}.search button{width:100%}.art{padding:15px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#147d45">
+  <meta name="description" content="MANJESH Tools offers free online image compression, image resizing, image to PDF conversion, QR code generation and useful everyday tools.">
+  <meta property="og:title" content="MANJESH Tools — Useful Tools, Made Simple.">
+  <meta property="og:description" content="Free, simple and useful online tools for everyone.">
+  <meta property="og:type" content="website">
+  <title>MANJESH Tools — Useful Tools, Made Simple.</title>
+
+  <link rel="icon" type="image/png" href="assets/manjesh-tools-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --green: #147d45;
+      --green-dark: #105c35;
+      --green-light: #eaf6ee;
+      --orange: #ff8700;
+      --bg: #f7faf7;
+      --surface: #ffffff;
+      --text: #173c29;
+      --muted: #647568;
+      --border: #e1eae2;
+      --shadow: 0 8px 28px rgba(22, 73, 42, .07);
+    }
+
+    body.dark {
+      --bg: #101713;
+      --surface: #19231c;
+      --text: #ecf6ee;
+      --muted: #a5b5a9;
+      --border: #2b3b30;
+      --green-light: #203b2a;
+      --shadow: 0 8px 28px rgba(0, 0, 0, .2);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, Arial, sans-serif;
+      line-height: 1.6;
+      transition: background .25s, color .25s;
+    }
+
+    button, input, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; }
+    img { max-width: 100%; }
+
+    .container { width: min(1120px, 92%); margin: auto; }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
+    .brand img { width: 53px; height: 53px; object-fit: contain; border-radius: 10px; }
+    .brand-name { font-size: 19px; font-weight: 800; letter-spacing: -.7px; }
+    .brand-name span { color: var(--orange); }
+    .brand-tag { font-size: 10px; color: var(--muted); margin-top: -3px; }
+
+    .nav-links { display: flex; align-items: center; gap: 25px; }
+    .nav-links a { font-size: 13px; font-weight: 600; color: var(--muted); }
+    .nav-links a:hover { color: var(--green); }
+
+    .nav-actions { display: flex; align-items: center; gap: 8px; }
+    .icon-btn, .menu-btn {
+      width: 42px; height: 42px; border: 1px solid var(--border);
+      border-radius: 12px; background: var(--surface); color: var(--text);
+      display: inline-grid; place-items: center; font-size: 19px;
+    }
+    .menu-btn { display: none; }
+
+    .hero { padding: 74px 0 48px; text-align: center; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 13px; border-radius: 30px;
+      background: var(--green-light); color: var(--green);
+      font-size: 11px; font-weight: 800; letter-spacing: 1px;
+    }
+    .dot { width: 7px; height: 7px; background: var(--orange); border-radius: 50%; }
+
+    h1 {
+      font-size: clamp(37px, 6vw, 65px);
+      letter-spacing: -2.8px;
+      line-height: 1.1;
+      margin: 23px 0 18px;
+      font-weight: 800;
+    }
+    h1 .highlight { color: var(--green); }
+    .hero p { max-width: 610px; margin: auto; color: var(--muted); font-size: 16px; }
+
+    .search-wrap { max-width: 610px; margin: 30px auto 17px; position: relative; }
+    .search-box {
+      display: flex; align-items: center; gap: 12px; padding: 7px 8px 7px 17px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; box-shadow: var(--shadow);
+    }
+    .search-symbol { font-size: 21px; color: var(--muted); }
+    .search-box input {
+      min-width: 0; flex: 1; border: 0; outline: 0;
+      color: var(--text); background: transparent; font-size: 14px;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 12px 18px; border: 0; border-radius: 11px;
+      font-size: 13px; font-weight: 700; transition: .2s;
+    }
+    .btn-primary { background: var(--green); color: #fff; }
+    .btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); }
+    .btn-secondary { background: var(--green-light); color: var(--green); }
+    .btn-secondary:hover { transform: translateY(-2px); }
+    .hero-cta { margin-top: 7px; }
+
+    .trust-row {
+      display: flex; justify-content: center; gap: 22px; flex-wrap: wrap;
+      margin-top: 23px; color: var(--muted); font-size: 12px;
+    }
+    .trust-row span { display: flex; align-items: center; gap: 6px; }
+    .check { color: var(--green); font-weight: 800; }
+
+    section { padding: 42px 0; }
+    .section-head {
+      display: flex; align-items: end; justify-content: space-between;
+      gap: 16px; margin-bottom: 23px;
+    }
+    .section-head h2 { font-size: clamp(24px, 4vw, 31px); margin: 0; letter-spacing: -1px; }
+    .section-head p { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
+    .text-link { color: var(--green); font-weight: 700; font-size: 13px; white-space: nowrap; }
+
+    .category-grid, .tools-grid {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px;
+    }
+    .category-card, .tool-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 18px; padding: 22px; box-shadow: var(--shadow);
+      transition: transform .22s, border-color .22s;
+    }
+    .category-card:hover, .tool-card:hover {
+      transform: translateY(-5px); border-color: #9acbab;
+    }
+    .category-icon, .tool-icon {
+      width: 49px; height: 49px; border-radius: 14px;
+      background: var(--green-light); display: grid; place-items: center;
+      font-size: 24px; margin-bottom: 16px;
+    }
+    .category-card h3, .tool-card h3 { font-size: 16px; margin: 0 0 7px; }
+    .category-card p, .tool-card p { color: var(--muted); font-size: 12px; margin: 0 0 17px; }
+    .card-link { color: var(--green); font-size: 12px; font-weight: 800; }
+    .tool-card { display: flex; flex-direction: column; align-items: flex-start; }
+    .tool-card .card-link { margin-top: auto; }
+    .tool-meta { font-size: 10px; color: var(--muted); margin-bottom: 9px; }
+    .popular-label { color: var(--orange); font-weight: 800; }
+
+    .feature-band {
+      background: var(--green-dark); color: white; border-radius: 24px;
+      padding: 35px; display: grid; grid-template-columns: 1.1fr 1fr;
+      gap: 30px; align-items: center;
+    }
+    .feature-band h2 { font-size: clamp(25px, 4vw, 36px); line-height: 1.2; margin: 0 0 12px; }
+    .feature-band p { color: #d1e8d8; font-size: 13px; }
+    .feature-points { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    .feature-point { background: rgba(255,255,255,.09); padding: 15px; border-radius: 13px; font-size: 12px; }
+    .feature-point b { display: block; font-size: 14px; margin-bottom: 4px; }
+
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; }
+    .step-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; }
+    .step-number { color: var(--orange); font-size: 13px; font-weight: 800; }
+    .step-card h3 { font-size: 15px; margin: 8px 0 5px; }
+    .step-card p { color: var(--muted); font-size: 12px; margin: 0; }
+
+    .faq-list { max-width: 800px; margin: auto; }
+    details { background: var(--surface); border: 1px solid var(--border); border-radius: 13px; padding: 17px 19px; margin-bottom: 10px; }
+    summary { font-size: 13px; font-weight: 700; cursor: pointer; }
+    details p { color: var(--muted); font-size: 12px; margin-bottom: 0; }
+
+    .tool-workspace {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 20px; padding: 25px; box-shadow: var(--shadow);
+      margin-top: 24px; scroll-margin-top: 100px;
+    }
+    .tool-workspace h2 { margin-top: 0; }
+    .tool-workspace > p { color: var(--muted); font-size: 13px; }
+    .tool-form { display: grid; gap: 15px; }
+    .form-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+    .field { display: grid; gap: 7px; }
+    .field label { font-size: 12px; font-weight: 700; }
+    .field input, .field select {
+      width: 100%; min-width: 0; padding: 12px;
+      border: 1px solid var(--border); border-radius: 10px;
+      background: var(--bg); color: var(--text); outline-color: var(--green);
+    }
+    .file-input { padding: 18px !important; border-style: dashed !important; }
+    .notice { padding: 12px 14px; border-radius: 10px; background: var(--green-light); color: var(--green); font-size: 12px; }
+    .result { margin-top: 16px; font-size: 13px; overflow-wrap: anywhere; }
+    .preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 12px; margin-top: 15px; }
+    .preview-item { border: 1px solid var(--border); border-radius: 12px; padding: 9px; font-size: 11px; overflow: hidden; }
+    .preview-item img { width: 100%; height: 100px; object-fit: contain; }
+    .preview-item button { margin-top: 6px; }
+    .progress-track { height: 7px; background: var(--border); border-radius: 10px; overflow: hidden; margin-top: 13px; }
+    .progress-bar { width: 0; height: 100%; background: var(--green); transition: width .2s; }
+
+    footer { border-top: 1px solid var(--border); margin-top: 40px; padding: 38px 0 20px; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 30px; }
+    .footer-grid h3 { font-size: 13px; margin-top: 0; }
+    .footer-grid p, .footer-grid a { color: var(--muted); font-size: 12px; }
+    .footer-links { display: grid; gap: 9px; }
+    .copyright { border-top: 1px solid var(--border); margin-top: 25px; padding-top: 17px; color: var(--muted); font-size: 11px; text-align: center; }
+
+    .hidden { display: none !important; }
+    .fade-in { animation: fadeIn .55s ease both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 900px) {
+      .category-grid, .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .nav-links { gap: 13px; }
+      .nav-links a { font-size: 12px; }
+    }
+    @media (max-width: 650px) {
+      .nav { min-height: 68px; }
+      .brand img { width: 43px; height: 43px; }
+      .brand-name { font-size: 16px; }
+      .brand-tag { font-size: 9px; }
+      .menu-btn { display: inline-grid; }
+      .nav-links {
+        display: none; position: absolute; left: 4%; right: 4%; top: 68px;
+        background: var(--surface); border: 1px solid var(--border);
+        border-radius: 15px; padding: 15px; box-shadow: var(--shadow);
+        align-items: stretch; gap: 0;
+      }
+      .nav-links.open { display: grid; }
+      .nav-links a { padding: 12px 8px; border-bottom: 1px solid var(--border); }
+      .nav-links a:last-child { border-bottom: 0; }
+      .hero { padding: 53px 0 32px; }
+      h1 { letter-spacing: -1.8px; }
+      .hero p { font-size: 14px; }
+      section { padding: 31px 0; }
+      .category-card, .tool-card { padding: 16px; }
+      .feature-band { grid-template-columns: 1fr; padding: 25px; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid > div:first-child { grid-column: 1 / -1; }
+      .tool-workspace { padding: 17px; }
+      .section-head { align-items: flex-start; }
+    }
+    @media (max-width: 390px) {
+      .category-grid, .tools-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .feature-points { grid-template-columns: 1fr; }
+      .trust-row { gap: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+    }
+  </style>
 </head>
 <body>
-<header><div class="wrap nav">
-<a class="brand" href="#" style="text-decoration:none"><span class="logo">M<b>T</b></span>ManjeshTools</a>
-<a href="#tools">Explore Tools ↗</a>
-</div></header>
+<header>
+  <div class="container nav">
+    <a class="brand" href="#home" aria-label="MANJESH Tools Home">
+      <img src="assets/manjesh-tools-logo.png" alt="MANJESH Tools logo"
+           onerror="this.style.display='none'">
+      <div>
+        <div class="brand-name">MANJESH <span>Tools</span></div>
+        <div class="brand-tag">Simple Tools. Better Productivity.</div>
+      </div>
+    </a>
 
-<section class="hero"><div class="wrap hero-grid">
-<div>
-<span class="tag">SIMPLE · FREE · ONLINE</span>
-<h1>Your everyday files.<br><span>Made easier.</span></h1>
-<p>Compress photos, resize images, and turn multiple PNG or JPG pictures into one PDF — using simple tools made for mobile and desktop.</p>
-<div class="search"><input id="search" placeholder="Search tools, e.g. Image to PDF…" aria-label="Search tools"><button class="btn primary" onclick="searchTools()">Find a Tool</button></div>
-</div>
-<div class="art">
-<div class="arttop">One simple workspace <span class="badge">Easy to use</span></div>
-<div class="tiles"><div class="tile"><span class="file">JPG</span>Photo 01</div><div class="tile"><span class="file">PNG</span>Photo 02</div><div class="tile"><span class="file">JPG</span>Photo 03</div></div>
-<div class="down">↓</div>
-<div class="pdf"><span class="pdficon">PDF</span><div><b>One PDF file</b><br><small style="color:var(--muted)">Multiple images · One download</small></div><b style="margin-left:auto;color:var(--g)">✓</b></div>
-</div>
-</div></section>
+    <nav class="nav-links" id="navLinks">
+      <a href="#home">Home</a>
+      <a href="#tools">Tools</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
 
-<section class="section" id="tools"><div class="wrap">
-<div class="head"><h2>Tools for your everyday needs</h2><p>Choose a tool and finish your task in a few clicks.</p></div>
-<div class="filters"><button class="filter active" onclick="filterTools('all',this)">All Tools</button><button class="filter" onclick="filterTools('image',this)">Image Tools</button><button class="filter" onclick="filterTools('pdf',this)">PDF Tools</button></div>
-<div class="cards" id="cards">
-<article class="card" data-cat="image" data-words="photo kb compressor compress reduce size"><div class="symbol">⇩</div><h3>Photo KB Compressor</h3><p>Reduce the file size of a photo to help meet upload limits.</p><button class="btn primary" onclick="openTool('compress')">Use Compressor →</button></article>
-<article class="card" data-cat="image" data-words="image resizer resize width height"><div class="symbol">↗</div><h3>Image Resizer</h3><p>Change image dimensions and download a resized JPG or PNG.</p><button class="btn primary" onclick="openTool('resize')">Resize Image →</button></article>
-<article class="card" data-cat="pdf" data-words="image to pdf png jpg jpeg multiple pictures"><div class="symbol">▤</div><h3>Image to PDF Converter</h3><p>Combine 1, 2, 5, 10 or more PNG/JPG images into one PDF, with image preview and remove options.</p><button class="btn primary" onclick="openTool('pdf')">Convert to PDF →</button></article>
-</div>
-<p id="none" class="hidden">No tools found. Try another search.</p>
-</div></section>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle dark mode" title="Toggle theme">☾</button>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </div>
+</header>
 
-<section class="workspace" id="workspace"><div class="wrap"><div class="panel">
-<div class="workhead"><div><h2 id="title">Image Tool</h2><p id="desc">Choose your files.</p></div><button class="btn light" onclick="closeTool()">✕ Close</button></div>
-<div class="drop"><div style="font-size:2rem">＋</div><b id="dropTitle">Choose image files</b><p id="dropDesc">Files are processed in your browser, not uploaded to a server.</p><input id="files" type="file" accept="image/png,image/jpeg,.png,.jpg,.jpeg" multiple></div>
-<div id="compressControls" class="controls hidden"><div class="control"><label for="kb">Target size (KB)</label><input id="kb" type="number" min="5" value="100"></div><button class="btn primary" onclick="compress()">Compress & Download</button></div>
-<div id="resizeControls" class="controls hidden"><div class="control"><label for="rw">Width (px)</label><input id="rw" type="number" min="1" value="800"></div><div class="control"><label for="rh">Height (px)</label><input id="rh" type="number" min="1" value="800"></div><div class="control"><label for="rf">Format</label><select id="rf"><option value="image/jpeg">JPG</option><option value="image/png">PNG</option></select></div><button class="btn primary" onclick="resize()">Resize & Download</button></div>
-<div id="pdfControls" class="controls hidden"><div class="control"><label for="ps">Page size</label><select id="ps"><option value="a4">A4</option><option value="letter">Letter</option><option value="fit">Fit image to page</option></select></div><div class="control"><label for="orient">Orientation</label><select id="orient"><option value="auto">Auto (match image)</option><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></div><button class="btn primary" onclick="createPDF()">Create & Download PDF</button></div>
-<div id="previews" class="previews"></div><div id="status" class="status" role="status"></div>
-</div></div></section>
+<main>
+  <section class="hero container fade-in" id="home">
+    <div class="eyebrow"><span class="dot"></span> FREE ONLINE TOOLS</div>
+    <h1>Useful Tools,<br><span class="highlight">Made Simple.</span></h1>
+    <p>Compress images, resize photos, convert images to PDF, and use helpful online tools — all in one place.</p>
 
-<section class="section"><div class="wrap"><div class="head"><h2>Made to be simple</h2><p>Useful tools without a complicated workflow.</p></div>
-<div class="features"><div class="feature">📱<strong>Mobile-friendly</strong><p>Use the tools comfortably on your phone or computer.</p></div><div class="feature">🔒<strong>Browser-based</strong><p>This page processes selected images locally in your browser.</p></div><div class="feature">⚡<strong>Quick workflow</strong><p>Select files, preview your work, and download the result.</p></div></div>
-</div></section>
-<footer><div class="wrap"><div class="brand" style="color:white"><span class="logo" style="background:white;color:var(--g)">M<b>T</b></span>ManjeshTools</div><p>Simple online tools for everyday tasks.</p><small>© <span id="year"></span> ManjeshTools. All rights reserved.</small></div></footer>
+    <div class="search-wrap">
+      <div class="search-box">
+        <span class="search-symbol">⌕</span>
+        <input type="search" id="searchInput" placeholder="Search tools..." aria-label="Search tools">
+        <button class="btn btn-primary" id="searchBtn">Search</button>
+      </div>
+    </div>
+    <a class="btn btn-primary hero-cta" href="#tools">Explore All Tools <span>→</span></a>
+
+    <div class="trust-row">
+      <span><b class="check">✓</b> Easy to use</span>
+      <span><b class="check">✓</b> No account required</span>
+      <span><b class="check">✓</b> Browser-based processing where supported</span>
+    </div>
+  </section>
+
+  <section class="container" id="categories">
+    <div class="section-head">
+      <div>
+        <h2>Explore Tools</h2>
+        <p>Choose a category to get started.</p>
+      </div>
+    </div>
+    <div class="category-grid">
+      <a class="category-card" href="#tools" data-category="image">
+        <div class="category-icon">▧</div>
+        <h3>Image Tools</h3>
+        <p>Compress, resize and work with your images.</p>
+        <span class="card-link">Explore tools →</span>
+      </a>
+      <a class="category-card" href="#tools" data-category="pdf">
+        <div class="category-icon">▤</div>
+        <h3>PDF Tools</h3>
+        <p>Create PDFs and combine documents.</p>
+        <span class="card-link">Explore tools →</span>
+      </a>
+      <a class="category-card" href="#tools" data-category="qr">
+        <div class="category-icon">▦</div>
+        <h3>QR Tools</h3>
+        <p>Create QR codes from text or links.</p>
+        <span class="card-link">Explore tools →</span>
+      </a>
+      <a class="category-card" href="#tools" data-category="utility">
+        <div class="category-icon">⌗</div>
+        <h3>Utility Tools</h3>
+        <p>Helpful tools for everyday tasks.</p>
+        <span class="card-link">Explore tools →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="container" id="tools">
+    <div class="section-head">
+      <div>
+        <h2>Popular Tools</h2>
+        <p>Quick access to useful online tools.</p>
+      </div>
+      <button class="text-link" id="showAllBtn">Show all tools →</button>
+    </div>
+
+    <div class="tools-grid" id="toolGrid">
+      <article class="tool-card" data-name="Photo KB Compressor" data-category="image">
+        <div class="tool-icon">▧</div>
+        <div class="tool-meta"><span class="popular-label">POPULAR</span> · IMAGE</div>
+        <h3>Photo KB Compressor</h3>
+        <p>Reduce photo file size to help meet upload limits.</p>
+        <button class="card-link tool-open" data-tool="compress">Open tool →</button>
+      </article>
+
+      <article class="tool-card" data-name="Image Resizer" data-category="image">
+        <div class="tool-icon">↔</div>
+        <div class="tool-meta">IMAGE</div>
+        <h3>Image Resizer</h3>
+        <p>Adjust the width and height of your photos.</p>
+        <button class="card-link tool-open" data-tool="resize">Open tool →</button>
+      </article>
+
+      <article class="tool-card" data-name="Image to PDF Converter" data-category="pdf">
+        <div class="tool-icon">▤</div>
+        <div class="tool-meta"><span class="popular-label">POPULAR</span> · PDF</div>
+        <h3>Image to PDF</h3>
+        <p>Combine multiple JPG and PNG images into one PDF.</p>
+        <button class="card-link tool-open" data-tool="pdf">Open tool →</button>
+      </article>
+
+      <article class="tool-card" data-name="PDF Merger" data-category="pdf">
+        <div class="tool-icon">▤</div>
+        <div class="tool-meta">PDF</div>
+        <h3>PDF Merger</h3>
+        <p>Combine multiple PDF documents into one file.</p>
+        <button class="card-link tool-open" data-tool="merge">Open tool →</button>
+      </article>
+
+      <article class="tool-card" data-name="QR Code Generator" data-category="qr">
+        <div class="tool-icon">▦</div>
+        <div class="tool-meta">QR</div>
+        <h3>QR Code Generator</h3>
+        <p>Make a downloadable QR code from text or a link.</p>
+        <button class="card-link tool-open" data-tool="qr">Open tool →</button>
+      </article>
+
+      <article class="tool-card" data-name="Age Calculator" data-category="utility">
+        <div class="tool-icon">⌗</div>
+        <div class="tool-meta">UTILITY</div>
+        <h3>Age Calculator</h3>
+        <p>Calculate age in years, months and days.</p>
+        <button class="card-link tool-open" data-tool="age">Open tool →</button>
+      </article>
+    </div>
+
+    <div id="noResults" class="notice hidden" style="margin-top:16px">No tools found. Try another search.</div>
+
+    <div class="tool-workspace hidden" id="workspace" aria-live="polite">
+      <button class="btn btn-secondary" id="backTools">← Back to tools</button>
+
+      <div id="compressPanel" class="tool-panel hidden">
+        <h2>Photo KB Compressor</h2>
+        <p>Choose an image and compress it in your browser. Smaller file sizes may reduce image quality.</p>
+        <div class="tool-form">
+          <div class="field"><label for="compressFile">Choose image</label><input class="file-input" id="compressFile" type="file" accept="image/jpeg,image/png,image/webp"></div>
+          <div class="form-row">
+            <div class="field"><label for="targetKB">Target size (KB)</label><input id="targetKB" type="number" min="5" max="10000" value="100"></div>
+            <div class="field"><label for="compressFormat">Output format</label><select id="compressFormat"><option value="image/jpeg">JPG (smaller files)</option><option value="image/webp">WebP</option><option value="image/png">PNG</option></select></div>
+          </div>
+          <button class="btn btn-primary" id="compressBtn">Compress image</button>
+          <div class="progress-track hidden" id="compressProgress"><div class="progress-bar" id="compressBar"></div></div>
+          <div class="result" id="compressResult"></div>
+        </div>
+      </div>
+
+      <div id="resizePanel" class="tool-panel hidden">
+        <h2>Image Resizer</h2>
+        <p>Resize an image by entering the required pixel dimensions.</p>
+        <div class="tool-form">
+          <div class="field"><label for="resizeFile">Choose image</label><input class="file-input" id="resizeFile" type="file" accept="image/*"></div>
+          <div class="form-row">
+            <div class="field"><label for="resizeWidth">Width (px)</label><input id="resizeWidth" type="number" min="1" max="10000" value="800"></div>
+            <div class="field"><label for="resizeHeight">Height (px)</label><input id="resizeHeight" type="number" min="1" max="10000" value="800"></div>
+          </div>
+          <label style="font-size:12px"><input type="checkbox" id="keepRatio" checked> Keep aspect ratio</label>
+          <div class="field"><label for="resizeFormat">Output format</label><select id="resizeFormat"><option value="image/jpeg">JPG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></div>
+          <button class="btn btn-primary" id="resizeBtn">Resize image</button>
+          <div class="result" id="resizeResult"></div>
+        </div>
+      </div>
+
+      <div id="pdfPanel" class="tool-panel hidden">
+        <h2>Image to PDF Converter</h2>
+        <p>Select multiple JPG, JPEG or PNG images to create one PDF file.</p>
+        <div class="tool-form">
+          <div class="field"><label for="pdfImages">Choose images</label><input class="file-input" id="pdfImages" type="file" accept="image/jpeg,image/png,image/webp" multiple></div>
+          <div class="form-row">
+            <div class="field"><label for="pdfPageSize">Page size</label><select id="pdfPageSize"><option value="a4">A4</option><option value="letter">Letter</option><option value="fit">Fit image</option></select></div>
+            <div class="field"><label for="pdfOrientation">Orientation</label><select id="pdfOrientation"><option value="auto">Auto</option><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select></div>
+          </div>
+          <div id="pdfPreview" class="preview-grid"></div>
+          <button class="btn btn-primary" id="makePdfBtn">Create PDF</button>
+          <div class="result" id="pdfResult"></div>
+        </div>
+      </div>
+
+      <div id="mergePanel" class="tool-panel hidden">
+        <h2>PDF Merger</h2>
+        <p>Select two or more PDF files and combine them in the selected order.</p>
+        <div class="tool-form">
+          <div class="field"><label for="mergeFiles">Choose PDF files</label><input class="file-input" id="mergeFiles" type="file" accept="application/pdf,.pdf" multiple></div>
+          <button class="btn btn-primary" id="mergeBtn">Merge PDFs</button>
+          <div class="result" id="mergeResult"></div>
+        </div>
+      </div>
+
+      <div id="qrPanel" class="tool-panel hidden">
+        <h2>QR Code Generator</h2>
+        <p>Enter a website link or text and generate a QR code.</p>
+        <div class="tool-form">
+          <div class="field"><label for="qrText">Text or URL</label><input id="qrText" type="text" placeholder="https://example.com"></div>
+          <button class="btn btn-primary" id="qrBtn">Generate QR Code</button>
+          <div id="qrResult" class="result"></div>
+        </div>
+      </div>
+
+      <div id="agePanel" class="tool-panel hidden">
+        <h2>Age Calculator</h2>
+        <p>Enter your date of birth to calculate your age.</p>
+        <div class="tool-form">
+          <div class="field"><label for="birthDate">Date of birth</label><input id="birthDate" type="date"></div>
+          <button class="btn btn-primary" id="ageBtn">Calculate Age</button>
+          <div id="ageResult" class="result"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="about">
+    <div class="feature-band">
+      <div>
+        <h2>Simple tools.<br>Less hassle.</h2>
+        <p>MANJESH Tools aims to make everyday digital tasks easier with straightforward, accessible online tools.</p>
+        <a class="btn" style="background:#fff;color:#105c35" href="#tools">Explore tools →</a>
+      </div>
+      <div class="feature-points">
+        <div class="feature-point"><b>Easy to use</b>Simple interfaces and clear steps.</div>
+        <div class="feature-point"><b>Privacy-minded</b>Image tools process files locally where supported.</div>
+        <div class="feature-point"><b>Mobile friendly</b>Designed for phones, tablets and computers.</div>
+        <div class="feature-point"><b>Useful utilities</b>Practical tools in one place.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="how">
+    <div class="section-head">
+      <div><h2>How to Use</h2><p>Get started in three simple steps.</p></div>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-number">STEP 01</div><h3>Choose a tool</h3><p>Search or browse categories to find the tool you need.</p></div>
+      <div class="step-card"><div class="step-number">STEP 02</div><h3>Upload or enter details</h3><p>Select your file or provide the information requested.</p></div>
+      <div class="step-card"><div class="step-number">STEP 03</div><h3>Download your result</h3><p>Generate your result and save it to your device.</p></div>
+    </div>
+  </section>
+
+  <section class="container" id="faq">
+    <div class="section-head"><div><h2>Frequently Asked Questions</h2><p>Helpful information about using MANJESH Tools.</p></div></div>
+    <div class="faq-list">
+      <details><summary>Are these tools free to use?</summary><p>The tools provided on this website are intended to be free to use. Some advanced features may be added later.</p></details>
+      <details><summary>Do I need to create an account?</summary><p>No account is required for the tools currently included on this page.</p></details>
+      <details><summary>Are my images uploaded to a server?</summary><p>The image tools on this page process images in your browser. Files selected for those tools are not intentionally uploaded to a MANJESH Tools server. External libraries may be loaded from third-party CDNs.</p></details>
+      <details><summary>Why does an image look different after compression?</summary><p>Reducing file size can lower image quality, especially at very small target sizes. Try a larger target size if you need clearer results.</p></details>
+      <details><summary>Can I use MANJESH Tools on my phone?</summary><p>Yes. The interface is designed to adapt to mobile phones, tablets and desktop screens.</p></details>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="#home">
+          <img src="assets/manjesh-tools-logo.png" alt="MANJESH Tools logo" onerror="this.style.display='none'">
+          <div><div class="brand-name">MANJESH <span>Tools</span></div><div class="brand-tag">Simple Tools. Better Productivity.</div></div>
+        </a>
+        <p style="max-width:330px;margin-top:14px">Simple, useful online tools designed to make everyday digital tasks easier.</p>
+      </div>
+      <div>
+        <h3>Quick Links</h3>
+        <div class="footer-links">
+          <a href="#home">Home</a><a href="#tools">All Tools</a><a href="#about">About Us</a><a href="#contact">Contact</a>
+        </div>
+      </div>
+      <div>
+        <h3>Policies</h3>
+        <div class="footer-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Use</a>
+          <a href="disclaimer.html">Disclaimer</a>
+          <a href="mailto:support.manjeshmart@gmail.com">Contact Support</a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">© <span id="year"></span> MANJESH Tools. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- External libraries used for PDF and QR features -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script>
-let mode='',picked=[],urls=[];const $=id=>document.getElementById(id);$('year').textContent=new Date().getFullYear();
-function searchTools(){let q=$('search').value.toLowerCase().trim(),n=0;document.querySelectorAll('.card').forEach(c=>{let ok=(c.dataset.words+' '+c.innerText).toLowerCase().includes(q);c.classList.toggle('hidden',!ok);if(ok)n++});$('none').classList.toggle('hidden',n>0);$('tools').scrollIntoView({behavior:'smooth'})}
-$('search').addEventListener('keydown',e=>{if(e.key==='Enter')searchTools()});
-function filterTools(cat,b){document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');let n=0;document.querySelectorAll('.card').forEach(c=>{let ok=cat==='all'||c.dataset.cat===cat;c.classList.toggle('hidden',!ok);if(ok)n++});$('none').classList.toggle('hidden',n>0)}
-function openTool(m){mode=m;resetFiles();$('files').value='';['compress','resize','pdf'].forEach(x=>$(x+'Controls').classList.toggle('hidden',x!==m));let data={compress:['Photo KB Compressor','Reduce a photo to a target file size.','Choose one image','Select a single JPG or PNG image.'],resize:['Image Resizer','Set the width, height and output format.','Choose one image','Select a single JPG or PNG image.'],pdf:['Image to PDF Converter','Combine multiple PNG, JPG or JPEG images into one PDF.','Choose one or more images','Select any number of PNG/JPG images; they will become separate PDF pages.']};$('title').textContent=data[m][0];$('desc').textContent=data[m][1];$('dropTitle').textContent=data[m][2];$('dropDesc').textContent=data[m][3]+' Files stay in your browser.';$('files').multiple=m==='pdf';$('workspace').classList.add('show');$('workspace').scrollIntoView({behavior:'smooth'})}
-function closeTool(){$('workspace').classList.remove('show');resetFiles()}
-function resetFiles(){urls.forEach(URL.revokeObjectURL);urls=[];picked=[];$('previews').innerHTML='';$('status').className='status';$('status').textContent=''}
-$('files').addEventListener('change',e=>{resetFiles();let arr=Array.from(e.target.files||[]).filter(f=>['image/png','image/jpeg'].includes(f.type)||/\.(png|jpe?g)$/i.test(f.name));if(!arr.length)return status('Please choose PNG, JPG or JPEG images.',true);picked=mode==='pdf'?arr:arr.slice(0,1);drawPreviews();status(picked.length+' image(s) selected.')});
-function drawPreviews(){$('previews').innerHTML='';picked.forEach((f,i)=>{let u=URL.createObjectURL(f);urls.push(u);let d=document.createElement('div');d.className='preview';let im=document.createElement('img');im.src=u;im.alt=f.name;let name=document.createElement('small');name.textContent=(i+1)+'. '+f.name;d.append(im,name);if(mode==='pdf'){let b=document.createElement('button');b.textContent='Remove';b.onclick=()=>{picked.splice(i,1);drawPreviews();status(picked.length+' image(s) remaining.')};d.append(b)}$('previews').append(d)})}
-function status(msg,err=false){$('status').textContent=msg;$('status').className='status show'+(err?' err':'')}
-function download(blob,name){let u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1500)}
-function imgLoad(file){return new Promise((res,rej)=>{let u=URL.createObjectURL(file),im=new Image();im.onload=()=>{URL.revokeObjectURL(u);res(im)};im.onerror=()=>{URL.revokeObjectURL(u);rej(Error('Unable to read '+file.name))};im.src=u})}
-function toBlob(c,type,q){return new Promise((res,rej)=>c.toBlob(b=>b?res(b):rej(Error('Could not export image')),type,q))}
-async function compress(){if(!picked[0])return status('Select an image first.',true);let target=Number($('kb').value);if(!target||target<5)return status('Target must be at least 5 KB.',true);try{let im=await imgLoad(picked[0]),c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;let x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0);let lo=.05,hi=.95,best=null;for(let i=0;i<10;i++){let q=(lo+hi)/2,b=await toBlob(c,'image/jpeg',q);if(b.size<=target*1024){best=b;lo=q}else hi=q}if(!best)best=await toBlob(c,'image/jpeg',.05);download(best,'compressed-image.jpg');status('Downloaded. Final size: '+(best.size/1024).toFixed(1)+' KB. The target may not be possible for every image.')}catch(e){status(e.message,true)}}
-async function resize(){if(!picked[0])return status('Select an image first.',true);let w=Number($('rw').value),h=Number($('rh').value);if(!w||!h||w<1||h<1||w>12000||h>12000)return status('Width and height must be between 1 and 12000.',true);try{let im=await imgLoad(picked[0]),c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,0,0,w,h);let t=$('rf').value,b=await toBlob(c,t,.92);download(b,t==='image/png'?'resized-image.png':'resized-image.jpg');status('Your resized image has been downloaded.')}catch(e){status(e.message,true)}}
-async function asJpeg(file){let im=await imgLoad(file),c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;let x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0);let b=await toBlob(c,'image/jpeg',.92);return{bytes:new Uint8Array(await b.arrayBuffer()),w:c.width,h:c.height}}
-function buildPDF(pages){let parts=[],len=0,offs=[0];function add(s){let b=new TextEncoder().encode(s);parts.push(b);len+=b.length}function addB(b){parts.push(b);len+=b.length}function obj(id,s){offs[id]=len;add(id+' 0 obj\n'+s+'\nendobj\n')}let ids=pages.map((_,i)=>3+i*3);obj(1,'<< /Type /Catalog /Pages 2 0 R >>');obj(2,'<< /Type /Pages /Kids ['+ids.map(i=>i+' 0 R').join(' ')+'] /Count '+pages.length+' >>');pages.forEach((p,i)=>{let pid=ids[i],iid=pid+1,cid=pid+2;obj(pid,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+p.pw+' '+p.ph+'] /Resources << /XObject << /Im0 '+iid+' 0 R >> >> /Contents '+cid+' 0 R >>');offs[iid]=len;add(iid+' 0 obj\n<< /Type /XObject /Subtype /Image /Width '+p.w+' /Height '+p.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+p.bytes.length+' >>\nstream\n');addB(p.bytes);add('\nendstream\nendobj\n');let stream='q\n'+p.w+' 0 0 '+p.h+' 0 0 cm\n/Im0 Do\nQ\n';obj(cid,'<< /Length '+stream.length+' >>\nstream\n'+stream+'endstream')});let xref=len;add('xref\n0 '+offs.length+'\n0000000000 65535 f \n');for(let i=1;i<offs.length;i++)add(String(offs[i]).padStart(10,'0')+' 00000 n \n');add('trailer\n<< /Size '+offs.length+' /Root 1 0 R >>\nstartxref\n'+xref+'\n%%EOF');let out=new Uint8Array(len),p=0;parts.forEach(b=>{out.set(b,p);p+=b.length});return out}
-async function createPDF(){if(!picked.length)return status('Select at least one PNG or JPG image.',true);try{status('Creating your PDF… please keep this page open.');let pages=[],size=$('ps').value,ori=$('orient').value;for(let f of picked){let p=await asJpeg(f);if(size!=='fit'){let pw=size==='letter'?612:595.28,ph=size==='letter'?792:841.89;let landscape=ori==='landscape'||(ori==='auto'&&p.w>p.h);if(ori==='portrait')landscape=false;if(landscape)[pw,ph]=[ph,pw];let scale=Math.min(pw/p.w,ph/p.h),dw=p.w*scale,dh=p.h*scale,c=document.createElement('canvas');c.width=Math.round(pw);c.height=Math.round(ph);let x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);let temp=new Blob([p.bytes],{type:'image/jpeg'}),u=URL.createObjectURL(temp),im=await new Promise((res,rej)=>{let a=new Image();a.onload=()=>{URL.revokeObjectURL(u);res(a)};a.onerror=rej;a.src=u});x.drawImage(im,(c.width-dw)/2,(c.height-dh)/2,dw,dh);let b=await toBlob(c,'image/jpeg',.92);p={bytes:new Uint8Array(await b.arrayBuffer()),w:c.width,h:c.height}}p.pw=p.w;p.ph=p.h;pages.push(p)}let bytes=buildPDF(pages);download(new Blob([bytes],{type:'application/pdf'}),'manjeshtools-images.pdf');status('Success! Created a PDF with '+pages.length+' page(s). Download should start now.')}catch(e){console.error(e);status('Could not create the PDF. Try fewer or smaller images. '+e.message,true)}}
+(() => {
+  const $ = id => document.getElementById(id);
+  const panels = ["compress","resize","pdf","merge","qr","age"];
+  let pdfSelected = [];
+
+  $("year").textContent = new Date().getFullYear();
+
+  // Theme toggle
+  const savedTheme = localStorage.getItem("manjesh-tools-theme");
+  if (savedTheme === "dark") document.body.classList.add("dark");
+  function updateThemeButton() {
+    $("themeBtn").textContent = document.body.classList.contains("dark") ? "☀" : "☾";
+  }
+  updateThemeButton();
+  $("themeBtn").addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    localStorage.setItem("manjesh-tools-theme", document.body.classList.contains("dark") ? "dark" : "light");
+    updateThemeButton();
+  });
+
+  // Mobile menu
+  $("menuBtn").addEventListener("click", () => $("navLinks").classList.toggle("open"));
+  $("navLinks").querySelectorAll("a").forEach(a => a.addEventListener("click", () => $("navLinks").classList.remove("open")));
+
+  // Tool navigation
+  function openTool(name) {
+    panels.forEach(p => $(""+p+"Panel").classList.toggle("hidden", p !== name));
+    $("workspace").classList.remove("hidden");
+    $("workspace").scrollIntoView({behavior:"smooth", block:"start"});
+  }
+  document.querySelectorAll(".tool-open").forEach(btn => btn.addEventListener("click", () => openTool(btn.dataset.tool)));
+  $("backTools").addEventListener("click", () => {
+    $("workspace").classList.add("hidden");
+    $("tools").scrollIntoView({behavior:"smooth"});
+  });
+
+  // Search tools
+  function searchTools() {
+    const query = $("searchInput").value.trim().toLowerCase();
+    let shown = 0;
+    document.querySelectorAll(".tool-card").forEach(card => {
+      const match = card.dataset.name.toLowerCase().includes(query) ||
+        card.dataset.category.includes(query) ||
+        card.textContent.toLowerCase().includes(query);
+      card.classList.toggle("hidden", !match);
+      if (match) shown++;
+    });
+    $("noResults").classList.toggle("hidden", shown > 0);
+    $("tools").scrollIntoView({behavior:"smooth"});
+  }
+  $("searchBtn").addEventListener("click", searchTools);
+  $("searchInput").addEventListener("keydown", e => { if (e.key === "Enter") searchTools(); });
+  $("searchInput").addEventListener("input", searchTools);
+  $("showAllBtn").addEventListener("click", () => {
+    $("searchInput").value = "";
+    document.querySelectorAll(".tool-card").forEach(c => c.classList.remove("hidden"));
+    $("noResults").classList.add("hidden");
+  });
+  document.querySelectorAll("[data-category]").forEach(el => el.addEventListener("click", () => {
+    const category = el.dataset.category;
+    $("searchInput").value = category;
+    searchTools();
+  }));
+
+  function loadImage(file) {
+    return new Promise((resolve, reject) => {
+      if (!file) return reject(new Error("Please choose an image first."));
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => resolve({img, url});
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Could not open this image.")); };
+      img.src = url;
+    });
+  }
+
+  function canvasBlob(canvas, type, quality) {
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("Could not create output image. Try another format.")), type, quality);
+    });
+  }
+
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  }
+
+  function safeBaseName(name) {
+    return name.replace(/\.[^.]+$/, "").replace(/[^\w-]+/g, "_") || "image";
+  }
+
+  // Photo KB Compressor
+  $("compressBtn").addEventListener("click", async () => {
+    const file = $("compressFile").files[0];
+    const targetKB = Number($("targetKB").value);
+    const type = $("compressFormat").value;
+    const result = $("compressResult");
+    result.textContent = "";
+    if (!file) return result.textContent = "Please choose an image first.";
+    if (!Number.isFinite(targetKB) || targetKB < 5 || targetKB > 10000) return result.textContent = "Enter a target size between 5 and 10,000 KB.";
+
+    $("compressProgress").classList.remove("hidden");
+    $("compressBar").style.width = "10%";
+    $("compressBtn").disabled = true;
+
+    try {
+      const {img, url} = await loadImage(file);
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
+      canvas.getContext("2d").drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+
+      const targetBytes = targetKB * 1024;
+      let blob;
+      let quality = 0.92;
+      let scale = 1;
+
+      for (let i = 0; i < 22; i++) {
+        $("compressBar").style.width = Math.min(95, 15 + i * 4) + "%";
+        const w = Math.max(1, Math.round(img.naturalWidth * scale));
+        const h = Math.max(1, Math.round(img.naturalHeight * scale));
+        canvas.width = w; canvas.height = h;
+        canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+        blob = await canvasBlob(canvas, type, quality);
+        if (blob.size <= targetBytes) break;
+        if (type === "image/png") {
+          scale *= 0.88;
+        } else if (quality > 0.25) {
+          quality -= 0.12;
+        } else {
+          scale *= 0.85;
+          quality = 0.82;
+        }
+        if (w === 1 && h === 1) break;
+      }
+
+      $("compressBar").style.width = "100%";
+      const ext = type === "image/jpeg" ? "jpg" : type === "image/webp" ? "webp" : "png";
+      downloadBlob(blob, safeBaseName(file.name) + "-compressed." + ext);
+      const percent = Math.max(0, (1 - blob.size / file.size) * 100);
+      result.textContent = `Original: ${(file.size/1024).toFixed(1)} KB · Output: ${(blob.size/1024).toFixed(1)} KB · Reduction: ${percent.toFixed(1)}%. ${blob.size > targetBytes ? "Target size could not be reached without further quality loss." : "Download started."}`;
+    } catch (e) {
+      result.textContent = e.message || "Compression failed.";
+    } finally {
+      $("compressBtn").disabled = false;
+      setTimeout(() => $("compressProgress").classList.add("hidden"), 900);
+    }
+  });
+
+  // Image Resizer
+  $("resizeBtn").addEventListener("click", async () => {
+    const file = $("resizeFile").files[0];
+    const result = $("resizeResult");
+    result.textContent = "";
+    if (!file) return result.textContent = "Please choose an image first.";
+    let w = Number($("resizeWidth").value), h = Number($("resizeHeight").value);
+    if (!w || !h || w < 1 || h < 1 || w > 10000 || h > 10000) return result.textContent = "Enter valid dimensions between 1 and 10,000 pixels.";
+
+    $("resizeBtn").disabled = true;
+    try {
+      const {img, url} = await loadImage(file);
+      if ($("keepRatio").checked) {
+        const ratio = img.naturalWidth / img.naturalHeight;
+        if (w / h > ratio) w = Math.round(h * ratio);
+        else h = Math.round(w / ratio);
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = w; canvas.height = h;
+      canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(url);
+      const type = $("resizeFormat").value;
+      const blob = await canvasBlob(canvas, type, 0.92);
+      const ext = type === "image/jpeg" ? "jpg" : type === "image/webp" ? "webp" : "png";
+      downloadBlob(blob, safeBaseName(file.name) + "-resized." + ext);
+      result.textContent = `Done: ${w} × ${h} px · ${(blob.size/1024).toFixed(1)} KB. Download started.`;
+    } catch (e) { result.textContent = e.message || "Resize failed."; }
+    finally { $("resizeBtn").disabled = false; }
+  });
+
+  // Multi-image selection and previews for Image to PDF
+  $("pdfImages").addEventListener("change", () => {
+    pdfSelected = Array.from($("pdfImages").files || []);
+    renderPdfPreview();
+  });
+
+  function renderPdfPreview() {
+    const box = $("pdfPreview");
+    box.innerHTML = "";
+    pdfSelected.forEach((file, index) => {
+      const item = document.createElement("div");
+      item.className = "preview-item";
+      const img = document.createElement("img");
+      const name = document.createElement("div");
+      name.textContent = file.name;
+      const size = document.createElement("div");
+      size.textContent = (file.size/1024).toFixed(1) + " KB";
+      const remove = document.createElement("button");
+      remove.className = "btn btn-secondary";
+      remove.textContent = "Remove";
+      remove.addEventListener("click", () => {
+        pdfSelected.splice(index, 1);
+        renderPdfPreview();
+      });
+      item.append(img, name, size, remove);
+      box.appendChild(item);
+      const url = URL.createObjectURL(file);
+      img.onload = () => URL.revokeObjectURL(url);
+      img.src = url;
+    });
+  }
+
+  $("makePdfBtn").addEventListener("click", async () => {
+    const result = $("pdfResult");
+    result.textContent = "";
+    if (!pdfSelected.length) return result.textContent = "Please select at least one image.";
+    if (!window.jspdf || !window.jspdf.jsPDF) return result.textContent = "PDF library did not load. Check your internet connection and refresh the page.";
+    $("makePdfBtn").disabled = true;
+
+    try {
+      const {jsPDF} = window.jspdf;
+      const pageSize = $("pdfPageSize").value;
+      const orientation = $("pdfOrientation").value;
+      let doc = null;
+
+      for (let i = 0; i < pdfSelected.length; i++) {
+        const file = pdfSelected[i];
+        const {img, url} = await loadImage(file);
+        const canvas = document.createElement("canvas");
+        canvas.width = img.naturalWidth; canvas.height = img.naturalHeight;
+        canvas.getContext("2d").drawImage(img, 0, 0);
+        URL.revokeObjectURL(url);
+
+        const data = canvas.toDataURL("image/jpeg", 0.92);
+        const isLandscape = img.naturalWidth > img.naturalHeight;
+        let orient = orientation === "auto" ? (isLandscape ? "landscape" : "portrait") : orientation;
+
+        if (pageSize === "fit") {
+          const unit = "pt";
+          const width = img.naturalWidth;
+          const height = img.naturalHeight;
+          if (!doc) doc = new jsPDF({orientation: orient, unit, format: [width, height], compress: true});
+          else doc.addPage([width, height], orient);
+          doc.addImage(data, "JPEG", 0, 0, width, height);
+        } else {
+          const format = pageSize === "letter" ? "letter" : "a4";
+          if (!doc) doc = new jsPDF({orientation: orient, unit: "mm", format, compress: true});
+          else doc.addPage(format, orient);
+          const pageW = doc.internal.pageSize.getWidth();
+          const pageH = doc.internal.pageSize.getHeight();
+          const margin = 8;
+          const scale = Math.min((pageW - margin*2)/img.naturalWidth, (pageH - margin*2)/img.naturalHeight);
+          const w = img.naturalWidth * scale;
+          const h = img.naturalHeight * scale;
+          doc.addImage(data, "JPEG", (pageW-w)/2, (pageH-h)/2, w, h);
+        }
+      }
+      doc.save("manjesh-tools-images.pdf");
+      result.textContent = `PDF created with ${pdfSelected.length} image(s). Download started.`;
+    } catch (e) {
+      result.textContent = "Could not create the PDF. Please try valid JPG or PNG images.";
+    } finally {
+      $("makePdfBtn").disabled = false;
+    }
+  });
+
+  // PDF Merger
+  $("mergeBtn").addEventListener("click", async () => {
+    const files = Array.from($("mergeFiles").files || []);
+    const result = $("mergeResult");
+    result.textContent = "";
+    if (files.length < 2) return result.textContent = "Please select at least two PDF files.";
+    if (!window.PDFLib) return result.textContent = "PDF library did not load. Check your internet connection and refresh.";
+    $("mergeBtn").disabled = true;
+    try {
+      const merged = await PDFLib.PDFDocument.create();
+      for (const file of files) {
+        const bytes = await file.arrayBuffer();
+        const source = await PDFLib.PDFDocument.load(bytes);
+        const pages = await merged.copyPages(source, source.getPageIndices());
+        pages.forEach(page => merged.addPage(page));
+      }
+      const bytes = await merged.save();
+      downloadBlob(new Blob([bytes], {type:"application/pdf"}), "manjesh-tools-merged.pdf");
+      result.textContent = `Merged ${files.length} PDF files. Download started.`;
+    } catch (e) {
+      result.textContent = "Could not merge these PDFs. Some files may be password-protected or invalid.";
+    } finally { $("mergeBtn").disabled = false; }
+  });
+
+  // QR Code generator
+  $("qrBtn").addEventListener("click", () => {
+    const text = $("qrText").value.trim();
+    const result = $("qrResult");
+    result.innerHTML = "";
+    if (!text) { result.textContent = "Enter some text or a URL first."; return; }
+    if (!window.QRCode) { result.textContent = "QR library did not load. Check your internet connection and refresh."; return; }
+    const holder = document.createElement("div");
+    holder.style.cssText = "display:inline-block;background:#fff;padding:14px;border-radius:12px";
+    result.appendChild(holder);
+    new QRCode(holder, {text, width:220, height:220, correctLevel:QRCode.CorrectLevel.H});
+    const download = document.createElement("button");
+    download.className = "btn btn-primary";
+    download.textContent = "Download QR Code";
+    download.style.marginTop = "12px";
+    download.addEventListener("click", () => {
+      const canvas = holder.querySelector("canvas");
+      const image = holder.querySelector("img");
+      let data = canvas ? canvas.toDataURL("image/png") : image ? image.src : "";
+      if (!data) return;
+      const a = document.createElement("a");
+      a.href = data; a.download = "manjesh-tools-qr.png"; a.click();
+    });
+    result.appendChild(document.createElement("br"));
+    result.appendChild(download);
+  });
+
+  // Age Calculator
+  $("birthDate").max = new Date().toISOString().split("T")[0];
+  $("ageBtn").addEventListener("click", () => {
+    const value = $("birthDate").value;
+    const result = $("ageResult");
+    result.textContent = "";
+    if (!value) return result.textContent = "Please enter your date of birth.";
+    const birth = new Date(value + "T00:00:00");
+    const today = new Date();
+    if (birth > today) return result.textContent = "Date of birth cannot be in the future.";
+
+    let years = today.getFullYear() - birth.getFullYear();
+    let months = today.getMonth() - birth.getMonth();
+    let days = today.getDate() - birth.getDate();
+    if (days < 0) {
+      months--;
+      const previousMonthDays = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+      days += previousMonthDays;
+    }
+    if (months < 0) { years--; months += 12; }
+    result.textContent = `Your age is ${years} years, ${months} months and ${days} days.`;
+  });
+
+})();
 </script>
 </body>
 </html>
