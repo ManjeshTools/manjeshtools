@@ -921,6 +921,30 @@
 
 })();
 </script>
+  
+<script>
+document.addEventListener("click", function (event) {
+  const button = event.target.closest(".tool-open");
+  if (!button) return;
+
+  const pages = {
+    compress: "tools/photo-kb-compressor.html",
+    resize: "tools/image-resizer.html",
+    pdf: "tools/image-to-pdf.html",
+    merge: "tools/pdf-merger.html",
+    qr: "tools/qr-code-generator.html",
+    age: "tools/age-calculator.html"
+  };
+
+  const page = pages[button.dataset.tool];
+  if (page) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    window.location.href = page;
+  }
+}, true);
+</script>
+
 </body>
 </html>
 
