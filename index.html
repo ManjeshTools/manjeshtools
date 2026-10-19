@@ -923,3 +923,24 @@
 </script>
 </body>
 </html>
+
+<script>
+document.querySelectorAll(".tool-open").forEach(function(button) {
+  button.addEventListener("click", function() {
+    const pages = {
+      "compress": "tools/photo-kb-compressor.html",
+      "resize": "tools/image-resizer.html",
+      "pdf": "tools/image-to-pdf.html",
+      "merge": "tools/pdf-merger.html",
+      "qr": "tools/qr-code-generator.html",
+      "age": "tools/age-calculator.html"
+    };
+
+    const page = pages[button.dataset.tool];
+
+    if (page) {
+      window.location.href = page;
+    }
+  });
+});
+</script>
