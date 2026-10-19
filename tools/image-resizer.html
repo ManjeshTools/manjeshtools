@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Resize images online to custom dimensions with MANJESH Tools.">
+<title>Image Resizer | MANJESH Tools</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f6f8f7;color:#183c2b}
+header{background:#fff;padding:16px 5%;border-bottom:1px solid #e3eae5;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:21px;font-weight:800;color:#176b43}.brand span{color:#f28c28}
+a{color:#176b43;text-decoration:none;font-weight:600}
+main{max-width:760px;margin:40px auto;padding:0 16px}
+.card{background:#fff;border:1px solid #e0e9e2;border-radius:18px;padding:25px;box-shadow:0 8px 30px #173d2b0b}
+h1{font-size:clamp(27px,5vw,38px);margin:0 0 12px}
+p{color:#65776b;line-height:1.6}
+label{display:block;font-weight:700;margin:18px 0 8px}
+input,button{width:100%;padding:13px;border-radius:10px;font-size:16px}
+input{border:1px solid #cbd8ce;background:white}
+.dimensions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{border:0;background:#176b43;color:white;font-weight:700;cursor:pointer;margin-top:16px}
+#preview{display:none;max-width:100%;max-height:320px;object-fit:contain;margin:18px auto}
+#result{margin-top:18px;line-height:1.6;overflow-wrap:anywhere}
+footer{text-align:center;padding:25px;color:#65776b;font-size:14px}
+@media(max-width:480px){.card{padding:18px}.dimensions{gap:8px}}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">MANJESH <span>Tools</span></div>
+<a href="../index.html">← All Tools</a>
+</header>
+<main>
+<section class="card">
+<h1>Image Resizer</h1>
+<p>Resize your image to custom pixel dimensions. Your image is processed directly in your browser.</p>
+<label for="image">Choose an image</label>
+<input id="image" type="file" accept="image/*">
+<img id="preview" alt="Image preview">
+<div class="dimensions">
+<div><label for="width">Width (px)</label><input id="width" type="number" min="1" max="10000" placeholder="Width"></div>
+<div><label for="height">Height (px)</label><input id="height" type="number" min="1" max="10000" placeholder="Height"></div>
+</div>
+<label><input id="ratio" type="checkbox" checked style="width:auto"> Keep aspect ratio</label>
+<button id="resize">Resize Image</button>
+<div id="result" aria-live="polite"></div>
+<a id="download" style="display:none" download="resized-image.png">Download Resized Image</a>
+</section>
+</main>
+<footer>© 2026 MANJESH Tools · Simple Tools. Better Productivity.</footer>
+<script>
+const fileInput=document.getElementById('image');
+const preview=document.getElementById('preview');
+const widthInput=document.getElementById('width');
+const heightInput=document.getElementById('height');
+const ratioInput=document.getElementById('ratio');
+const result=document.getElementById('result');
+const download=document.getElementById('download');
+const resizeButton=document.getElementById('resize');
+let img=null,originalRatio=1;
+fileInput.addEventListener('change',()=>{
+result.textContent='';download.style.display='none';
+const file=fileInput.files[0];if(!file)return;
+if(!file.type.startsWith('image/')){result.textContent='Please choose a valid image.';return}
+const reader=new FileReader();
+reader.onload=()=>{
+const next=new Image();
+next.onload=()=>{
+img=next;originalRatio=img.naturalWidth/img.naturalHeight;
+widthInput.value=img.naturalWidth;heightInput.value=img.naturalHeight;
+preview.src=reader.result;preview.style.display='block';
+result.textContent='Original dimensions: '+img.naturalWidth+' × '+img.naturalHeight+' px';
+};
+next.onerror=()=>result.textContent='Could not open this image.';
+next.src=reader.result;
+};
+reader.readAsDataURL(file);
+});
+widthInput.addEventListener('input',()=>{
+if(img&&ratioInput.checked&&widthInput.value)heightInput.value=Math.max(1,Math.round(Number(widthInput.value)/originalRatio));
+});
+heightInput.addEventListener('input',()=>{
+if(img&&ratioInput.checked&&heightInput.value)widthInput.value=Math.max(1,Math.round(Number(heightInput.value)*originalRatio));
+});
+resizeButton.addEventListener('click',()=>{
+if(!img){result.textContent='Please choose an image first.';return}
+const w=Number(widthInput.value),h=Number(heightInput.value);
+if(!Number.isInteger(w)||!Number.isInteger(h)||w<1||h<1||w>10000||h>10000){result.textContent='Enter valid width and height from 1 to 10000 pixels.';return}
+resizeButton.disabled=true;result.textContent='Resizing...';
+try{
+const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,w,h);
+canvas.toBlob(blob=>{
+resizeButton.disabled=false;
+if(!blob){result.textContent='Could not resize this image.';return}
+const url=URL.createObjectURL(blob);
+download.href=url;download.style.display='inline-block';
+result.textContent='Done! New dimensions: '+w+' × '+h+' px · File size: '+(blob.size/1024).toFixed(1)+' KB';
+},'image/png');
+}catch(e){resizeButton.disabled=false;result.textContent='Something went wrong. Try another image.'}
+});
+</script>
+</body>
+</html>
