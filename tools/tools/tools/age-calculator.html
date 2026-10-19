@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Calculate your exact age in years, months, and days with MANJESH Tools.">
+<title>Age Calculator | MANJESH Tools</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f6f8f7;color:#183c2b}
+header{background:#fff;padding:16px 5%;border-bottom:1px solid #e3eae5;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:21px;font-weight:800;color:#176b43}.brand span{color:#f28c28}
+a{color:#176b43;text-decoration:none;font-weight:600}
+main{max-width:680px;margin:40px auto;padding:0 16px}
+.card{background:#fff;border:1px solid #e0e9e2;border-radius:18px;padding:25px;box-shadow:0 8px 30px #173d2b0b}
+h1{font-size:clamp(27px,5vw,38px);margin:0 0 12px}
+p{color:#65776b;line-height:1.6}
+label{display:block;font-weight:700;margin:20px 0 8px}
+input,button{width:100%;padding:13px;border-radius:10px;font-size:16px}
+input{border:1px solid #cbd8ce;background:white}
+button{border:0;background:#176b43;color:white;font-weight:700;cursor:pointer;margin-top:18px}
+#result{margin-top:22px;line-height:1.8;overflow-wrap:anywhere}
+.age{font-size:25px;font-weight:800;color:#176b43}
+footer{text-align:center;padding:25px;color:#65776b;font-size:14px}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">MANJESH <span>Tools</span></div>
+<a href="../index.html">← All Tools</a>
+</header>
+<main>
+<section class="card">
+<h1>Age Calculator</h1>
+<p>Enter your date of birth to calculate your age in years, months, and days.</p>
+<label for="dob">Date of birth</label>
+<input id="dob" type="date">
+<label for="asof">Calculate age on</label>
+<input id="asof" type="date">
+<button id="calculate">Calculate My Age</button>
+<div id="result" aria-live="polite"></div>
+</section>
+</main>
+<footer>© 2026 MANJESH Tools · Simple Tools. Better Productivity.</footer>
+<script>
+const dob=document.getElementById('dob');
+const asof=document.getElementById('asof');
+const result=document.getElementById('result');
+function localDateValue(date){
+return date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');
+}
+const today=new Date();
+asof.value=localDateValue(today);
+dob.max=asof.value;
+asof.addEventListener('change',()=>{dob.max=asof.value;if(dob.value>asof.value)dob.value='';});
+document.getElementById('calculate').addEventListener('click',()=>{
+if(!dob.value||!asof.value){result.textContent='Please select both dates.';return}
+const [by,bm,bd]=dob.value.split('-').map(Number);
+const [ty,tm,td]=asof.value.split('-').map(Number);
+const birth=new Date(by,bm-1,bd);
+const end=new Date(ty,tm-1,td);
+if(birth>end){result.textContent='Date of birth cannot be after the calculation date.';return}
+let years=ty-by,months=tm-bm,days=td-bd;
+if(days<0){
+months--;
+const daysInPreviousMonth=new Date(ty,tm-1,0).getDate();
+days+=daysInPreviousMonth;
+}
+if(months<0){years--;months+=12}
+const totalDays=Math.floor((Date.UTC(ty,tm-1,td)-Date.UTC(by,bm-1,bd))/86400000);
+result.innerHTML='<div class="age">'+years+' years, '+months+' months, '+days+' days</div><p>Total days lived: '+totalDays.toLocaleString('en-IN')+'</p>';
+});
+</script>
+</body>
+</html>
