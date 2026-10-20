@@ -4,8 +4,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Compress images to your desired KB size online with MANJESH Tools.">
-  <title>Photo KB Compressor | MANJESH Tools</title>
+
+  <title>Photo KB Compressor Online Free | MANJESH Tools</title>
+  <meta name="description" content="Compress photos to your desired KB size online for free with MANJESH Tools. Choose a target size, compress your image in your browser, and download it.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://manjeshtools.github.io/manjeshtools/tools/photo-kb-compressor.html">
+
+  <meta property="og:title" content="Photo KB Compressor Online Free | MANJESH Tools">
+  <meta property="og:description" content="Compress your photo to a smaller KB size for free. Fast, simple, browser-based image compression.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://manjeshtools.github.io/manjeshtools/tools/photo-kb-compressor.html">
+
+  <meta name="theme-color" content="#176b43">
+
   <style>
     * { box-sizing: border-box; }
     body {
@@ -54,18 +65,18 @@
 
   <main>
     <section class="card">
-      <h1>Photo KB Compressor</h1>
-      <p class="muted">Compress your photo in your browser and download a smaller image. Your photo is processed on your device.</p>
+      <h1>Free Online Photo KB Compressor</h1>
+      <p class="muted">Compress your photo to a target KB size and download a smaller image. Your photo is processed on your device and is not uploaded to our server.</p>
 
       <label for="photo">Choose a photo</label>
       <input id="photo" type="file" accept="image/*">
 
-      <img id="preview" alt="Selected image preview">
+      <img id="preview" alt="Preview of the selected photo">
 
       <label for="target">Target size (KB)</label>
       <input id="target" type="number" min="5" max="10000" value="100">
 
-      <button id="compress">Compress Photo</button>
+      <button id="compress" type="button">Compress Photo</button>
       <div id="result" class="result" aria-live="polite"></div>
       <a id="download" style="display:none" download="compressed-photo.jpg">
         <button class="secondary" type="button">Download Compressed Photo</button>
@@ -88,24 +99,34 @@
     photo.addEventListener('change', () => {
       result.textContent = '';
       download.style.display = 'none';
+      selectedImage = null;
+
       const file = photo.files[0];
       if (!file) return;
+
       if (!file.type.startsWith('image/')) {
         result.textContent = 'Please select a valid image.';
         return;
       }
+
       const reader = new FileReader();
       reader.onload = () => {
         const img = new Image();
+
         img.onload = () => {
           selectedImage = img;
           preview.src = reader.result;
           preview.style.display = 'block';
           result.textContent = 'Original size: ' + (file.size / 1024).toFixed(1) + ' KB';
         };
-        img.onerror = () => result.textContent = 'Could not open this image.';
+
+        img.onerror = () => {
+          result.textContent = 'Could not open this image.';
+        };
+
         img.src = reader.result;
       };
+
       reader.readAsDataURL(file);
     });
 
@@ -114,6 +135,7 @@
         result.textContent = 'Please choose a photo first.';
         return;
       }
+
       const kb = Number(target.value);
       if (!Number.isFinite(kb) || kb < 5 || kb > 10000) {
         result.textContent = 'Enter a target between 5 and 10000 KB.';
@@ -128,7 +150,14 @@
           const canvas = document.createElement('canvas');
           canvas.width = selectedImage.naturalWidth;
           canvas.height = selectedImage.naturalHeight;
+
           const ctx = canvas.getContext('2d');
+          if (!ctx) {
+            result.textContent = 'Your browser could not process this image.';
+            compress.disabled = false;
+            return;
+          }
+
           ctx.drawImage(selectedImage, 0, 0);
 
           const targetBytes = kb * 1024;
@@ -152,13 +181,16 @@
 
               if (previewUrl) URL.revokeObjectURL(previewUrl);
               previewUrl = URL.createObjectURL(blob);
+
               download.href = previewUrl;
               download.style.display = 'block';
+
               result.textContent =
                 'Result: ' + (blob.size / 1024).toFixed(1) + ' KB' +
                 (blob.size <= targetBytes
                   ? ' — target reached.'
                   : ' — target could not be reached at this quality. Try a larger target.');
+
               compress.disabled = false;
             }, 'image/jpeg', quality);
           }
