@@ -4,7 +4,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Age Calculator - MANJESH Tools</title>
+
+<title>Free Age Calculator Online - Calculate Your Age | MANJESH Tools</title>
+<meta name="description" content="Calculate your exact age in years, months, and days with the free online Age Calculator from MANJESH Tools. Enter your date of birth to get your result instantly.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://manjeshtools.github.io/manjeshtools/tools/age-calculator.html">
+
+<meta property="og:title" content="Free Age Calculator Online | MANJESH Tools">
+<meta property="og:description" content="Find your age in years, months, and days using this free online age calculator.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://manjeshtools.github.io/manjeshtools/tools/age-calculator.html">
+<meta name="theme-color" content="#176b3a">
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;padding:20px;background:#f4f8f5;color:#173d2b;font-family:Arial,sans-serif}
@@ -13,7 +24,7 @@ h1{color:#176b3a}
 label{display:block;margin-top:18px;font-weight:bold}
 input,button{width:100%;padding:13px;margin:10px 0;border-radius:8px}
 input{border:1px solid #ccc}
-button{background:#176b3a;color:white;border:0;font-size:16px;font-weight:bold}
+button{background:#176b3a;color:white;border:0;font-size:16px;font-weight:bold;cursor:pointer}
 #result{margin-top:20px;padding:15px;background:#f4f8f5;border-radius:8px;line-height:1.8}
 a{color:#176b3a}
 </style>
@@ -21,31 +32,63 @@ a{color:#176b3a}
 <body>
 <main>
 <a href="../index.html">← Back to MANJESH Tools</a>
-<h1>Age Calculator</h1>
-<p>Enter your date of birth to calculate your age.</p>
+
+<h1>Free Online Age Calculator</h1>
+<p>Enter your date of birth to calculate your age in years, months, and days.</p>
+
 <label for="dob">Date of Birth</label>
 <input id="dob" type="date">
-<button id="calculate">Calculate Age</button>
+<button id="calculate" type="button">Calculate Age</button>
+
 <div id="result" aria-live="polite">Your age will appear here.</div>
 </main>
+
 <script>
-document.getElementById("calculate").addEventListener("click",()=>{
-const value=document.getElementById("dob").value;
+const dobInput=document.getElementById("dob");
 const result=document.getElementById("result");
-if(!value){result.textContent="Please select your date of birth.";return;}
-const dob=new Date(value+"T00:00:00");
-const today=new Date();
-if(dob>today){result.textContent="Date of birth cannot be in the future.";return;}
-let years=today.getFullYear()-dob.getFullYear();
-let months=today.getMonth()-dob.getMonth();
-let days=today.getDate()-dob.getDate();
-if(days<0){
-months--;
-const lastMonthDays=new Date(today.getFullYear(),today.getMonth(),0).getDate();
-days+=lastMonthDays;
-}
-if(months<0){years--;months+=12;}
-result.innerHTML="<strong>Your Age:</strong><br>"+years+" years, "+months+" months, "+days+" days";
+
+dobInput.max=new Date().toLocaleDateString("en-CA");
+
+document.getElementById("calculate").addEventListener("click",()=>{
+    const value=dobInput.value;
+
+    if(!value){
+        result.textContent="Please select your date of birth.";
+        return;
+    }
+
+    const [year,month,day]=value.split("-").map(Number);
+    const dob=new Date(year,month-1,day);
+    const today=new Date();
+
+    today.setHours(0,0,0,0);
+
+    if(dob>today){
+        result.textContent="Date of birth cannot be in the future.";
+        return;
+    }
+
+    let years=today.getFullYear()-dob.getFullYear();
+    let months=today.getMonth()-(dob.getMonth());
+    let days=today.getDate()-dob.getDate();
+
+    if(days<0){
+        months--;
+        const lastMonthDays=new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            0
+        ).getDate();
+        days+=lastMonthDays;
+    }
+
+    if(months<0){
+        years--;
+        months+=12;
+    }
+
+    result.innerHTML="<strong>Your Age:</strong><br>"+
+        years+" years, "+months+" months, "+days+" days";
 });
 </script>
 </body>
