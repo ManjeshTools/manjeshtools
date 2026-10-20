@@ -1,160 +1,216 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BG Remove | MANJESH Tools</title>
-<meta name="theme-color" content="#14532d">
-<style>
-:root{--green:#14532d;--orange:#f97316}
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f8f5;color:#18231b}
-header{background:var(--green);color:white;padding:20px;text-align:center}
-header h2{margin:0}
-main{max-width:720px;margin:24px auto;padding:0 14px}
-.card{background:white;border:1px solid #dce5de;border-radius:16px;padding:20px;margin-bottom:16px}
-h1{font-size:25px;margin-top:0}
-p{line-height:1.6}
-.muted{color:#647067;font-size:14px}
-input{display:block;width:100%;margin:18px 0}
-button,a{display:inline-block;border:0;border-radius:9px;padding:12px 16px;font-weight:bold;text-decoration:none;cursor:pointer}
-button{background:var(--green);color:white}
-a{background:var(--orange);color:white}
-button:disabled{opacity:.5}
-img{max-width:100%;max-height:420px;object-fit:contain}
-#preview{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
-.panel{min-width:0;border:1px solid #ddd;border-radius:10px;padding:10px}
-.panel h3{font-size:14px}
-.image{min-height:100px;display:flex;align-items:center;justify-content:center;overflow:hidden;background-color:#eee;background-image:linear-gradient(45deg,#ddd 25%,transparent 25%),linear-gradient(-45deg,#ddd 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ddd 75%),linear-gradient(-45deg,transparent 75%,#ddd 75%);background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0}
-#status{font-size:14px;color:#536157;overflow-wrap:anywhere}
-@media(max-width:480px){#preview{grid-template-columns:1fr}.card{padding:15px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BG Remove - MANJESH Tools</title>
+  <meta name="description" content="Remove photo backgrounds free with MANJESH Tools.">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: Arial, sans-serif;
+      background: #f3f7f4; color: #183b2b;
+    }
+    header {
+      background: #146b3a; color: white;
+      padding: 18px 12px; text-align: center;
+    }
+    header h1 { margin: 0; font-size: 25px; }
+    header p { margin: 6px 0 0; font-size: 14px; }
+    main {
+      max-width: 620px; margin: 24px auto; padding: 20px;
+      background: white; border-radius: 16px;
+      box-shadow: 0 4px 20px #00000010;
+    }
+    h2 { text-align: center; margin-top: 0; }
+    .hint { color: #52665a; text-align: center; line-height: 1.5; }
+    input[type=file] {
+      display: block; width: 100%; margin: 20px 0;
+      padding: 12px; border: 1px solid #cbd8ce; border-radius: 9px;
+    }
+    button, .download {
+      display: block; width: 100%; padding: 14px;
+      border: 0; border-radius: 9px; text-align: center;
+      font-size: 16px; font-weight: bold; cursor: pointer;
+      text-decoration: none;
+    }
+    button { background: #146b3a; color: white; }
+    button:disabled { opacity: .55; cursor: wait; }
+    .download { background: #f28c28; color: #fff; margin-top: 12px; }
+    .preview {
+      margin-top: 20px; padding: 12px; border: 1px solid #dce6de;
+      border-radius: 12px; text-align: center;
+    }
+    .preview img {
+      display: block; max-width: 100%; max-height: 360px;
+      object-fit: contain; margin: 10px auto;
+    }
+    .hidden { display: none !important; }
+    #status {
+      margin: 16px 0; padding: 12px; border-radius: 8px;
+      background: #eef5ef; line-height: 1.5; overflow-wrap: anywhere;
+    }
+    progress { width: 100%; height: 18px; }
+    footer { text-align: center; padding: 16px; color: #617267; }
+  </style>
 </head>
 <body>
-<header>
-<h2>MANJESH Tools</h2>
-<p>Free Online Tools</p>
-</header>
-<main>
-<section class="card">
-<h1>BG Remove — Background Remover</h1>
-<p class="muted">अपनी फोटो चुनें, बैकग्राउंड हटाएँ और transparent PNG डाउनलोड करें।</p>
+  <header>
+    <h1>MANJESH Tools</h1>
+    <p>Free Online Background Remover</p>
+  </header>
 
-<label for="photo"><b>फोटो चुनें (JPG, PNG, WebP)</b></label>
-<input id="photo" type="file" accept="image/png,image/jpeg,image/webp">
+  <main>
+    <h2>AI Background Remover</h2>
+    <p class="hint">फोटो चुनें और Submit दबाएँ। प्रोसेसिंग आपके ब्राउज़र में होगी।</p>
 
-<button id="remove" disabled>बैकग्राउंड हटाएँ</button>
-<a id="download" hidden download="manjesh-bg-removed.png">PNG डाउनलोड करें</a>
-<p id="status" role="status">पहले फोटो चुनें।</p>
+    <input id="photo" type="file" accept="image/*">
 
-<div id="preview" hidden>
-<div class="panel">
-<h3>मूल फोटो</h3>
-<div class="image"><img id="before" alt="मूल फोटो"></div>
-</div>
-<div class="panel">
-<h3>बैकग्राउंड हटने के बाद</h3>
-<div class="image"><img id="after" alt="बैकग्राउंड हटाई गई फोटो"></div>
-</div>
-</div>
-</section>
+    <div id="originalBox" class="preview hidden">
+      <strong>आपकी फोटो</strong>
+      <img id="original" alt="Uploaded photo preview">
+    </div>
 
-<section class="card">
-<h3>इस्तेमाल कैसे करें?</h3>
-<ol>
-<li>फोटो चुनें।</li>
-<li>बैकग्राउंड हटाएँ बटन दबाएँ।</li>
-<li>प्रोसेसिंग पूरी होने पर PNG डाउनलोड करें।</li>
-</ol>
-<p class="muted">पहली बार AI मॉडल डाउनलोड होने में समय लग सकता है। यह टूल इंटरनेट और ब्राउज़र की क्षमता पर निर्भर करता है।</p>
-</section>
-</main>
+    <button id="submitBtn" type="button">Submit — Remove Background</button>
 
-<script type="module">
-import { removeBackground } from "https://esm.sh/@imgly/background-removal@1.5.5";
+    <div id="status" role="status" aria-live="polite">
+      पहले एक फोटो चुनें।
+    </div>
 
-const photo = document.getElementById("photo");
-const removeBtn = document.getElementById("remove");
-const download = document.getElementById("download");
-const status = document.getElementById("status");
-const preview = document.getElementById("preview");
-const before = document.getElementById("before");
-const after = document.getElementById("after");
+    <progress id="progress" class="hidden" max="100" value="0"></progress>
 
-let selectedFile = null;
-let inputUrl = null;
-let outputUrl = null;
-let busy = false;
+    <div id="resultBox" class="preview hidden">
+      <strong>बैकग्राउंड हट गया!</strong>
+      <p class="hint">चेकबोर्ड जैसा बैकग्राउंड पारदर्शिता दिखाता है।</p>
+      <img id="result" alt="Photo with background removed">
+      <a id="downloadBtn" class="download" download="manjesh-bg-removed.png">
+        Download PNG
+      </a>
+    </div>
+  </main>
 
-photo.addEventListener("change", () => {
-  selectedFile = photo.files && photo.files[0] ? photo.files[0] : null;
+  <footer>© MANJESH Tools</footer>
 
-  if (inputUrl) URL.revokeObjectURL(inputUrl);
-  if (outputUrl) URL.revokeObjectURL(outputUrl);
+  <script type="module">
+    const photoInput = document.getElementById('photo');
+    const submitBtn = document.getElementById('submitBtn');
+    const statusBox = document.getElementById('status');
+    const progress = document.getElementById('progress');
+    const originalBox = document.getElementById('originalBox');
+    const originalImg = document.getElementById('original');
+    const resultBox = document.getElementById('resultBox');
+    const resultImg = document.getElementById('result');
+    const downloadBtn = document.getElementById('downloadBtn');
 
-  inputUrl = null;
-  outputUrl = null;
-  after.removeAttribute("src");
-  download.hidden = true;
+    let selectedFile = null;
+    let originalURL = null;
+    let resultURL = null;
 
-  if (!selectedFile) {
-    removeBtn.disabled = true;
-    preview.hidden = true;
-    status.textContent = "पहले फोटो चुनें।";
-    return;
-  }
+    function setStatus(message) {
+      statusBox.textContent = message;
+    }
 
-  if (!selectedFile.type.startsWith("image/")) {
-    selectedFile = null;
-    removeBtn.disabled = true;
-    status.textContent = "कृपया JPG, PNG या WebP फोटो चुनें।";
-    return;
-  }
+    photoInput.addEventListener('change', () => {
+      selectedFile = photoInput.files?.[0] || null;
+      resultBox.classList.add('hidden');
 
-  inputUrl = URL.createObjectURL(selectedFile);
-  before.src = inputUrl;
-  preview.hidden = false;
-  removeBtn.disabled = false;
-  status.textContent = "फोटो तैयार है। अब बैकग्राउंड हटाएँ दबाएँ।";
-});
+      if (originalURL) URL.revokeObjectURL(originalURL);
+      if (resultURL) URL.revokeObjectURL(resultURL);
+      originalURL = null;
+      resultURL = null;
 
-removeBtn.addEventListener("click", async () => {
-  if (!selectedFile || busy) return;
+      if (!selectedFile) {
+        originalBox.classList.add('hidden');
+        setStatus('पहले एक फोटो चुनें।');
+        return;
+      }
 
-  busy = true;
-  removeBtn.disabled = true;
-  photo.disabled = true;
-  download.hidden = true;
-  status.textContent = "AI मॉडल लोड हो रहा है। पहली बार थोड़ा इंतजार करें…";
+      if (!selectedFile.type.startsWith('image/')) {
+        selectedFile = null;
+        photoInput.value = '';
+        originalBox.classList.add('hidden');
+        setStatus('कृपया JPG, PNG या दूसरी मान्य फोटो चुनें।');
+        return;
+      }
 
-  try {
-    const blob = await removeBackground(selectedFile, {
-      model: "small",
-      output: { format: "image/png" }
+      originalURL = URL.createObjectURL(selectedFile);
+      originalImg.src = originalURL;
+      originalBox.classList.remove('hidden');
+      setStatus('फोटो तैयार है। अब Submit दबाएँ।');
     });
 
-    if (outputUrl) URL.revokeObjectURL(outputUrl);
-    outputUrl = URL.createObjectURL(blob);
-    after.src = outputUrl;
-    download.href = outputUrl;
-    download.hidden = false;
-    status.textContent = "हो गया! अब PNG डाउनलोड करें।";
-  } catch (error) {
-    console.error(error);
-    status.textContent =
-      "बैकग्राउंड नहीं हट पाया। इंटरनेट जाँचें और दोबारा प्रयास करें।";
-  } finally {
-    busy = false;
-    removeBtn.disabled = !selectedFile;
-    photo.disabled = false;
-  }
-});
+    submitBtn.addEventListener('click', async () => {
+      if (!selectedFile) {
+        setStatus('पहले फोटो अपलोड करें।');
+        return;
+      }
 
-window.addEventListener("beforeunload", () => {
-  if (inputUrl) URL.revokeObjectURL(inputUrl);
-  if (outputUrl) URL.revokeObjectURL(outputUrl);
-});
-</script>
+      submitBtn.disabled = true;
+      photoInput.disabled = true;
+      resultBox.classList.add('hidden');
+      progress.classList.remove('hidden');
+      progress.value = 5;
+      setStatus('AI लाइब्रेरी लोड हो रही है। पहली बार थोड़ा समय लग सकता है…');
+
+      try {
+        // Load the browser-based AI library only after Submit.
+        const module = await import(
+          'https://esm.sh/@imgly/background-removal@1.5.5'
+        );
+
+        const removeBackground =
+          module.default || module.removeBackground;
+
+        if (typeof removeBackground !== 'function') {
+          throw new Error('AI लाइब्रेरी सही तरीके से लोड नहीं हुई।');
+        }
+
+        progress.value = 20;
+        setStatus('AI मॉडल डाउनलोड/तैयार हो रहा है। पेज खुला रखें…');
+
+        const outputBlob = await removeBackground(selectedFile, {
+          model: 'small',
+          output: { format: 'image/png', quality: 0.9 },
+          progress: (key, current, total) => {
+            if (total > 0) {
+              const percent = Math.round((current / total) * 100);
+              progress.value = Math.max(20, Math.min(90, percent));
+              setStatus('AI संसाधन लोड हो रहे हैं: ' + percent + '%');
+            }
+          }
+        });
+
+        if (!(outputBlob instanceof Blob) || outputBlob.size === 0) {
+          throw new Error('AI से खाली परिणाम मिला।');
+        }
+
+        if (resultURL) URL.revokeObjectURL(resultURL);
+        resultURL = URL.createObjectURL(outputBlob);
+        resultImg.src = resultURL;
+        downloadBtn.href = resultURL;
+        resultBox.classList.remove('hidden');
+        progress.value = 100;
+        setStatus('काम पूरा! अब Download PNG दबाएँ।');
+      } catch (error) {
+        console.error('BG Remove error:', error);
+        let message = error?.message || String(error);
+
+        if (!navigator.onLine) {
+          message = 'इंटरनेट कनेक्शन बंद है। इंटरनेट चालू करके फिर प्रयास करें।';
+        } else if (/fetch|network|load failed|import/i.test(message)) {
+          message = 'AI लाइब्रेरी या मॉडल डाउनलोड नहीं हो पाया। Chrome में इंटरनेट जाँचें और दोबारा प्रयास करें।';
+        } else if (/memory|allocation|wasm|webgl/i.test(message)) {
+          message = 'फोन की मेमोरी या ब्राउज़र में समस्या आई। छोटी फोटो चुनें और फिर प्रयास करें।';
+        }
+
+        setStatus('बैकग्राउंड नहीं हट पाया: ' + message);
+        progress.value = 0;
+      } finally {
+        submitBtn.disabled = false;
+        photoInput.disabled = false;
+      }
+    });
+  </script>
 </body>
 </html>
