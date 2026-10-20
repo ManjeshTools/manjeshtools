@@ -4,7 +4,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QR Code Generator - MANJESH Tools</title>
+
+<title>Free QR Code Generator Online | MANJESH Tools</title>
+<meta name="description" content="Create and download QR codes online for free with MANJESH Tools. Generate QR codes from text, website links, and other information in seconds.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://manjeshtools.github.io/manjeshtools/tools/qr-code-generator.html">
+
+<meta property="og:title" content="Free QR Code Generator Online | MANJESH Tools">
+<meta property="og:description" content="Generate and download QR codes online for free from text, website links, and other information.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://manjeshtools.github.io/manjeshtools/tools/qr-code-generator.html">
+<meta name="theme-color" content="#176b3a">
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;padding:20px;background:#f4f8f5;color:#173d2b;font-family:Arial,sans-serif}
@@ -12,7 +23,7 @@ main{max-width:600px;margin:30px auto;background:#fff;padding:24px;border-radius
 h1{color:#176b3a}
 input,button{width:100%;padding:13px;margin:10px 0;border-radius:8px}
 input{border:1px solid #ccc}
-button{background:#176b3a;color:white;border:0;font-size:16px;font-weight:bold}
+button{background:#176b3a;color:white;border:0;font-size:16px;font-weight:bold;cursor:pointer}
 #qrcode{margin:20px auto;text-align:center}
 #qrcode img,#qrcode canvas{max-width:100%}
 a{color:#176b3a}
@@ -21,36 +32,68 @@ a{color:#176b3a}
 <body>
 <main>
 <a href="../index.html">← Back to MANJESH Tools</a>
-<h1>QR Code Generator</h1>
-<p>Enter text, a website link, or other information to create a QR code.</p>
-<input id="qrtext" type="text" placeholder="Enter text or URL">
-<button id="generate">Generate QR Code</button>
-<div id="qrcode"></div>
-<button id="download" hidden>Download QR Code</button>
-<p id="status"></p>
+<h1>Free QR Code Generator Online</h1>
+<p>Enter text, a website link, or other information to create and download a QR code for free.</p>
+
+<label for="qrtext">Text or website URL</label>
+<input id="qrtext" type="text" placeholder="Enter text or URL" autocomplete="off">
+<button id="generate" type="button">Generate QR Code</button>
+
+<div id="qrcode" aria-live="polite"></div>
+<button id="download" type="button" hidden>Download QR Code</button>
+<p id="status" role="status" aria-live="polite"></p>
 </main>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 let qr;
 const output=document.getElementById("qrcode");
 const status=document.getElementById("status");
 const download=document.getElementById("download");
+
 document.getElementById("generate").addEventListener("click",()=>{
-const value=document.getElementById("qrtext").value.trim();
-if(!value){status.textContent="Please enter text or a URL.";return;}
-if(!window.QRCode){status.textContent="QR library failed to load. Check your internet connection.";return;}
-output.innerHTML="";
-qr=new QRCode(output,{text:value,width:220,height:220,colorDark:"#173d2b",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.H});
-download.hidden=false;
-status.textContent="QR code generated successfully!";
+    const value=document.getElementById("qrtext").value.trim();
+
+    if(!value){
+        status.textContent="Please enter text or a URL.";
+        return;
+    }
+
+    if(!window.QRCode){
+        status.textContent="QR library failed to load. Check your internet connection.";
+        return;
+    }
+
+    output.innerHTML="";
+    download.hidden=true;
+
+    qr=new QRCode(output,{
+        text:value,
+        width:220,
+        height:220,
+        colorDark:"#173d2b",
+        colorLight:"#ffffff",
+        correctLevel:QRCode.CorrectLevel.H
+    });
+
+    download.hidden=false;
+    status.textContent="QR code generated successfully!";
 });
+
 download.addEventListener("click",()=>{
-const canvas=output.querySelector("canvas");
-const img=output.querySelector("img");
-const data=canvas?canvas.toDataURL("image/png"):img?img.src:null;
-if(!data){status.textContent="Generate a QR code first.";return;}
-const a=document.createElement("a");
-a.href=data;a.download="manjesh-qr-code.png";a.click();
+    const canvas=output.querySelector("canvas");
+    const img=output.querySelector("img");
+    const data=canvas?canvas.toDataURL("image/png"):img?img.src:null;
+
+    if(!data){
+        status.textContent="Generate a QR code first.";
+        return;
+    }
+
+    const a=document.createElement("a");
+    a.href=data;
+    a.download="manjesh-qr-code.png";
+    a.click();
 });
 </script>
 </body>
