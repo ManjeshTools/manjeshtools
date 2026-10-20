@@ -4,8 +4,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Merge multiple PDF files into one PDF online with MANJESH Tools.">
-<title>PDF Merger | MANJESH Tools</title>
+
+<title>Free PDF Merger Online - Combine PDF Files | MANJESH Tools</title>
+<meta name="description" content="Merge multiple PDF files into one document online for free with MANJESH Tools. Select PDFs in order, combine their pages, and download your merged PDF.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://manjeshtools.github.io/manjeshtools/tools/pdf-merger.html">
+
+<meta property="og:title" content="Free PDF Merger Online | MANJESH Tools">
+<meta property="og:description" content="Combine multiple PDF files into one PDF document for free. Simple browser-based PDF merging with MANJESH Tools.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://manjeshtools.github.io/manjeshtools/tools/pdf-merger.html">
+<meta name="theme-color" content="#176b43">
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f6f8f7;color:#183c2b}
@@ -20,8 +30,10 @@ label{display:block;font-weight:700;margin:20px 0 8px}
 input,button{width:100%;padding:13px;border-radius:10px;font-size:16px}
 input{border:1px solid #cbd8ce;background:white}
 button{border:0;background:#176b43;color:white;font-weight:700;cursor:pointer;margin-top:16px}
-button:disabled{opacity:.6}
+button:disabled{opacity:.6;cursor:not-allowed}
 #files,#result{margin-top:18px;line-height:1.7;overflow-wrap:anywhere}
+#files{white-space:pre-line}
+#download{display:none;margin-top:16px;padding:13px;background:#f28c28;color:#1f2d24;border-radius:10px;text-align:center}
 footer{text-align:center;padding:25px;color:#65776b;font-size:14px}
 </style>
 </head>
@@ -30,19 +42,23 @@ footer{text-align:center;padding:25px;color:#65776b;font-size:14px}
 <div class="brand">MANJESH <span>Tools</span></div>
 <a href="../index.html">← All Tools</a>
 </header>
+
 <main>
 <section class="card">
-<h1>PDF Merger</h1>
-<p>Combine multiple PDF files into one document. Files are processed in your browser.</p>
+<h1>Free Online PDF Merger</h1>
+<p>Combine multiple PDF files into one document for free. Choose your PDF files in the order you want them merged. Your files are processed in your browser.</p>
+
 <label for="pdfs">Choose PDF files in merge order</label>
 <input id="pdfs" type="file" accept="application/pdf,.pdf" multiple>
 <div id="files"></div>
-<button id="merge">Merge PDFs</button>
+<button id="merge" type="button">Merge PDF Files</button>
 <div id="result" aria-live="polite"></div>
-<a id="download" style="display:none" download="manjesh-merged.pdf">Download Merged PDF</a>
+<a id="download" download="manjesh-merged.pdf">Download Merged PDF</a>
 </section>
 </main>
+
 <footer>© 2026 MANJESH Tools · Simple Tools. Better Productivity.</footer>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script>
 const input=document.getElementById('pdfs');
@@ -50,6 +66,8 @@ const filesBox=document.getElementById('files');
 const result=document.getElementById('result');
 const mergeButton=document.getElementById('merge');
 const download=document.getElementById('download');
+let downloadUrl=null;
+
 input.addEventListener('change',()=>{
 const files=Array.from(input.files||[]);
 filesBox.textContent=files.length
@@ -57,27 +75,50 @@ filesBox.textContent=files.length
 :'';
 result.textContent='';
 download.style.display='none';
+
+if(downloadUrl){
+URL.revokeObjectURL(downloadUrl);
+downloadUrl=null;
+}
 });
+
 mergeButton.addEventListener('click',async()=>{
 const files=Array.from(input.files||[]);
-if(files.length<2){result.textContent='Please select at least two PDF files.';return}
-if(!window.PDFLib){result.textContent='PDF library could not load. Check your internet connection and reload this page.';return}
+
+if(files.length<2){
+result.textContent='Please select at least two PDF files.';
+return;
+}
+
+if(!window.PDFLib){
+result.textContent='PDF library could not load. Check your internet connection and reload this page.';
+return;
+}
+
 mergeButton.disabled=true;
 result.textContent='Merging your PDF files...';
+
 try{
 const merged=await PDFLib.PDFDocument.create();
+
 for(const file of files){
 if(file.size===0)throw new Error('Empty file');
+
 const bytes=await file.arrayBuffer();
 const source=await PDFLib.PDFDocument.load(bytes);
 const pages=await merged.copyPages(source,source.getPageIndices());
 pages.forEach(page=>merged.addPage(page));
 }
+
 const bytes=await merged.save();
 const blob=new Blob([bytes],{type:'application/pdf'});
-const url=URL.createObjectURL(blob);
-download.href=url;
+
+if(downloadUrl)URL.revokeObjectURL(downloadUrl);
+downloadUrl=URL.createObjectURL(blob);
+
+download.href=downloadUrl;
 download.style.display='inline-block';
+
 result.textContent='Success! Merged '+files.length+' files · '+merged.getPageCount()+' pages · '+(blob.size/1024).toFixed(1)+' KB';
 }catch(error){
 result.textContent='Could not merge the selected PDFs. Please check that each file is a valid, unencrypted PDF.';
