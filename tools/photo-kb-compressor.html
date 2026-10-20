@@ -1,385 +1,181 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Compress photos to a target size in KB or MB online with MANJESH Tools.">
-  <title>Photo KB Compressor - MANJESH Tools</title>
-  <style>
-    :root {
-      --green: #14532d;
-      --orange: #f97316;
-      --light: #f5f8f5;
-      --text: #17251b;
-      --muted: #647067;
-      --border: #dce5dd;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--text);
-      background: var(--light);
-      line-height: 1.6;
-    }
-    header {
-      background: var(--green);
-      color: white;
-      padding: 18px 16px;
-      border-bottom: 4px solid var(--orange);
-    }
-    .header-inner, main, footer {
-      width: min(920px, 100%);
-      margin: auto;
-    }
-    .brand { font-size: 23px; font-weight: 800; }
-    .brand span { color: #fdba74; }
-    .tagline { font-size: 13px; opacity: .9; }
-    main { padding: 28px 16px 40px; }
-    .intro { text-align: center; margin-bottom: 24px; }
-    h1 { font-size: clamp(27px, 5vw, 38px); line-height: 1.2; margin: 0 0 10px; }
-    .intro p { color: var(--muted); margin: 0 auto; max-width: 620px; }
-    .tool-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: clamp(18px, 4vw, 30px);
-      box-shadow: 0 8px 28px rgba(20, 83, 45, .07);
-    }
-    label { display: block; font-weight: 700; margin-bottom: 7px; }
-    input, select, button, .download-btn {
-      font: inherit;
-      border-radius: 10px;
-    }
-    input[type="file"], input[type="number"], select {
-      width: 100%;
-      border: 1px solid #cbd5ce;
-      background: white;
-      padding: 12px;
-      min-height: 48px;
-    }
-    .field { margin-bottom: 20px; }
-    .target-row {
-      display: grid;
-      grid-template-columns: 1fr 115px;
-      gap: 10px;
-    }
-    button, .download-btn {
-      display: block;
-      width: 100%;
-      border: 0;
-      background: var(--green);
-      color: white;
-      padding: 13px 16px;
-      font-weight: 700;
-      text-align: center;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background .2s;
-    }
-    button:hover, .download-btn:hover { background: #166534; }
-    button:disabled { opacity: .6; cursor: wait; }
-    .download-btn {
-      background: var(--orange);
-      color: #fff;
-      margin-top: 12px;
-    }
-    .download-btn:hover { background: #ea580c; }
-    #preview {
-      display: none;
-      max-width: 100%;
-      max-height: 360px;
-      object-fit: contain;
-      margin: 18px auto;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-    }
-    #result {
-      margin-top: 18px;
-      padding: 13px;
-      background: #f4f8f4;
-      border-radius: 10px;
-      overflow-wrap: anywhere;
-      font-size: 14px;
-    }
-    .hint { color: var(--muted); font-size: 13px; margin: 7px 0 0; }
-    .features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 22px;
-    }
-    .feature {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      background: white;
-      font-size: 14px;
-    }
-    .feature strong { display: block; color: var(--green); }
-    .info { margin-top: 30px; }
-    .info h2 { font-size: 22px; }
-    footer {
-      padding: 20px 16px;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      text-align: center;
-      font-size: 13px;
-    }
-    @media (max-width: 520px) {
-      .features { grid-template-columns: 1fr; }
-      .target-row { grid-template-columns: 1fr 100px; }
-    }
-  </style>
-</head>
-<body>
-<header>
-  <div class="header-inner">
-    <div class="brand">MANJESH <span>Tools</span></div>
-    <div class="tagline">Simple, useful and free online tools</div>
-  </div>
-</header>
-
-<main>
-  <section class="intro">
-    <h1>Photo KB Compressor</h1>
-    <p>Compress your image to a target size in KB or MB. Preview the result and download it for free.</p>
-  </section>
-
-  <section class="tool-card">
-    <div class="field">
-      <label for="photo">Choose your photo</label>
-      <input id="photo" type="file" accept="image/*">
-      <p class="hint">For best results, use a clear JPG, PNG or WebP image.</p>
-    </div>
-
-    <div class="field">
-      <label for="target">Target file size</label>
-      <div class="target-row">
-        <input id="target" type="number" min="5" max="10240"
-          step="1" value="250" inputmode="decimal">
-        <select id="unit" aria-label="Target size unit">
-          <option value="KB" selected>KB</option>
-          <option value="MB">MB</option>
-        </select>
-      </div>
-      <p class="hint">The compressor tries to get as close as possible without exceeding your target.</p>
-    </div>
-
-    <button id="compress" type="button">Compress Photo</button>
-    <img id="preview" alt="Selected photo preview">
-    <div id="result" role="status" aria-live="polite">Choose a photo to get started.</div>
-    <a id="download" class="download-btn" style="display:none" href="#">Download Compressed Photo</a>
-  </section>
-
-  <section class="features">
-    <div class="feature"><strong>KB and MB</strong>Choose the size unit you need.</div>
-    <div class="feature"><strong>Free to use</strong>Compression runs in your browser.</div>
-    <div class="feature"><strong>Target-aware</strong>Tries to stay below your selected limit.</div>
-  </section>
-
-  <section class="info">
-    <h2>How to compress a photo</h2>
-    <ol>
-      <li>Select a photo from your device.</li>
-      <li>Enter the desired size and choose KB or MB.</li>
-      <li>Click Compress Photo and wait for the result.</li>
-      <li>Check the final size, then download your image.</li>
-    </ol>
-    <p><strong>Note:</strong> Exact file sizes cannot be guaranteed for every photo. If the original image is already smaller than your target, this tool will not enlarge it unnecessarily. Compression converts the output to JPEG, so transparent backgrounds will not be preserved.</p>
-  </section>
-</main>
-
-<footer>© <span id="year"></span> MANJESH Tools. All rights reserved.</footer>
-
 <script>
-const photo = document.getElementById('photo');
-const preview = document.getElementById('preview');
-const target = document.getElementById('target');
-const unit = document.getElementById('unit');
-const result = document.getElementById('result');
-const compress = document.getElementById('compress');
-const download = document.getElementById('download');
+document.addEventListener('DOMContentLoaded', () => {
+  const photo = document.getElementById('photo');
+  const preview = document.getElementById('preview');
+  const target = document.getElementById('target');
+  const result = document.getElementById('result');
+  const compress = document.getElementById('compress');
+  const download = document.getElementById('download');
 
-let selectedImage = null;
-let originalFile = null;
-let previewUrl = null;
-
-document.getElementById('year').textContent = new Date().getFullYear();
-
-function formatSize(bytes) {
-  return bytes >= 1024 * 1024
-    ? (bytes / (1024 * 1024)).toFixed(2) + ' MB'
-    : (bytes / 1024).toFixed(1) + ' KB';
-}
-
-function updateUnit() {
-  if (unit.value === 'MB') {
-    target.min = '0.01';
-    target.max = '10';
-    target.step = '0.01';
-    target.value = '0.25';
-  } else {
-    target.min = '5';
-    target.max = '10240';
-    target.step = '1';
-    target.value = '250';
-  }
-}
-
-unit.addEventListener('change', updateUnit);
-
-photo.addEventListener('change', () => {
-  selectedImage = null;
-  originalFile = null;
-  download.style.display = 'none';
-  result.textContent = '';
-  preview.style.display = 'none';
-
-  const file = photo.files[0];
-  if (!file) return;
-
-  if (!file.type.startsWith('image/')) {
-    result.textContent = 'Please select a valid image.';
+  // Check that the original page's elements exist.
+  if (!photo || !preview || !target || !result || !compress || !download) {
+    console.error('Photo compressor: required HTML element ID is missing.');
     return;
   }
 
-  originalFile = file;
-  const reader = new FileReader();
+  let selectedImage = null;
+  let previewUrl = null;
 
-  reader.onload = () => {
-    const img = new Image();
-    img.onload = () => {
-      selectedImage = img;
-      preview.src = reader.result;
-      preview.style.display = 'block';
-      result.textContent = 'Original size: ' + formatSize(file.size);
-    };
-    img.onerror = () => {
-      result.textContent = 'Could not open this image.';
-    };
-    img.src = reader.result;
-  };
+  // Optional KB/MB selector. If it is not present, KB is used.
+  const unit = document.getElementById('unit');
 
-  reader.onerror = () => {
-    result.textContent = 'Could not read this image.';
-  };
-  reader.readAsDataURL(file);
-});
-
-function canvasBlob(canvas, quality) {
-  return new Promise((resolve, reject) => {
-    canvas.toBlob(blob => {
-      if (blob) resolve(blob);
-      else reject(new Error('Image encoding failed'));
-    }, 'image/jpeg', quality);
-  });
-}
-
-compress.addEventListener('click', async () => {
-  if (!selectedImage || !originalFile) {
-    result.textContent = 'Please choose a photo first.';
-    return;
+  function getTargetKB() {
+    const value = Number(target.value);
+    if (!Number.isFinite(value) || value <= 0) return NaN;
+    return unit && unit.value === 'MB' ? value * 1024 : value;
   }
 
-  const value = Number(target.value);
-  const targetBytes = Math.floor(
-    value * (unit.value === 'MB' ? 1024 * 1024 : 1024)
-  );
+  photo.addEventListener('change', () => {
+    result.textContent = '';
+    download.style.display = 'none';
+    selectedImage = null;
 
-  if (!Number.isFinite(value) || targetBytes < 5 * 1024 ||
-      targetBytes > 10 * 1024 * 1024) {
-    result.textContent = 'Choose a target between 5 KB and 10 MB.';
-    return;
-  }
+    const file = photo.files && photo.files[0];
+    if (!file) return;
 
-  if (originalFile.size <= targetBytes) {
-    result.textContent = 'Original image is already within your target: ' +
-      formatSize(originalFile.size) +
-      '. No compression is needed for this target.';
-    return;
-  }
-
-  compress.disabled = true;
-  download.style.display = 'none';
-  result.textContent = 'Finding the closest file size...';
-
-  try {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    if (!ctx) throw new Error('Canvas unavailable');
-
-    let width = selectedImage.naturalWidth;
-    let height = selectedImage.naturalHeight;
-    let bestBlob = null;
-
-    // Keep the best candidate across all resolutions.
-    // Never reset bestBlob while reducing image dimensions.
-    for (let resize = 0; resize < 18; resize++) {
-      canvas.width = Math.max(1, Math.round(width));
-      canvas.height = Math.max(1, Math.round(height));
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(selectedImage, 0, 0, canvas.width, canvas.height);
-
-      let low = 0.05;
-      let high = 0.99;
-
-      for (let i = 0; i < 18; i++) {
-        const quality = (low + high) / 2;
-        const blob = await canvasBlob(canvas, quality);
-
-        if (blob.size <= targetBytes) {
-          if (!bestBlob || blob.size > bestBlob.size) bestBlob = blob;
-          low = quality;
-        } else {
-          high = quality;
-        }
-      }
-
-      // Once within 1% of the target, further resizing is unnecessary.
-      if (bestBlob && bestBlob.size >= targetBytes * 0.99) break;
-
-      width *= 0.90;
-      height *= 0.90;
-    }
-
-    if (!bestBlob) {
-      result.textContent =
-        'Could not make an image under this target. Try a larger target.';
+    if (!file.type.startsWith('image/')) {
+      result.textContent = 'Please select a valid image.';
       return;
     }
 
-    if (bestBlob.size > targetBytes) {
-      throw new Error('Output exceeded target');
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const img = new Image();
+
+      img.onload = () => {
+        selectedImage = img;
+        preview.src = reader.result;
+        preview.style.display = 'block';
+        result.textContent =
+          'Original size: ' + (file.size / 1024).toFixed(1) + ' KB';
+      };
+
+      img.onerror = () => {
+        result.textContent = 'Could not open this image.';
+      };
+
+      img.src = reader.result;
+    };
+
+    reader.onerror = () => {
+      result.textContent = 'Could not read this image.';
+    };
+
+    reader.readAsDataURL(file);
+  });
+
+  compress.addEventListener('click', async (event) => {
+    event.preventDefault();
+
+    if (!selectedImage) {
+      result.textContent = 'Please choose a photo first.';
+      return;
     }
 
+    const kb = getTargetKB();
+
+    if (!Number.isFinite(kb) || kb < 5 || kb > 10240) {
+      result.textContent =
+        'Enter a target between 5 KB and 10 MB.';
+      return;
+    }
+
+    compress.disabled = true;
+    download.style.display = 'none';
+    result.textContent = 'Finding the best image size...';
+
+    try {
+      const targetBytes = Math.floor(kb * 1024);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      if (!ctx) throw new Error('Canvas unavailable');
+
+      let width = selectedImage.naturalWidth;
+      let height = selectedImage.naturalHeight;
+      let bestBlob = null;
+
+      // Keep the best result across all resize attempts.
+      for (let resize = 0; resize < 12; resize++) {
+        canvas.width = Math.max(1, Math.round(width));
+        canvas.height = Math.max(1, Math.round(height));
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(selectedImage, 0, 0, canvas.width, canvas.height);
+
+        let low = 0.05;
+        let high = 0.98;
+
+        // Search for the largest output that does not exceed the target.
+        for (let i = 0; i < 16; i++) {
+          const quality = (low + high) / 2;
+          const blob = await new Promise((resolve, reject) => {
+            canvas.toBlob(
+              b => b ? resolve(b) : reject(new Error('Encoding failed')),
+              'image/jpeg',
+              quality
+            );
+          });
+
+          if (blob.size <= targetBytes) {
+            if (!bestBlob || blob.size > bestBlob.size) {
+              bestBlob = blob;
+            }
+            low = quality;
+          } else {
+            high = quality;
+          }
+        }
+
+        // Stop if output is at least 98% of the target.
+        if (bestBlob && bestBlob.size >= targetBytes * 0.98) {
+          break;
+        }
+
+        // Reduce dimensions only if quality adjustment was insufficient.
+        // Do not discard the best result already found.
+        width *= 0.90;
+        height *= 0.90;
+      }
+
+      if (!bestBlob) {
+        result.textContent =
+          'Could not create the image. Please try a larger target.';
+        return;
+      }
+
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+      previewUrl = URL.createObjectURL(bestBlob);
+
+      download.href = previewUrl;
+      download.download = 'manjesh-tools-compressed.jpg';
+      download.style.display = 'block';
+
+      const actualKB = bestBlob.size / 1024;
+      const percentage = (bestBlob.size / targetBytes) * 100;
+
+      result.textContent =
+        'Target: ' + kb.toFixed(1) + ' KB | Result: ' +
+        actualKB.toFixed(1) + ' KB' +
+        (bestBlob.size <= targetBytes
+          ? (percentage >= 98
+              ? ' — Target reached closely.'
+              : ' — Best result found without exceeding the target.')
+          : ' — Please try again.');
+
+    } catch (error) {
+      console.error('Photo compression error:', error);
+      result.textContent =
+        'Compression failed. Please try another image.';
+    } finally {
+      compress.disabled = false;
+    }
+  });
+
+  // Prevent memory leaks when the page is closed.
+  window.addEventListener('pagehide', () => {
     if (previewUrl) URL.revokeObjectURL(previewUrl);
-    previewUrl = URL.createObjectURL(bestBlob);
-    download.href = previewUrl;
-    download.download = 'manjesh-tools-compressed.jpg';
-    download.style.display = 'block';
-
-    const ratio = bestBlob.size / targetBytes;
-    const targetText = value + ' ' + unit.value;
-
-    result.textContent =
-      'Target: ' + targetText +
-      ' | Result: ' + formatSize(bestBlob.size) +
-      (ratio >= 0.99 ? ' — Very close to target.' :
-       ratio >= 0.95 ? ' — Close to target.' :
-       ' — Best result found below the target.');
-
-  } catch (error) {
-    result.textContent = 'Compression failed. Please try another image.';
-  } finally {
-    compress.disabled = false;
-  }
-});
-
-window.addEventListener('beforeunload', () => {
-  if (previewUrl) URL.revokeObjectURL(previewUrl);
+  });
 });
 </script>
-</body>
-</html>
