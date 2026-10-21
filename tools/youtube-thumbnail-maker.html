@@ -1,0 +1,656 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YouTube Thumbnail Maker Online Free | MANJESH Tools</title>
+<meta name="description" content="Create YouTube thumbnails online for free with MANJESH Tools. Upload photos, add bold text, colors, shapes and stickers, and download PNG or JPG thumbnails.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://manjeshtools.github.io/manjeshtools/tools/youtube-thumbnail-maker.html">
+<meta name="theme-color" content="#176b43">
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f6f8f7;color:#183c2b}
+header{background:#fff;padding:16px 5%;border-bottom:1px solid #e3eae5;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brand{font-size:21px;font-weight:800;color:#176b43}
+.brand span{color:#f28c28}
+a{color:#176b43;text-decoration:none;font-weight:700}
+main{max-width:1200px;margin:25px auto;padding:0 14px}
+h1{font-size:clamp(25px,4vw,35px);margin:0 0 10px}
+.muted,.hint{color:#65776b;line-height:1.6}
+.editor{display:grid;grid-template-columns:310px minmax(0,1fr);gap:16px;align-items:start}
+.panel,.stage,.info{background:white;border:1px solid #e0e9e2;border-radius:15px;padding:16px;min-width:0}
+.panel{display:grid;gap:10px}
+label{display:block;font-weight:700;font-size:13px;margin-bottom:5px}
+input,select,button{font:inherit}
+input[type=text],input[type=number],select{width:100%;padding:10px;border:1px solid #cbd8ce;border-radius:8px;background:white;color:#183c2b}
+input[type=color]{width:100%;height:38px;border:0;background:white}
+input[type=range]{width:100%;accent-color:#176b43}
+button{padding:10px;border:0;border-radius:8px;background:#176b43;color:white;font-weight:700;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+.orange{background:#f28c28;color:#222}
+.light{background:#edf4ef;color:#176b43}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.templates{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+hr{border:0;border-top:1px solid #e5ece6;width:100%;margin:5px 0}
+.stagebar{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.canvaswrap{background:#e9eeea;border-radius:9px;padding:6px}
+canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;background:white;touch-action:none}
+.hint{font-size:12px}
+#status{font-size:13px;color:#176b43;overflow-wrap:anywhere;min-height:18px}
+.info{margin-top:20px;line-height:1.6}
+footer{text-align:center;padding:24px;color:#65776b;font-size:14px}
+@media(max-width:760px){
+ .editor{grid-template-columns:1fr}
+ .stage{order:1}
+ .panel{order:2}
+ main{margin-top:18px}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="brand">MANJESH <span>Tools</span></div>
+  <a href="../index.html">← All Tools</a>
+</header>
+
+<main>
+  <h1>YouTube Thumbnail Maker Studio</h1>
+  <p class="muted">Create colorful, high-contrast and original YouTube thumbnails for free.</p>
+
+  <div class="editor">
+    <section class="panel">
+      <h3 style="margin:0">Design Tools</h3>
+
+      <div>
+        <label for="photo">Upload Photo</label>
+        <input id="photo" type="file" accept="image/*">
+      </div>
+
+      <div class="row">
+        <button id="addText">+ Add Text</button>
+        <button id="addPhotoShape" class="orange">+ Circle</button>
+      </div>
+      <button id="addSticker" class="light">Add Sticker ⭐</button>
+
+      <hr>
+
+      <div>
+        <label for="textValue">Text Content</label>
+        <input id="textValue" type="text" maxlength="100" placeholder="Select or add text">
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="font">Font</label>
+          <select id="font">
+            <option>Arial</option>
+            <option>Impact</option>
+            <option>Verdana</option>
+            <option>Georgia</option>
+            <option>Trebuchet MS</option>
+          </select>
+        </div>
+        <div>
+          <label for="fontSize">Text Size</label>
+          <input id="fontSize" type="number" min="12" max="180" value="70">
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="textColor">Text Color</label>
+          <input id="textColor" type="color" value="#ffffff">
+        </div>
+        <div>
+          <label for="outlineColor">Outline Color</label>
+          <input id="outlineColor" type="color" value="#111111">
+        </div>
+      </div>
+
+      <div>
+        <label for="outlineWidth">Outline Thickness</label>
+        <input id="outlineWidth" type="range" min="0" max="18" value="7">
+      </div>
+
+      <div>
+        <label for="shadow">Text Shadow</label>
+        <select id="shadow">
+          <option value="yes">On</option>
+          <option value="no">Off</option>
+        </select>
+      </div>
+
+      <hr>
+
+      <div>
+        <label for="background">Background Color</label>
+        <input id="background" type="color" value="#176bce">
+      </div>
+
+      <div>
+        <label for="objectSize">Selected Object Size</label>
+        <input id="objectSize" type="range" min="30" max="1100" value="300">
+      </div>
+
+      <div class="row">
+        <button id="front" class="light">Bring to Front</button>
+        <button id="delete" class="light">Delete Object</button>
+      </div>
+
+      <hr>
+      <strong>Quick Templates</strong>
+      <div class="templates">
+        <button data-template="gaming">🎮 Gaming</button>
+        <button data-template="vlog" class="orange">📸 Vlog</button>
+        <button data-template="tech" class="light">💻 Tech</button>
+        <button data-template="education" class="light">📚 Education</button>
+        <button data-template="challenge" class="orange">🔥 Challenge</button>
+        <button data-template="travel" class="light">🌍 Travel</button>
+      </div>
+
+      <hr>
+      <div class="row">
+        <button id="undo" class="light" disabled>↶ Undo</button>
+        <button id="redo" class="light" disabled>↷ Redo</button>
+      </div>
+      <div class="row">
+        <button id="clear" class="light">Clear Objects</button>
+        <button id="reset" class="light">Reset Design</button>
+      </div>
+
+      <hr>
+      <div>
+        <label for="format">Download Format</label>
+        <select id="format">
+          <option value="png">PNG - High Quality</option>
+          <option value="jpeg">JPG - Smaller File</option>
+        </select>
+      </div>
+      <button id="download" class="orange">Download Thumbnail</button>
+      <div id="status" aria-live="polite"></div>
+    </section>
+
+    <section class="stage">
+      <div class="stagebar">
+        <strong>Live Preview</strong>
+        <span class="hint">1280 × 720 · 16:9</span>
+      </div>
+      <div class="canvaswrap">
+        <canvas id="canvas" width="1280" height="720"></canvas>
+      </div>
+      <p class="hint">Tap an object to select it. Drag it to move it. Use the size slider to resize it.</p>
+    </section>
+  </div>
+
+  <section class="info">
+    <h2>How to Make a YouTube Thumbnail</h2>
+    <ol>
+      <li>Choose a template or change the background color.</li>
+      <li>Upload your photo and move it into position.</li>
+      <li>Add text, adjust its font, color, outline and shadow.</li>
+      <li>Download your thumbnail as PNG or JPG.</li>
+    </ol>
+
+    <h2>Frequently Asked Questions</h2>
+    <h3>What is the recommended thumbnail size?</h3>
+    <p>Use a 1280 × 720 pixel image with a 16:9 aspect ratio.</p>
+    <h3>Are my photos uploaded to a server?</h3>
+    <p>No. This tool processes images in your browser.</p>
+    <h3>Can I download thumbnails for free?</h3>
+    <p>Yes. You can download your design as PNG or JPG without an account.</p>
+    <h3>Can I use my thumbnail commercially?</h3>
+    <p>Use images and assets you own or are licensed to use. Create original designs rather than copying another creator's exact thumbnail.</p>
+  </section>
+</main>
+
+<footer>© 2026 MANJESH Tools · Simple Tools. Better Productivity.</footer>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const canvas = $('canvas');
+  const ctx = canvas.getContext('2d');
+  const status = $('status');
+
+  let objects = [];
+  let selectedId = null;
+  let nextId = 1;
+  let background = '#176bce';
+  let history = [];
+  let historyIndex = -1;
+  let drag = null;
+
+  function snapshot() {
+    // Preserve image objects when creating undo history.
+    return {
+      background,
+      objects: objects.map(o => ({...o}))
+    };
+  }
+
+  function saveHistory() {
+    history = history.slice(0, historyIndex + 1);
+    history.push(snapshot());
+    if (history.length > 40) history.shift();
+    historyIndex = history.length - 1;
+    updateHistory();
+  }
+
+  function updateHistory() {
+    $('undo').disabled = historyIndex <= 0;
+    $('redo').disabled = historyIndex >= history.length - 1;
+  }
+
+  function restore(index) {
+    if (index < 0 || index >= history.length) return;
+    const state = history[index];
+    background = state.background;
+    objects = state.objects.map(o => ({...o}));
+    selectedId = null;
+    historyIndex = index;
+    $('background').value = background;
+    render();
+    syncControls();
+    updateHistory();
+  }
+
+  function selected() {
+    return objects.find(o => o.id === selectedId);
+  }
+
+  function makeObject(type, props = {}) {
+    return {id: nextId++, type, x:640, y:360, size:300, ...props};
+  }
+
+  function bounds(o) {
+    if (o.type === 'text') {
+      ctx.save();
+      ctx.font = `900 ${o.fontSize}px "${o.font}"`;
+      const w = Math.min(1150, ctx.measureText(o.text || ' ').width + o.outlineWidth * 2 + 12);
+      ctx.restore();
+      return {x:o.x-w/2,y:o.y-o.fontSize/2-o.outlineWidth,w,h:o.fontSize+o.outlineWidth*2+8};
+    }
+    if (o.type === 'image' && o.image) {
+      const r = Math.min(o.size/o.image.width, o.size/o.image.height);
+      const w = o.image.width*r, h = o.image.height*r;
+      return {x:o.x-w/2,y:o.y-h/2,w,h};
+    }
+    return {x:o.x-o.size/2,y:o.y-o.size/2,w:o.size,h:o.size};
+  }
+
+  function render(showSelection = true) {
+    ctx.clearRect(0,0,1280,720);
+    ctx.fillStyle = background;
+    ctx.fillRect(0,0,1280,720);
+
+    objects.forEach(o => {
+      ctx.save();
+
+      if (o.type === 'image' && o.image) {
+        const r = Math.min(o.size/o.image.width,o.size/o.image.height);
+        const w = o.image.width*r, h = o.image.height*r;
+        ctx.drawImage(o.image,o.x-w/2,o.y-h/2,w,h);
+      }
+
+      if (o.type === 'text') {
+        ctx.font = `900 ${o.fontSize}px "${o.font}"`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.lineJoin = 'round';
+
+        if (o.shadow) {
+          ctx.shadowColor = 'rgba(0,0,0,.65)';
+          ctx.shadowBlur = 8;
+          ctx.shadowOffsetX = 5;
+          ctx.shadowOffsetY = 6;
+        }
+
+        if (o.outlineWidth > 0) {
+          ctx.strokeStyle = o.outline;
+          ctx.lineWidth = o.outlineWidth;
+          ctx.strokeText(o.text,o.x,o.y,1150);
+        }
+        ctx.fillStyle = o.color;
+        ctx.fillText(o.text,o.x,o.y,1150);
+      }
+
+      if (o.type === 'shape') {
+        ctx.fillStyle = o.color;
+        ctx.beginPath();
+        ctx.arc(o.x,o.y,o.size/2,0,Math.PI*2);
+        ctx.fill();
+      }
+
+      if (o.type === 'sticker') {
+        ctx.font = `${o.size}px Arial`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(o.text,o.x,o.y);
+      }
+
+      ctx.restore();
+
+      if (showSelection && o.id === selectedId) {
+        const b = bounds(o);
+        ctx.save();
+        ctx.strokeStyle = '#00a85a';
+        ctx.lineWidth = 3;
+        ctx.setLineDash([10,7]);
+        ctx.strokeRect(b.x,b.y,b.w,b.h);
+        ctx.restore();
+      }
+    });
+  }
+
+  function syncControls() {
+    const o = selected();
+    const isText = o && o.type === 'text';
+
+    ['textValue','font','fontSize','textColor','outlineColor','outlineWidth','shadow']
+      .forEach(id => $(id).disabled = !isText);
+
+    $('objectSize').disabled = !o;
+
+    if (isText) {
+      $('textValue').value = o.text;
+      $('font').value = o.font;
+      $('fontSize').value = o.fontSize;
+      $('textColor').value = o.color;
+      $('outlineColor').value = o.outline;
+      $('outlineWidth').value = o.outlineWidth;
+      $('shadow').value = o.shadow ? 'yes' : 'no';
+    } else {
+      $('textValue').value = '';
+    }
+
+    if (o) $('objectSize').value = Math.max(30,Math.min(1100,o.size));
+  }
+
+  function addText(text = 'YOUR BIG IDEA!') {
+    const o = makeObject('text',{
+      text,font:'Impact',fontSize:70,color:'#ffffff',
+      outline:'#111111',outlineWidth:7,shadow:true
+    });
+    objects.push(o);
+    selectedId = o.id;
+    saveHistory();
+    render();
+    syncControls();
+  }
+
+  function addImage(src) {
+    const img = new Image();
+
+    img.onload = () => {
+      const scale = Math.min(900/img.width,600/img.height,1);
+      const o = makeObject('image',{
+        image:img,x:640,y:360,
+        size:Math.max(img.width*scale,img.height*scale)
+      });
+      objects.push(o);
+      selectedId = o.id;
+      saveHistory();
+      render();
+      syncControls();
+      status.textContent = 'Photo added. Drag it to reposition.';
+    };
+
+    img.onerror = () => status.textContent = 'Could not open this image.';
+    img.src = src;
+  }
+
+  $('photo').addEventListener('change', e => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      status.textContent = 'Please select a valid image.';
+      e.target.value = '';
+      return;
+    }
+
+    if (file.size > 20*1024*1024) {
+      status.textContent = 'Choose an image smaller than 20 MB.';
+      e.target.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => addImage(reader.result);
+    reader.onerror = () => status.textContent = 'Could not read this image.';
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  });
+
+  $('addText').addEventListener('click',() => addText());
+
+  $('addPhotoShape').addEventListener('click',() => {
+    const o = makeObject('shape',{color:'#ffcc00',size:180});
+    objects.push(o);
+    selectedId = o.id;
+    saveHistory();
+    render();
+    syncControls();
+  });
+
+  $('addSticker').addEventListener('click',() => {
+    const o = makeObject('sticker',{text:'⭐',size:100});
+    objects.push(o);
+    selectedId = o.id;
+    saveHistory();
+    render();
+    syncControls();
+  });
+
+  $('textValue').addEventListener('input',() => {
+    const o = selected();
+    if (!o || o.type !== 'text') return;
+    o.text = $('textValue').value;
+    render();
+  });
+  $('textValue').addEventListener('change',saveHistory);
+
+  [
+    ['font','font','string'],
+    ['fontSize','fontSize','number'],
+    ['textColor','color','string'],
+    ['outlineColor','outline','string'],
+    ['outlineWidth','outlineWidth','number']
+  ].forEach(([id,key,type]) => {
+    $(id).addEventListener('input',() => {
+      const o = selected();
+      if (!o || o.type !== 'text') return;
+      o[key] = type === 'number' ? Number($(id).value) : $(id).value;
+      render();
+    });
+    $(id).addEventListener('change',saveHistory);
+  });
+
+  $('shadow').addEventListener('change',() => {
+    const o = selected();
+    if (!o || o.type !== 'text') return;
+    o.shadow = $('shadow').value === 'yes';
+    saveHistory();
+    render();
+  });
+
+  $('background').addEventListener('input',() => {
+    background = $('background').value;
+    render();
+  });
+  $('background').addEventListener('change',saveHistory);
+
+  $('objectSize').addEventListener('input',() => {
+    const o = selected();
+    if (!o) return;
+    o.size = Number($('objectSize').value);
+    if (o.type === 'text') {
+      o.fontSize = Math.max(12,Math.min(180,Math.round(o.size/3)));
+      $('fontSize').value = o.fontSize;
+    }
+    render();
+  });
+  $('objectSize').addEventListener('change',saveHistory);
+
+  $('front').addEventListener('click',() => {
+    const i = objects.findIndex(o => o.id === selectedId);
+    if (i < 0) return;
+    objects.push(objects.splice(i,1)[0]);
+    saveHistory();
+    render();
+  });
+
+  $('delete').addEventListener('click',() => {
+    if (!selected()) return;
+    objects = objects.filter(o => o.id !== selectedId);
+    selectedId = null;
+    saveHistory();
+    render();
+    syncControls();
+  });
+
+  $('clear').addEventListener('click',() => {
+    if (!confirm('Remove all objects from the canvas?')) return;
+    objects = [];
+    selectedId = null;
+    saveHistory();
+    render();
+    syncControls();
+  });
+
+  $('reset').addEventListener('click',() => {
+    if (!confirm('Reset the whole design?')) return;
+    objects = [];
+    selectedId = null;
+    background = '#176bce';
+    $('background').value = background;
+    saveHistory();
+    render();
+    syncControls();
+  });
+
+  $('undo').addEventListener('click',() => restore(historyIndex-1));
+  $('redo').addEventListener('click',() => restore(historyIndex+1));
+
+  const themes = {
+    gaming:{bg:'#211044',color:'#ffe600',outline:'#ff1744',text:'EPIC GAMING!'},
+    vlog:{bg:'#ffbd59',color:'#ffffff',outline:'#e44727',text:'MY NEW VLOG!'},
+    tech:{bg:'#052b3c',color:'#00f5d4',outline:'#00151f',text:'TECH EXPLAINED'},
+    education:{bg:'#124c35',color:'#ffffff',outline:'#f28c28',text:'LEARN THIS!'},
+    challenge:{bg:'#ed2638',color:'#ffe600',outline:'#171717',text:'CAN YOU DO IT?'},
+    travel:{bg:'#057b9b',color:'#ffffff',outline:'#06384b',text:'AMAZING PLACES!'}
+  };
+
+  document.querySelectorAll('[data-template]').forEach(button => {
+    button.addEventListener('click',() => {
+      const t = themes[button.dataset.template];
+      background = t.bg;
+      $('background').value = background;
+      objects = [];
+      const o = makeObject('text',{
+        text:t.text,y:560,font:'Impact',fontSize:82,
+        color:t.color,outline:t.outline,outlineWidth:10,shadow:true
+      });
+      objects.push(o);
+      selectedId = o.id;
+      saveHistory();
+      render();
+      syncControls();
+      status.textContent = 'Template loaded. Add your own photo and customize it.';
+    });
+  });
+
+  function pointerPosition(event) {
+    const r = canvas.getBoundingClientRect();
+    return {
+      x:(event.clientX-r.left)*canvas.width/r.width,
+      y:(event.clientY-r.top)*canvas.height/r.height
+    };
+  }
+
+  function hitTest(x,y) {
+    for (let i=objects.length-1;i>=0;i--) {
+      const b = bounds(objects[i]);
+      if (x>=b.x-12 && x<=b.x+b.w+12 &&
+          y>=b.y-12 && y<=b.y+b.h+12) return objects[i];
+    }
+    return null;
+  }
+
+  canvas.addEventListener('pointerdown',event => {
+    const p = pointerPosition(event);
+    const o = hitTest(p.x,p.y);
+    selectedId = o ? o.id : null;
+    drag = o ? {id:o.id,x:p.x,y:p.y,ox:o.x,oy:o.y,moved:false} : null;
+    canvas.setPointerCapture(event.pointerId);
+    render();
+    syncControls();
+  });
+
+  canvas.addEventListener('pointermove',event => {
+    if (!drag) return;
+    const p = pointerPosition(event);
+    const o = objects.find(item => item.id === drag.id);
+    if (!o) return;
+    if (Math.abs(p.x-drag.x)+Math.abs(p.y-drag.y)>2) drag.moved = true;
+    o.x = drag.ox+(p.x-drag.x);
+    o.y = drag.oy+(p.y-drag.y);
+    render();
+  });
+
+  canvas.addEventListener('pointerup',() => {
+    if (drag && drag.moved) saveHistory();
+    drag = null;
+  });
+  canvas.addEventListener('pointercancel',() => {drag=null;});
+
+  $('download').addEventListener('click',() => {
+    const format = $('format').value;
+    const mime = format === 'jpeg' ? 'image/jpeg' : 'image/png';
+
+    const output = document.createElement('canvas');
+    output.width = 1280;
+    output.height = 720;
+    const out = output.getContext('2d');
+
+    if (!out) {
+      status.textContent = 'Export failed. Please try again.';
+      return;
+    }
+
+    // Export without the green selection border.
+    const oldSelection = selectedId;
+    selectedId = null;
+    render(false);
+    out.drawImage(canvas,0,0);
+    selectedId = oldSelection;
+    render(true);
+
+    output.toBlob(blob => {
+      if (!blob) {
+        status.textContent = 'Download failed. Please try again.';
+        return;
+      }
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'manjesh-youtube-thumbnail.' + (format === 'jpeg' ? 'jpg' : 'png');
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url),1500);
+      status.textContent = 'Thumbnail downloaded: 1280 × 720 pixels.';
+    },mime,0.95);
+  });
+
+  saveHistory();
+  render();
+  syncControls();
+})();
+</script>
+</body>
+</html>
