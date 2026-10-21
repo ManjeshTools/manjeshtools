@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login | MANJESH Tools</title>
+<meta name="description" content="Sign in or create your MANJESH Tools account.">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#172033;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:white;width:100%;max-width:420px;padding:30px;border-radius:18px;box-shadow:0 8px 35px #15264b14}
+.brand{text-align:center;font-size:25px;font-weight:bold;color:#2457d6}
+h1{text-align:center;font-size:24px;margin:20px 0 8px}
+.sub{text-align:center;color:#667085;font-size:14px;margin-bottom:24px}
+label{display:block;font-size:14px;font-weight:bold;margin:15px 0 7px}
+input{width:100%;padding:13px;border:1px solid #d4dbe7;border-radius:9px;font-size:16px}
+button{width:100%;padding:13px;border:0;border-radius:9px;font-size:15px;font-weight:bold;cursor:pointer;margin-top:12px}
+.primary{background:#2457d6;color:white}
+.google{background:white;border:1px solid #d4dbe7;color:#172033}
+.secondary{background:#edf2ff;color:#2457d6}
+button:disabled{opacity:.6;cursor:wait}
+.links{display:flex;justify-content:space-between;gap:10px;margin-top:17px;font-size:14px}
+a{color:#2457d6;text-decoration:none}
+#message{text-align:center;font-size:14px;line-height:1.5;margin-top:16px;overflow-wrap:anywhere}
+#account{display:none;text-align:center}
+.home{display:inline-block;margin-top:18px}
+.small{font-size:12px;color:#667085;text-align:center;margin-top:20px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="brand">MANJESH Tools</div>
+
+  <section id="authPanel">
+    <h1 id="heading">Welcome Back</h1>
+    <p class="sub" id="subtitle">Login or create your free account</p>
+
+    <button class="google" id="googleBtn" type="button">Continue with Google</button>
+
+    <p style="text-align:center;color:#98a2b3;font-size:13px">— OR CONTINUE WITH EMAIL —</p>
+
+    <form id="authForm">
+      <label for="email">Email Address</label>
+      <input id="email" type="email" autocomplete="email"
+        placeholder="you@example.com" required>
+
+      <label for="password">Password</label>
+      <input id="password" type="password"
+        autocomplete="current-password" minlength="6"
+        placeholder="At least 6 characters" required>
+
+      <button class="primary" id="submitBtn" type="submit">Login</button>
+    </form>
+
+    <div class="links">
+      <a href="#" id="forgotBtn">Forgot password?</a>
+      <a href="#" id="toggleBtn">Create account</a>
+    </div>
+  </section>
+
+  <section id="account">
+    <h1>You're logged in!</h1>
+    <p id="userEmail"></p>
+    <button class="primary" id="logoutBtn" type="button">Logout</button>
+    <a class="home" href="./index.html">Back to MANJESH Tools</a>
+  </section>
+
+  <div id="message" role="status" aria-live="polite"></div>
+  <p class="small">Your account is managed securely by Firebase Authentication.</p>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC1JvHxkvBA9Q2ImZbTnRaUEEXD_4M7YRs",
+  authDomain: "manjesh-tools-1ee0a.firebaseapp.com",
+  projectId: "manjesh-tools-1ee0a",
+  storageBucket: "manjesh-tools-1ee0a.firebasestorage.app",
+  messagingSenderId: "177078780894",
+  appId: "1:177078780894:web:6207d7a54f6b3c2d12d34f"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
+
+const form = document.getElementById("authForm");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const message = document.getElementById("message");
+const submitBtn = document.getElementById("submitBtn");
+const authPanel = document.getElementById("authPanel");
+const accountPanel = document.getElementById("account");
+
+let isSignup = false;
+
+function showMessage(text, error = false) {
+  message.textContent = text;
+  message.style.color = error ? "#c62828" : "#16794b";
+}
+
+function friendlyError(error) {
+  const messages = {
+    "auth/email-already-in-use": "This email already has an account. Please log in.",
+    "auth/invalid-email": "Please enter a valid email address.",
+    "auth/weak-password": "Please choose a stronger password with at least 6 characters.",
+    "auth/invalid-credential": "Email or password is incorrect.",
+    "auth/popup-closed-by-user": "Google login was closed before completion.",
+    "auth/popup-blocked": "Your browser blocked the popup. Allow popups and try again.",
+    "auth/unauthorized-domain": "This website domain is not authorized in Firebase yet.",
+    "auth/operation-not-allowed": "Enable this login method in Firebase Authentication.",
+    "auth/network-request-failed": "Network error. Check your internet connection."
+  };
+  return messages[error.code] || error.message || "Something went wrong. Please try again.";
+}
+
+function setBusy(busy) {
+  submitBtn.disabled = busy;
+  document.getElementById("googleBtn").disabled = busy;
+  submitBtn.textContent = busy ? "Please wait..." : (isSignup ? "Create Account" : "Login");
+}
+
+document.getElementById("toggleBtn").addEventListener("click", (event) => {
+  event.preventDefault();
+  isSignup = !isSignup;
+  document.getElementById("heading").textContent = isSignup ? "Create Account" : "Welcome Back";
+  document.getElementById("subtitle").textContent = isSignup
+    ? "Create your MANJESH Tools account"
+    : "Login to your MANJESH Tools account";
+  document.getElementById("toggleBtn").textContent = isSignup ? "Back to login" : "Create account";
+  passwordInput.autocomplete = isSignup ? "new-password" : "current-password";
+  showMessage("");
+  setBusy(false);
+});
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  setBusy(true);
+  showMessage("");
+
+  try {
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    if (isSignup) {
+      await createUserWithEmailAndPassword(auth, email, password);
+      showMessage("Account created successfully!");
+    } else {
+      await signInWithEmailAndPassword(auth, email, password);
+      showMessage("Login successful!");
+    }
+  } catch (error) {
+    showMessage(friendlyError(error), true);
+  } finally {
+    setBusy(false);
+  }
+});
+
+document.getElementById("googleBtn").addEventListener("click", async () => {
+  setBusy(true);
+  showMessage("");
+  try {
+    await signInWithPopup(auth, googleProvider);
+    showMessage("Google login successful!");
+  } catch (error) {
+    showMessage(friendlyError(error), true);
+  } finally {
+    setBusy(false);
+  }
+});
+
+document.getElementById("forgotBtn").addEventListener("click", async (event) => {
+  event.preventDefault();
+  const email = emailInput.value.trim();
+  if (!email) {
+    showMessage("Enter your email address first, then click Forgot password.", true);
+    emailInput.focus();
+    return;
+  }
+  try {
+    await sendPasswordResetEmail(auth, email);
+    showMessage("If an account exists for this email, a password reset email will be sent.");
+  } catch (error) {
+    showMessage(friendlyError(error), true);
+  }
+});
+
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+  try {
+    await signOut(auth);
+    showMessage("You have logged out.");
+  } catch (error) {
+    showMessage(friendlyError(error), true);
+  }
+});
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    authPanel.style.display = "none";
+    accountPanel.style.display = "block";
+    document.getElementById("userEmail").textContent = user.email || "Signed in with Google";
+  } else {
+    authPanel.style.display = "block";
+    accountPanel.style.display = "none";
+  }
+});
+</script>
+</body>
+</html>
