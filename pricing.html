@@ -5,386 +5,230 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#147d45">
-
-  <title>Pricing Plans | MANJESH Tools</title>
-  <meta name="description" content="Choose a free or premium plan on MANJESH Tools. Compare monthly and yearly pricing for online tools.">
+  <title>Pricing Plans - MANJESH Tools</title>
+  <meta name="description" content="Explore MANJESH Tools free and premium plans. Choose monthly or yearly pricing for your online tools.">
   <link rel="canonical" href="https://manjeshtools.github.io/manjeshtools/pricing.html">
-
   <style>
-    :root {
-      --green: #147d45;
-      --dark: #103c27;
-      --light: #f3f8f4;
-      --text: #1b2b21;
-      --muted: #647067;
-      --border: #dce8df;
-    }
-
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--text);
-      background: var(--light);
-      line-height: 1.6;
+      font-family: Arial, sans-serif;
+      background: #f4f8f5;
+      color: #17251c;
     }
-
     header {
-      background: white;
-      border-bottom: 1px solid var(--border);
-      padding: 15px 5%;
+      background: #147d45;
+      color: white;
+      padding: 18px 5%;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      align-items: center;
       flex-wrap: wrap;
+      gap: 12px;
     }
-
-    .brand {
-      color: var(--green);
+    header a {
+      color: white;
       text-decoration: none;
-      font-weight: 800;
-      font-size: 21px;
+      margin-left: 15px;
+      font-weight: bold;
     }
-
-    nav {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: var(--text);
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    nav a:hover { color: var(--green); }
-
     .hero {
       text-align: center;
-      padding: 55px 18px 28px;
+      padding: 45px 15px 25px;
     }
-
-    .eyebrow {
-      display: inline-block;
-      color: var(--green);
-      background: #e2f3e7;
-      padding: 5px 13px;
-      border-radius: 30px;
-      font-size: 13px;
-      font-weight: bold;
-    }
-
-    h1 {
-      font-size: clamp(30px, 5vw, 46px);
-      line-height: 1.2;
-      margin: 18px 0 12px;
-    }
-
-    .hero p {
-      max-width: 620px;
-      margin: auto;
-      color: var(--muted);
-    }
-
+    .hero h1 { font-size: 34px; margin-bottom: 10px; }
+    .hero p { color: #526257; line-height: 1.6; }
     .plans {
-      max-width: 1050px;
-      margin: 20px auto 45px;
-      padding: 0 18px;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 20px;
-      align-items: stretch;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+      max-width: 1000px;
+      padding: 20px;
+      margin: auto;
     }
-
     .plan {
       background: white;
-      border: 1px solid var(--border);
+      border: 1px solid #dce8df;
       border-radius: 18px;
-      padding: 27px 23px;
-      display: flex;
-      flex-direction: column;
+      padding: 28px 22px;
+      box-shadow: 0 8px 25px rgba(0,0,0,.05);
       position: relative;
-      box-shadow: 0 8px 28px rgba(16, 60, 39, 0.04);
     }
-
     .plan.featured {
-      border: 2px solid var(--green);
-      box-shadow: 0 12px 32px rgba(20, 125, 69, 0.12);
+      border: 2px solid #147d45;
     }
-
-    .popular {
-      position: absolute;
-      top: -13px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--green);
+    .tag {
+      background: #147d45;
       color: white;
-      padding: 4px 14px;
-      border-radius: 30px;
+      border-radius: 20px;
+      padding: 6px 12px;
       font-size: 12px;
-      font-weight: bold;
-      white-space: nowrap;
+      display: inline-block;
     }
-
-    .plan h2 {
-      font-size: 21px;
-      margin: 4px 0;
-    }
-
-    .description {
-      color: var(--muted);
-      min-height: 44px;
-      font-size: 14px;
-    }
-
     .price {
-      font-size: 37px;
-      font-weight: 800;
-      margin: 15px 0 0;
-      letter-spacing: -1px;
-    }
-
-    .period {
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: normal;
-      letter-spacing: 0;
-    }
-
-    .billing-note {
-      color: var(--muted);
-      font-size: 12px;
-      min-height: 20px;
-      margin: 3px 0 17px;
-    }
-
-    .plan hr {
-      border: 0;
-      border-top: 1px solid var(--border);
-      width: 100%;
-      margin: 0 0 17px;
-    }
-
-    .features {
-      list-style: none;
-      margin: 0 0 24px;
-      padding: 0;
-      flex: 1;
-    }
-
-    .features li {
-      padding: 7px 0;
-      font-size: 14px;
-    }
-
-    .features li::before {
-      content: "✓";
-      color: var(--green);
+      font-size: 38px;
       font-weight: bold;
-      margin-right: 9px;
+      color: #147d45;
+      margin: 20px 0 5px;
     }
-
+    .price small {
+      font-size: 15px;
+      color: #647268;
+      font-weight: normal;
+    }
+    .saving { color: #147d45; font-weight: bold; }
+    ul { padding-left: 20px; line-height: 2; }
     .btn {
       display: block;
       width: 100%;
+      padding: 13px;
       text-align: center;
-      border: 1px solid var(--green);
+      border: none;
       border-radius: 9px;
-      padding: 12px 14px;
-      background: var(--green);
+      background: #147d45;
       color: white;
-      text-decoration: none;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: bold;
+      text-decoration: none;
       cursor: pointer;
+      margin-top: 22px;
     }
-
     .btn.secondary {
-      color: var(--green);
-      background: white;
+      background: #e7f3eb;
+      color: #147d45;
     }
-
-    .btn:hover { filter: brightness(0.95); }
-
-    .notice {
-      max-width: 820px;
-      margin: 0 auto 45px;
-      padding: 0 20px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .faq {
-      max-width: 760px;
-      margin: 0 auto 50px;
-      padding: 0 20px;
-    }
-
-    .faq h2 { text-align: center; }
-
-    details {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 15px;
-      margin: 10px 0;
-    }
-
-    summary { cursor: pointer; font-weight: bold; }
-
-    details p {
-      color: var(--muted);
+    .note {
+      max-width: 850px;
+      margin: 10px auto 35px;
+      padding: 18px;
+      line-height: 1.7;
+      color: #526257;
       font-size: 14px;
     }
-
-    footer {
+    .faq {
+      max-width: 850px;
+      margin: 20px auto 45px;
+      padding: 0 20px;
+    }
+    .faq details {
       background: white;
-      border-top: 1px solid var(--border);
+      border: 1px solid #dce8df;
+      padding: 16px;
+      margin: 10px 0;
+      border-radius: 10px;
+    }
+    footer {
+      background: #102c1c;
+      color: white;
       text-align: center;
       padding: 25px 15px;
-      color: var(--muted);
-      font-size: 13px;
     }
-
-    footer a {
-      color: var(--green);
-      text-decoration: none;
-      margin: 0 8px;
-    }
-
-    @media (max-width: 760px) {
-      .plans {
-        grid-template-columns: 1fr;
-        max-width: 440px;
-        gap: 24px;
-      }
-
-      .hero { padding-top: 38px; }
-      header { justify-content: center; }
-      nav { justify-content: center; }
-      .plan.featured { margin-top: 5px; }
-    }
+    footer a { color: white; }
   </style>
 </head>
-
 <body>
-  <header>
-    <a class="brand" href="/manjeshtools/">MANJESH Tools</a>
-    <nav aria-label="Main navigation">
-      <a href="/manjeshtools/">Home</a>
-      <a href="/manjeshtools/#tools">Tools</a>
-      <a href="/manjeshtools/login.html">Login</a>
-      <a href="/manjeshtools/pricing.html">Pricing</a>
-    </nav>
-  </header>
 
-  <main>
-    <section class="hero">
-      <span class="eyebrow">SIMPLE & TRANSPARENT</span>
-      <h1>Choose the Right Plan for You</h1>
-      <p>Start for free and upgrade when you need more from MANJESH Tools.</p>
-    </section>
-
-    <section class="plans" aria-label="Pricing plans">
-      <article class="plan">
-        <h2>Free Plan</h2>
-        <p class="description">For everyday tasks and new users.</p>
-        <div class="price">₹0</div>
-        <p class="billing-note">Free to use</p>
-        <hr>
-        <ul class="features">
-          <li>Access to available free tools</li>
-          <li>Suggested limit: 20 uses per tool daily</li>
-          <li>Standard tool features</li>
-          <li>Advertisements may be displayed</li>
-        </ul>
-        <a class="btn secondary" href="/manjeshtools/">Start for Free</a>
-      </article>
-
-      <article class="plan featured">
-        <span class="popular">POPULAR PLAN</span>
-        <h2>Premium Monthly</h2>
-        <p class="description">For users who need more flexibility.</p>
-        <div class="price">₹99 <span class="period">/ month</span></div>
-        <p class="billing-note">₹99 per month</p>
-        <hr>
-        <ul class="features">
-          <li>Access to available tools</li>
-          <li>Suggested limit: 200 uses per tool daily</li>
-          <li>Premium features where available</li>
-          <li>Ad-free experience on this website</li>
-          <li>Premium access while subscription is active</li>
-        </ul>
-        <button class="btn" type="button" onclick="showPaymentNotice()">Choose Monthly</button>
-      </article>
-
-      <article class="plan">
-        <h2>Premium Yearly</h2>
-        <p class="description">For regular users who want yearly savings.</p>
-        <div class="price">₹499 <span class="period">/ year</span></div>
-        <p class="billing-note">About ₹41.58 per month</p>
-        <hr>
-        <ul class="features">
-          <li>Access to available tools</li>
-          <li>Suggested limit: 200 uses per tool daily</li>
-          <li>Premium features where available</li>
-          <li>Ad-free experience on this website</li>
-          <li>Premium access for one year</li>
-        </ul>
-        <button class="btn" type="button" onclick="showPaymentNotice()">Choose Yearly</button>
-      </article>
-    </section>
-
-    <p class="notice">
-      Usage limits are proposed and will apply only after the required
-      account and backend systems are implemented. Paid plans are not
-      available for purchase yet. Payment is not collected on this page.
-    </p>
-
-    <section class="faq">
-      <h2>Frequently Asked Questions</h2>
-
-      <details>
-        <summary>Can I use MANJESH Tools for free?</summary>
-        <p>Yes. You can start with the Free Plan and use the tools available on the website.</p>
-      </details>
-
-      <details>
-        <summary>How will Premium payment work?</summary>
-        <p>Online payment will be enabled after secure payment verification and membership activation are configured.</p>
-      </details>
-
-      <details>
-        <summary>Will Premium users see advertisements?</summary>
-        <p>The planned Premium benefit is an ad-free experience on this website. This will be activated after membership verification and the advertising setup are implemented.</p>
-      </details>
-
-      <details>
-        <summary>Can I cancel my subscription?</summary>
-        <p>Subscription and cancellation options will be provided when the payment system is available.</p>
-      </details>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2026 MANJESH Tools. All rights reserved.</p>
+<header>
+  <strong>MANJESH Tools</strong>
+  <nav>
     <a href="/manjeshtools/">Home</a>
     <a href="/manjeshtools/login.html">Login</a>
-    <a href="/manjeshtools/#contact">Contact</a>
-  </footer>
+  </nav>
+</header>
 
-  <script>
-    function showPaymentNotice() {
-      alert(
-        "Premium payments are not enabled yet. " +
-        "Please check back soon. No payment has been taken."
-      );
-    }
-  </script>
+<section class="hero">
+  <h1>Simple & Affordable Pricing</h1>
+  <p>Choose a plan that works for you.</p>
+  <p>Start for free and upgrade whenever you need.</p>
+</section>
+
+<section class="plans">
+
+  <article class="plan">
+    <h2>Free</h2>
+    <p>Try our online tools for free.</p>
+    <div class="price">₹0 <small>/ forever</small></div>
+    <ul>
+      <li>Access to available free tools</li>
+      <li>Basic features</li>
+      <li>Ads may be displayed</li>
+    </ul>
+    <a class="btn secondary" href="/manjeshtools/">Use Free Tools</a>
+  </article>
+
+  <article class="plan">
+    <h2>Monthly Premium</h2>
+    <p>Flexible monthly plan.</p>
+    <div class="price">₹99 <small>/ month</small></div>
+    <ul>
+      <li>Premium plan access</li>
+      <li>Convenient monthly payment</li>
+      <li>Premium benefits as introduced</li>
+    </ul>
+    <button class="btn" onclick="paymentNotice()">Choose Monthly</button>
+  </article>
+
+  <article class="plan featured">
+    <span class="tag">BEST VALUE</span>
+    <h2>Yearly Premium</h2>
+    <p>Save more with an annual plan.</p>
+    <div class="price">₹799 <small>/ year</small></div>
+    <p class="saving">Save ₹389 per year!</p>
+    <ul>
+      <li>Premium plan access</li>
+      <li>One annual payment</li>
+      <li>Premium benefits as introduced</li>
+    </ul>
+    <button class="btn" onclick="paymentNotice()">Choose Yearly</button>
+  </article>
+
+</section>
+
+<div class="note">
+  <strong>Important:</strong> Premium payments are not enabled yet.
+  The monthly and yearly buttons currently display an information message.
+  Do not make a payment until an official, secure payment system is connected.
+  Premium access and usage limits must be implemented separately.
+</div>
+
+<section class="faq">
+  <h2>Frequently Asked Questions</h2>
+
+  <details>
+    <summary>Can I use MANJESH Tools for free?</summary>
+    <p>Yes. You can start with the tools and features available in the free plan.</p>
+  </details>
+
+  <details>
+    <summary>What is the monthly Premium price?</summary>
+    <p>The listed monthly Premium price is ₹99.</p>
+  </details>
+
+  <details>
+    <summary>What is the yearly Premium price?</summary>
+    <p>The listed yearly Premium price is ₹799. Compared with twelve monthly payments of ₹99, you save ₹389.</p>
+  </details>
+
+  <details>
+    <summary>Can I pay online right now?</summary>
+    <p>Online payments have not been activated yet. Payment options will be available after secure payment integration.</p>
+  </details>
+</section>
+
+<footer>
+  <p>© 2026 MANJESH Tools. All rights reserved.</p>
+  <p><a href="/manjeshtools/">Home</a> |
+     <a href="/manjeshtools/login.html">Login</a></p>
+</footer>
+
+<script>
+  function paymentNotice() {
+    alert(
+      "Thank you for choosing MANJESH Tools Premium! " +
+      "Online payments are not enabled yet. Please check back later."
+    );
+  }
+</script>
+
 </body>
 </html>
