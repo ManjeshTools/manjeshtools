@@ -3,653 +3,558 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>YouTube Thumbnail Maker Online Free | MANJESH Tools</title>
-<meta name="description" content="Create YouTube thumbnails online for free with MANJESH Tools. Upload photos, add bold text, colors, shapes and stickers, and download PNG or JPG thumbnails.">
-<meta name="robots" content="index, follow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free AI-Style YouTube Thumbnail Maker Online | MANJESH Tools</title>
+<meta name="description" content="Create professional YouTube thumbnails online for free. Upload your photo, enter your video title and generate an attractive 1280x720 thumbnail automatically.">
+<meta name="robots" content="index,follow">
 <link rel="canonical" href="https://manjeshtools.github.io/manjeshtools/tools/youtube-thumbnail-maker.html">
-<meta name="theme-color" content="#176b43">
-
+<meta name="theme-color" content="#101a16">
 <style>
+:root{--green:#147d4b;--orange:#ff9e35;--dark:#101a16;--muted:#647067;--border:#e2e8e4}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f6f8f7;color:#183c2b}
-header{background:#fff;padding:16px 5%;border-bottom:1px solid #e3eae5;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.brand{font-size:21px;font-weight:800;color:#176b43}
-.brand span{color:#f28c28}
-a{color:#176b43;text-decoration:none;font-weight:700}
-main{max-width:1200px;margin:25px auto;padding:0 14px}
-h1{font-size:clamp(25px,4vw,35px);margin:0 0 10px}
-.muted,.hint{color:#65776b;line-height:1.6}
-.editor{display:grid;grid-template-columns:310px minmax(0,1fr);gap:16px;align-items:start}
-.panel,.stage,.info{background:white;border:1px solid #e0e9e2;border-radius:15px;padding:16px;min-width:0}
-.panel{display:grid;gap:10px}
-label{display:block;font-weight:700;font-size:13px;margin-bottom:5px}
-input,select,button{font:inherit}
-input[type=text],input[type=number],select{width:100%;padding:10px;border:1px solid #cbd8ce;border-radius:8px;background:white;color:#183c2b}
-input[type=color]{width:100%;height:38px;border:0;background:white}
-input[type=range]{width:100%;accent-color:#176b43}
-button{padding:10px;border:0;border-radius:8px;background:#176b43;color:white;font-weight:700;cursor:pointer}
-button:disabled{opacity:.45;cursor:not-allowed}
-.orange{background:#f28c28;color:#222}
-.light{background:#edf4ef;color:#176b43}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.templates{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-hr{border:0;border-top:1px solid #e5ece6;width:100%;margin:5px 0}
-.stagebar{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.canvaswrap{background:#e9eeea;border-radius:9px;padding:6px}
-canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;background:white;touch-action:none}
-.hint{font-size:12px}
-#status{font-size:13px;color:#176b43;overflow-wrap:anywhere;min-height:18px}
-.info{margin-top:20px;line-height:1.6}
-footer{text-align:center;padding:24px;color:#65776b;font-size:14px}
-@media(max-width:760px){
- .editor{grid-template-columns:1fr}
- .stage{order:1}
- .panel{order:2}
- main{margin-top:18px}
-}
+body{margin:0;background:#f4f7f5;color:#18221c;font-family:Arial,Helvetica,sans-serif}
+header{background:var(--dark);color:white;padding:17px 16px}
+.header-inner{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-size:21px;font-weight:900;letter-spacing:-.5px}
+.logo span{color:var(--orange)}
+.tag{font-size:12px;color:#c9d8cf}
+main{max-width:1100px;margin:28px auto;padding:0 16px 40px}
+.hero{text-align:center;margin-bottom:25px}
+.pill{display:inline-block;background:#e2f5e9;color:#14653d;border-radius:30px;padding:7px 12px;font-size:12px;font-weight:800}
+h1{font-size:clamp(27px,5vw,42px);line-height:1.12;margin:14px 0 10px;letter-spacing:-1px}
+.hero p{color:#647067;line-height:1.6;max-width:620px;margin:0 auto}
+.layout{display:grid;grid-template-columns:minmax(0, .9fr) minmax(0,1.1fr);gap:20px;align-items:start}
+.panel{background:white;border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 6px 24px #10271a08}
+.panel h2{font-size:18px;margin:0 0 17px}
+.field{margin-bottom:17px}
+label{display:block;font-size:13px;font-weight:800;margin-bottom:8px}
+input,select,textarea{width:100%;border:1px solid #d5ded8;border-radius:10px;padding:12px;font-size:15px;background:#fff;color:#18221c;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px #147d4b17}
+.upload{border:2px dashed #b7c9bd;border-radius:13px;padding:22px 12px;text-align:center;background:#f8fbf9;cursor:pointer}
+.upload:hover{border-color:var(--green);background:#f0faf4}
+.upload strong{display:block;margin:7px 0}
+.upload small{color:#6a786f}
+.upload-icon{font-size:30px}
+#photoInput{display:none}
+.hint{font-size:12px;color:#6a786f;line-height:1.5;margin-top:7px}
+button{border:0;border-radius:11px;padding:13px 16px;font-size:14px;font-weight:800;cursor:pointer;transition:transform .15s,opacity .15s}
+button:hover{transform:translateY(-1px)}
+button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.primary{width:100%;background:var(--green);color:white;font-size:16px;padding:16px}
+.secondary{background:#edf3ef;color:#20372a}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:11px}
+.preview-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}
+.preview-top h2{margin:0}
+.size-label{font-size:11px;background:#edf3ef;border-radius:20px;padding:6px 9px;color:#526157;font-weight:800}
+.canvas-wrap{width:100%;aspect-ratio:16/9;background:#111b16;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+canvas{display:block;width:100%;height:100%;object-fit:contain}
+.status{font-size:13px;color:#56665b;line-height:1.5;margin:12px 0 0;min-height:20px}
+.status.error{color:#b42318}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.feature{border:1px solid var(--border);border-radius:12px;padding:13px 9px;text-align:center;background:#fff}
+.feature b{display:block;font-size:13px;margin:6px 0}
+.feature span{font-size:11px;color:#657168;line-height:1.4}
+.faq{margin-top:26px;background:white;border:1px solid var(--border);border-radius:16px;padding:20px}
+.faq h2{margin-top:0}
+details{border-top:1px solid var(--border);padding:13px 0}
+summary{font-weight:800;cursor:pointer;font-size:14px}
+details p{color:#647067;line-height:1.6;font-size:14px}
+footer{text-align:center;color:#738078;padding:22px;font-size:12px}
+@media(max-width:760px){main{margin-top:20px}.layout{grid-template-columns:1fr}.panel{padding:16px}.preview-panel{order:-1}.features{gap:7px}.feature{padding:10px 5px}.feature span{font-size:10px}}
 </style>
 </head>
-
 <body>
 <header>
-  <div class="brand">MANJESH <span>Tools</span></div>
-  <a href="../index.html">← All Tools</a>
+  <div class="header-inner">
+    <div class="logo">MANJESH <span>Tools</span></div>
+    <div class="tag">Free Creator Studio</div>
+  </div>
 </header>
 
 <main>
-  <h1>YouTube Thumbnail Maker Studio</h1>
-  <p class="muted">Create colorful, high-contrast and original YouTube thumbnails for free.</p>
+  <section class="hero">
+    <span class="pill">FREE THUMBNAIL GENERATOR</span>
+    <h1>Create a Professional<br>YouTube Thumbnail</h1>
+    <p>Upload your photo, enter your video title, and let our tool design an eye-catching thumbnail for you automatically.</p>
+  </section>
 
-  <div class="editor">
+  <div class="layout">
     <section class="panel">
-      <h3 style="margin:0">Design Tools</h3>
+      <h2>Make Your Thumbnail</h2>
 
-      <div>
-        <label for="photo">Upload Photo</label>
-        <input id="photo" type="file" accept="image/*">
+      <div class="field">
+        <label for="photoInput">1. Upload Your Photo *</label>
+        <label class="upload" for="photoInput">
+          <span class="upload-icon">📸</span>
+          <strong id="uploadLabel">Tap to upload your photo</strong>
+          <small>JPG, PNG or WebP · Max 15 MB</small>
+        </label>
+        <input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp">
+        <div class="hint">A clear portrait works best. Your photo is processed in your browser.</div>
       </div>
 
-      <div class="row">
-        <button id="addText">+ Add Text</button>
-        <button id="addPhotoShape" class="orange">+ Circle</button>
-      </div>
-      <button id="addSticker" class="light">Add Sticker ⭐</button>
-
-      <hr>
-
-      <div>
-        <label for="textValue">Text Content</label>
-        <input id="textValue" type="text" maxlength="100" placeholder="Select or add text">
+      <div class="field">
+        <label for="titleInput">2. Your Video Title *</label>
+        <textarea id="titleInput" rows="3" maxlength="100" placeholder="Example: 5 Ways to Make Money Online"></textarea>
+        <div class="hint"><span id="titleCount">0</span>/100 characters. Use a short, exciting title for best results.</div>
       </div>
 
-      <div class="row">
-        <div>
-          <label for="font">Font</label>
-          <select id="font">
-            <option>Arial</option>
-            <option>Impact</option>
-            <option>Verdana</option>
-            <option>Georgia</option>
-            <option>Trebuchet MS</option>
-          </select>
-        </div>
-        <div>
-          <label for="fontSize">Text Size</label>
-          <input id="fontSize" type="number" min="12" max="180" value="70">
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label for="textColor">Text Color</label>
-          <input id="textColor" type="color" value="#ffffff">
-        </div>
-        <div>
-          <label for="outlineColor">Outline Color</label>
-          <input id="outlineColor" type="color" value="#111111">
-        </div>
-      </div>
-
-      <div>
-        <label for="outlineWidth">Outline Thickness</label>
-        <input id="outlineWidth" type="range" min="0" max="18" value="7">
-      </div>
-
-      <div>
-        <label for="shadow">Text Shadow</label>
-        <select id="shadow">
-          <option value="yes">On</option>
-          <option value="no">Off</option>
+      <div class="field">
+        <label for="styleInput">3. Thumbnail Style</label>
+        <select id="styleInput">
+          <option value="auto">✨ Auto — Choose the Best Design</option>
+          <option value="gaming">🎮 Gaming</option>
+          <option value="vlog">🎥 Vlog & Lifestyle</option>
+          <option value="tech">💻 Technology</option>
+          <option value="education">📚 Education & Tutorial</option>
+          <option value="challenge">🔥 Challenge & Entertainment</option>
+          <option value="travel">🌍 Travel & Adventure</option>
         </select>
+        <div class="hint">Don't know which to choose? Keep Auto selected.</div>
       </div>
 
-      <hr>
-
-      <div>
-        <label for="background">Background Color</label>
-        <input id="background" type="color" value="#176bce">
+      <button class="primary" id="generateBtn">✨ Create Thumbnail</button>
+      <div class="actions">
+        <button class="secondary" id="randomBtn">↻ Try Another Design</button>
+        <button class="secondary" id="resetBtn">Reset</button>
       </div>
-
-      <div>
-        <label for="objectSize">Selected Object Size</label>
-        <input id="objectSize" type="range" min="30" max="1100" value="300">
-      </div>
-
-      <div class="row">
-        <button id="front" class="light">Bring to Front</button>
-        <button id="delete" class="light">Delete Object</button>
-      </div>
-
-      <hr>
-      <strong>Quick Templates</strong>
-      <div class="templates">
-        <button data-template="gaming">🎮 Gaming</button>
-        <button data-template="vlog" class="orange">📸 Vlog</button>
-        <button data-template="tech" class="light">💻 Tech</button>
-        <button data-template="education" class="light">📚 Education</button>
-        <button data-template="challenge" class="orange">🔥 Challenge</button>
-        <button data-template="travel" class="light">🌍 Travel</button>
-      </div>
-
-      <hr>
-      <div class="row">
-        <button id="undo" class="light" disabled>↶ Undo</button>
-        <button id="redo" class="light" disabled>↷ Redo</button>
-      </div>
-      <div class="row">
-        <button id="clear" class="light">Clear Objects</button>
-        <button id="reset" class="light">Reset Design</button>
-      </div>
-
-      <hr>
-      <div>
-        <label for="format">Download Format</label>
-        <select id="format">
-          <option value="png">PNG - High Quality</option>
-          <option value="jpeg">JPG - Smaller File</option>
-        </select>
-      </div>
-      <button id="download" class="orange">Download Thumbnail</button>
-      <div id="status" aria-live="polite"></div>
+      <p class="hint">No account or paid API required. This version creates designs locally in your browser.</p>
     </section>
 
-    <section class="stage">
-      <div class="stagebar">
-        <strong>Live Preview</strong>
-        <span class="hint">1280 × 720 · 16:9</span>
+    <section class="panel preview-panel">
+      <div class="preview-top">
+        <h2>Your Thumbnail</h2>
+        <span class="size-label">1280 × 720</span>
       </div>
-      <div class="canvaswrap">
-        <canvas id="canvas" width="1280" height="720"></canvas>
+      <div class="canvas-wrap">
+        <canvas id="canvas" width="1280" height="720" aria-label="Generated thumbnail preview"></canvas>
       </div>
-      <p class="hint">Tap an object to select it. Drag it to move it. Use the size slider to resize it.</p>
+      <p class="status" id="status" role="status" aria-live="polite">Upload a photo and enter a title to get started.</p>
+      <div class="actions">
+        <button class="primary" id="pngBtn" disabled>Download PNG</button>
+        <button class="secondary" id="jpgBtn" disabled>Download JPG</button>
+      </div>
+      <div class="features">
+        <div class="feature"><span>📐</span><b>HD Quality</b><span>1280 × 720 pixels</span></div>
+        <div class="feature"><span>🎨</span><b>Auto Design</b><span>Colors and layout</span></div>
+        <div class="feature"><span>🔒</span><b>Private</b><span>Local photo processing</span></div>
+      </div>
     </section>
   </div>
 
-  <section class="info">
-    <h2>How to Make a YouTube Thumbnail</h2>
-    <ol>
-      <li>Choose a template or change the background color.</li>
-      <li>Upload your photo and move it into position.</li>
-      <li>Add text, adjust its font, color, outline and shadow.</li>
-      <li>Download your thumbnail as PNG or JPG.</li>
-    </ol>
-
+  <section class="faq">
     <h2>Frequently Asked Questions</h2>
-    <h3>What is the recommended thumbnail size?</h3>
-    <p>Use a 1280 × 720 pixel image with a 16:9 aspect ratio.</p>
-    <h3>Are my photos uploaded to a server?</h3>
-    <p>No. This tool processes images in your browser.</p>
-    <h3>Can I download thumbnails for free?</h3>
-    <p>Yes. You can download your design as PNG or JPG without an account.</p>
-    <h3>Can I use my thumbnail commercially?</h3>
-    <p>Use images and assets you own or are licensed to use. Create original designs rather than copying another creator's exact thumbnail.</p>
+    <details>
+      <summary>How do I create a YouTube thumbnail?</summary>
+      <p>Upload a photo, enter your video title, choose Auto or a style, and tap Create Thumbnail. Download your result as PNG or JPG.</p>
+    </details>
+    <details>
+      <summary>Is this thumbnail maker free?</summary>
+      <p>Yes. This browser-based version is free to use and does not require an account or paid API.</p>
+    </details>
+    <details>
+      <summary>What size is the downloaded thumbnail?</summary>
+      <p>The image is exported at 1280 × 720 pixels, with a 16:9 aspect ratio suitable for YouTube thumbnails.</p>
+    </details>
+    <details>
+      <summary>Is my photo uploaded to a server?</summary>
+      <p>No. This version processes your photo locally in your browser. The image is not sent to our server by this tool.</p>
+    </details>
+    <details>
+      <summary>Does this tool use AI to remove backgrounds?</summary>
+      <p>No. The current version automatically arranges your photo, text, colors and graphic effects. AI background removal and generative image features are not included.</p>
+    </details>
   </section>
 </main>
 
-<footer>© 2026 MANJESH Tools · Simple Tools. Better Productivity.</footer>
+<footer>© <span id="year"></span> MANJESH Tools · Free online creator tools</footer>
 
 <script>
-(() => {
-  const $ = id => document.getElementById(id);
-  const canvas = $('canvas');
-  const ctx = canvas.getContext('2d');
-  const status = $('status');
+(function(){
+"use strict";
 
-  let objects = [];
-  let selectedId = null;
-  let nextId = 1;
-  let background = '#176bce';
-  let history = [];
-  let historyIndex = -1;
-  let drag = null;
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const photoInput = document.getElementById("photoInput");
+const titleInput = document.getElementById("titleInput");
+const styleInput = document.getElementById("styleInput");
+const generateBtn = document.getElementById("generateBtn");
+const pngBtn = document.getElementById("pngBtn");
+const jpgBtn = document.getElementById("jpgBtn");
+const statusEl = document.getElementById("status");
+const uploadLabel = document.getElementById("uploadLabel");
+const titleCount = document.getElementById("titleCount");
 
-  function snapshot() {
-    // Preserve image objects when creating undo history.
-    return {
-      background,
-      objects: objects.map(o => ({...o}))
-    };
+const W = 1280, H = 720;
+let photo = null;
+let currentStyle = "auto";
+let variation = 0;
+let ready = false;
+
+const themes = {
+  auto: [
+    {a:"#ffcf33",b:"#ff5c35",c:"#111827",tag:"NEW VIDEO"},
+    {a:"#37f5a5",b:"#1685ff",c:"#101526",tag:"MUST WATCH"},
+    {a:"#fff04b",b:"#ff357c",c:"#191327",tag:"WATCH NOW"},
+    {a:"#8c5bff",b:"#ff4e76",c:"#101426",tag:"EXCLUSIVE"}
+  ],
+  gaming:{a:"#b5ff35",b:"#8b36ff",c:"#100c25",tag:"GAMING"},
+  vlog:{a:"#ffb34f",b:"#ff526d",c:"#24152a",tag:"MY VLOG"},
+  tech:{a:"#30e7ff",b:"#345bff",c:"#07182a",tag:"TECH UPDATE"},
+  education:{a:"#ffdb57",b:"#ff8c32",c:"#152b3d",tag:"LEARN THIS"},
+  challenge:{a:"#ffed36",b:"#ff3c35",c:"#210f18",tag:"CHALLENGE"},
+  travel:{a:"#65f2c3",b:"#2189ff",c:"#0b2431",tag:"TRAVEL"}
+};
+
+function setStatus(message, error){
+  statusEl.textContent = message;
+  statusEl.classList.toggle("error", !!error);
+}
+
+function roundedRect(x,y,w,h,r){
+  ctx.beginPath();
+  ctx.roundRect(x,y,w,h,r);
+}
+
+function drawBackground(theme){
+  const g = ctx.createLinearGradient(0,0,W,H);
+  g.addColorStop(0,theme.c);
+  g.addColorStop(1,"#080b12");
+  ctx.fillStyle=g;
+  ctx.fillRect(0,0,W,H);
+
+  const glow=ctx.createRadialGradient(990,270,20,990,270,650);
+  glow.addColorStop(0,theme.b+"99");
+  glow.addColorStop(1,theme.b+"00");
+  ctx.fillStyle=glow;
+  ctx.fillRect(0,0,W,H);
+
+  ctx.save();
+  ctx.globalAlpha=.12;
+  ctx.strokeStyle="#ffffff";
+  ctx.lineWidth=2;
+  for(let x=0;x<W;x+=48){
+    ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();
   }
-
-  function saveHistory() {
-    history = history.slice(0, historyIndex + 1);
-    history.push(snapshot());
-    if (history.length > 40) history.shift();
-    historyIndex = history.length - 1;
-    updateHistory();
+  for(let y=0;y<H;y+=48){
+    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();
   }
+  ctx.restore();
 
-  function updateHistory() {
-    $('undo').disabled = historyIndex <= 0;
-    $('redo').disabled = historyIndex >= history.length - 1;
-  }
+  ctx.fillStyle=theme.a;
+  ctx.beginPath();
+  ctx.moveTo(0,0);ctx.lineTo(25,0);ctx.lineTo(0,160);ctx.closePath();ctx.fill();
+  ctx.fillRect(0,H-14,W,14);
+  ctx.fillStyle=theme.b;
+  ctx.fillRect(0,H-14,W*.58,14);
 
-  function restore(index) {
-    if (index < 0 || index >= history.length) return;
-    const state = history[index];
-    background = state.background;
-    objects = state.objects.map(o => ({...o}));
-    selectedId = null;
-    historyIndex = index;
-    $('background').value = background;
-    render();
-    syncControls();
-    updateHistory();
-  }
+  ctx.save();
+  ctx.globalAlpha=.18;
+  ctx.fillStyle=theme.a;
+  ctx.beginPath();
+  ctx.arc(1070,365,340,0,Math.PI*2);
+  ctx.fill();
+  ctx.restore();
+}
 
-  function selected() {
-    return objects.find(o => o.id === selectedId);
-  }
+function drawPhoto(theme){
+  if(!photo)return;
 
-  function makeObject(type, props = {}) {
-    return {id: nextId++, type, x:640, y:360, size:300, ...props};
-  }
+  const box={x:650,y:45,w:590,h:625};
+  const scale=Math.max(box.w/photo.width,box.h/photo.height);
+  const sw=photo.width*scale, sh=photo.height*scale;
+  const sx=(sw-box.w)/2, sy=(sh-box.h)/2;
 
-  function bounds(o) {
-    if (o.type === 'text') {
-      ctx.save();
-      ctx.font = `900 ${o.fontSize}px "${o.font}"`;
-      const w = Math.min(1150, ctx.measureText(o.text || ' ').width + o.outlineWidth * 2 + 12);
-      ctx.restore();
-      return {x:o.x-w/2,y:o.y-o.fontSize/2-o.outlineWidth,w,h:o.fontSize+o.outlineWidth*2+8};
+  ctx.save();
+  ctx.shadowColor=theme.a;
+  ctx.shadowBlur=30;
+  ctx.fillStyle=theme.a;
+  roundedRect(box.x-8,box.y-8,box.w+16,box.h+16,30);
+  ctx.fill();
+  ctx.restore();
+
+  ctx.save();
+  roundedRect(box.x,box.y,box.w,box.h,24);
+  ctx.clip();
+  ctx.drawImage(photo, -sx+box.x, -sy+box.y, sw, sh);
+
+  const overlay=ctx.createLinearGradient(box.x,box.y,box.x+box.w,box.y);
+  overlay.addColorStop(0,"#080b12aa");
+  overlay.addColorStop(.25,"#080b1230");
+  overlay.addColorStop(1,"#080b1200");
+  ctx.fillStyle=overlay;
+  ctx.fillRect(box.x,box.y,box.w,box.h);
+  ctx.restore();
+
+  ctx.strokeStyle="#ffffff";
+  ctx.lineWidth=5;
+  roundedRect(box.x,box.y,box.w,box.h,24);
+  ctx.stroke();
+
+  ctx.save();
+  ctx.translate(1145,80);
+  ctx.rotate(.12);
+  ctx.fillStyle=theme.a;
+  roundedRect(-95,-24,190,48,8);
+  ctx.fill();
+  ctx.fillStyle=theme.c;
+  ctx.font="900 21px Arial";
+  ctx.textAlign="center";
+  ctx.textBaseline="middle";
+  ctx.fillText("NEW VIDEO",0,1);
+  ctx.restore();
+}
+
+function wrapLines(text,maxWidth,font){
+  ctx.font=font;
+  const words=text.trim().split(/\s+/).filter(Boolean);
+  const lines=[];
+  let line="";
+  for(const word of words){
+    const test=line?line+" "+word:word;
+    if(ctx.measureText(test).width>maxWidth && line){
+      lines.push(line);
+      line=word;
+    }else{
+      line=test;
     }
-    if (o.type === 'image' && o.image) {
-      const r = Math.min(o.size/o.image.width, o.size/o.image.height);
-      const w = o.image.width*r, h = o.image.height*r;
-      return {x:o.x-w/2,y:o.y-h/2,w,h};
-    }
-    return {x:o.x-o.size/2,y:o.y-o.size/2,w:o.size,h:o.size};
+  }
+  if(line)lines.push(line);
+  return lines;
+}
+
+function drawTitle(title,theme){
+  const clean=title.trim() || "YOUR AMAZING VIDEO";
+  const maxWidth=610;
+  let fontSize=92;
+  let lines=[];
+
+  while(fontSize>=43){
+    const font="900 "+fontSize+"px Arial";
+    lines=wrapLines(clean,maxWidth,font);
+    if(lines.length<=4 && lines.every(line=>{
+      ctx.font=font;return ctx.measureText(line).width<=maxWidth;
+    }))break;
+    fontSize-=5;
   }
 
-  function render(showSelection = true) {
-    ctx.clearRect(0,0,1280,720);
-    ctx.fillStyle = background;
-    ctx.fillRect(0,0,1280,720);
+  ctx.save();
+  ctx.textAlign="left";
+  ctx.textBaseline="middle";
+  ctx.lineJoin="round";
+  ctx.font="900 "+fontSize+"px Arial";
 
-    objects.forEach(o => {
-      ctx.save();
+  const lineHeight=fontSize*1.12;
+  const totalHeight=lines.length*lineHeight;
+  let y=H/2-totalHeight/2+lineHeight/2-8;
 
-      if (o.type === 'image' && o.image) {
-        const r = Math.min(o.size/o.image.width,o.size/o.image.height);
-        const w = o.image.width*r, h = o.image.height*r;
-        ctx.drawImage(o.image,o.x-w/2,o.y-h/2,w,h);
-      }
+  lines.forEach((line,index)=>{
+    const color=index===0?theme.a:"#ffffff";
+    ctx.shadowColor="#000000";
+    ctx.shadowBlur=12;
+    ctx.lineWidth=Math.max(5,fontSize*.09);
+    ctx.strokeStyle="#080b12";
+    ctx.strokeText(line,48,y,610);
+    ctx.fillStyle=color;
+    ctx.fillText(line,48,y,610);
+    y+=lineHeight;
+  });
+  ctx.restore();
 
-      if (o.type === 'text') {
-        ctx.font = `900 ${o.fontSize}px "${o.font}"`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.lineJoin = 'round';
+  ctx.fillStyle=theme.a;
+  roundedRect(48,60,Math.min(340,ctx.measureText(theme.tag).width+42),46,8);
+  ctx.fill();
+  ctx.fillStyle=theme.c;
+  ctx.font="900 22px Arial";
+  ctx.textBaseline="middle";
+  ctx.fillText(theme.tag,68,83);
+}
 
-        if (o.shadow) {
-          ctx.shadowColor = 'rgba(0,0,0,.65)';
-          ctx.shadowBlur = 8;
-          ctx.shadowOffsetX = 5;
-          ctx.shadowOffsetY = 6;
-        }
+function drawDecorations(theme){
+  ctx.save();
+  ctx.fillStyle=theme.a;
+  ctx.beginPath();
+  ctx.moveTo(610,0);ctx.lineTo(680,0);ctx.lineTo(610,120);ctx.closePath();
+  ctx.fill();
 
-        if (o.outlineWidth > 0) {
-          ctx.strokeStyle = o.outline;
-          ctx.lineWidth = o.outlineWidth;
-          ctx.strokeText(o.text,o.x,o.y,1150);
-        }
-        ctx.fillStyle = o.color;
-        ctx.fillText(o.text,o.x,o.y,1150);
-      }
+  ctx.globalAlpha=.9;
+  ctx.fillStyle=theme.b;
+  ctx.beginPath();
+  ctx.moveTo(600,H);ctx.lineTo(675,H);ctx.lineTo(600,H-100);ctx.closePath();
+  ctx.fill();
 
-      if (o.type === 'shape') {
-        ctx.fillStyle = o.color;
-        ctx.beginPath();
-        ctx.arc(o.x,o.y,o.size/2,0,Math.PI*2);
-        ctx.fill();
-      }
+  ctx.fillStyle="#ffffff";
+  for(let i=0;i<12;i++){
+    const x=600+(i%3)*19;
+    const y=180+Math.floor(i/3)*19;
+    ctx.globalAlpha=.18;
+    ctx.fillRect(x,y,5,5);
+  }
+  ctx.restore();
+}
 
-      if (o.type === 'sticker') {
-        ctx.font = `${o.size}px Arial`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(o.text,o.x,o.y);
-      }
+function getTheme(){
+  if(styleInput.value==="auto"){
+    return themes.auto[variation % themes.auto.length];
+  }
+  return themes[styleInput.value] || themes.auto[0];
+}
 
-      ctx.restore();
+function render(){
+  const theme=getTheme();
+  drawBackground(theme);
+  drawDecorations(theme);
+  drawPhoto(theme);
+  drawTitle(titleInput.value,theme);
 
-      if (showSelection && o.id === selectedId) {
-        const b = bounds(o);
-        ctx.save();
-        ctx.strokeStyle = '#00a85a';
-        ctx.lineWidth = 3;
-        ctx.setLineDash([10,7]);
-        ctx.strokeRect(b.x,b.y,b.w,b.h);
-        ctx.restore();
-      }
-    });
+  if(!photo){
+    ctx.fillStyle="#ffffff";
+    ctx.font="bold 25px Arial";
+    ctx.textAlign="center";
+    ctx.fillText("YOUR PHOTO WILL APPEAR HERE",W/2,H-35);
+  }
+}
+
+function generate(){
+  if(!photo){
+    setStatus("Please upload your photo first.",true);
+    photoInput.click();
+    return;
+  }
+  if(!titleInput.value.trim()){
+    setStatus("Please enter your video title.",true);
+    titleInput.focus();
+    return;
   }
 
-  function syncControls() {
-    const o = selected();
-    const isText = o && o.type === 'text';
-
-    ['textValue','font','fontSize','textColor','outlineColor','outlineWidth','shadow']
-      .forEach(id => $(id).disabled = !isText);
-
-    $('objectSize').disabled = !o;
-
-    if (isText) {
-      $('textValue').value = o.text;
-      $('font').value = o.font;
-      $('fontSize').value = o.fontSize;
-      $('textColor').value = o.color;
-      $('outlineColor').value = o.outline;
-      $('outlineWidth').value = o.outlineWidth;
-      $('shadow').value = o.shadow ? 'yes' : 'no';
-    } else {
-      $('textValue').value = '';
-    }
-
-    if (o) $('objectSize').value = Math.max(30,Math.min(1100,o.size));
-  }
-
-  function addText(text = 'YOUR BIG IDEA!') {
-    const o = makeObject('text',{
-      text,font:'Impact',fontSize:70,color:'#ffffff',
-      outline:'#111111',outlineWidth:7,shadow:true
-    });
-    objects.push(o);
-    selectedId = o.id;
-    saveHistory();
-    render();
-    syncControls();
-  }
-
-  function addImage(src) {
-    const img = new Image();
-
-    img.onload = () => {
-      const scale = Math.min(900/img.width,600/img.height,1);
-      const o = makeObject('image',{
-        image:img,x:640,y:360,
-        size:Math.max(img.width*scale,img.height*scale)
-      });
-      objects.push(o);
-      selectedId = o.id;
-      saveHistory();
-      render();
-      syncControls();
-      status.textContent = 'Photo added. Drag it to reposition.';
-    };
-
-    img.onerror = () => status.textContent = 'Could not open this image.';
-    img.src = src;
-  }
-
-  $('photo').addEventListener('change', e => {
-    const file = e.target.files && e.target.files[0];
-    if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-      status.textContent = 'Please select a valid image.';
-      e.target.value = '';
-      return;
-    }
-
-    if (file.size > 20*1024*1024) {
-      status.textContent = 'Choose an image smaller than 20 MB.';
-      e.target.value = '';
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = () => addImage(reader.result);
-    reader.onerror = () => status.textContent = 'Could not read this image.';
-    reader.readAsDataURL(file);
-    e.target.value = '';
-  });
-
-  $('addText').addEventListener('click',() => addText());
-
-  $('addPhotoShape').addEventListener('click',() => {
-    const o = makeObject('shape',{color:'#ffcc00',size:180});
-    objects.push(o);
-    selectedId = o.id;
-    saveHistory();
-    render();
-    syncControls();
-  });
-
-  $('addSticker').addEventListener('click',() => {
-    const o = makeObject('sticker',{text:'⭐',size:100});
-    objects.push(o);
-    selectedId = o.id;
-    saveHistory();
-    render();
-    syncControls();
-  });
-
-  $('textValue').addEventListener('input',() => {
-    const o = selected();
-    if (!o || o.type !== 'text') return;
-    o.text = $('textValue').value;
-    render();
-  });
-  $('textValue').addEventListener('change',saveHistory);
-
-  [
-    ['font','font','string'],
-    ['fontSize','fontSize','number'],
-    ['textColor','color','string'],
-    ['outlineColor','outline','string'],
-    ['outlineWidth','outlineWidth','number']
-  ].forEach(([id,key,type]) => {
-    $(id).addEventListener('input',() => {
-      const o = selected();
-      if (!o || o.type !== 'text') return;
-      o[key] = type === 'number' ? Number($(id).value) : $(id).value;
-      render();
-    });
-    $(id).addEventListener('change',saveHistory);
-  });
-
-  $('shadow').addEventListener('change',() => {
-    const o = selected();
-    if (!o || o.type !== 'text') return;
-    o.shadow = $('shadow').value === 'yes';
-    saveHistory();
-    render();
-  });
-
-  $('background').addEventListener('input',() => {
-    background = $('background').value;
-    render();
-  });
-  $('background').addEventListener('change',saveHistory);
-
-  $('objectSize').addEventListener('input',() => {
-    const o = selected();
-    if (!o) return;
-    o.size = Number($('objectSize').value);
-    if (o.type === 'text') {
-      o.fontSize = Math.max(12,Math.min(180,Math.round(o.size/3)));
-      $('fontSize').value = o.fontSize;
-    }
-    render();
-  });
-  $('objectSize').addEventListener('change',saveHistory);
-
-  $('front').addEventListener('click',() => {
-    const i = objects.findIndex(o => o.id === selectedId);
-    if (i < 0) return;
-    objects.push(objects.splice(i,1)[0]);
-    saveHistory();
-    render();
-  });
-
-  $('delete').addEventListener('click',() => {
-    if (!selected()) return;
-    objects = objects.filter(o => o.id !== selectedId);
-    selectedId = null;
-    saveHistory();
-    render();
-    syncControls();
-  });
-
-  $('clear').addEventListener('click',() => {
-    if (!confirm('Remove all objects from the canvas?')) return;
-    objects = [];
-    selectedId = null;
-    saveHistory();
-    render();
-    syncControls();
-  });
-
-  $('reset').addEventListener('click',() => {
-    if (!confirm('Reset the whole design?')) return;
-    objects = [];
-    selectedId = null;
-    background = '#176bce';
-    $('background').value = background;
-    saveHistory();
-    render();
-    syncControls();
-  });
-
-  $('undo').addEventListener('click',() => restore(historyIndex-1));
-  $('redo').addEventListener('click',() => restore(historyIndex+1));
-
-  const themes = {
-    gaming:{bg:'#211044',color:'#ffe600',outline:'#ff1744',text:'EPIC GAMING!'},
-    vlog:{bg:'#ffbd59',color:'#ffffff',outline:'#e44727',text:'MY NEW VLOG!'},
-    tech:{bg:'#052b3c',color:'#00f5d4',outline:'#00151f',text:'TECH EXPLAINED'},
-    education:{bg:'#124c35',color:'#ffffff',outline:'#f28c28',text:'LEARN THIS!'},
-    challenge:{bg:'#ed2638',color:'#ffe600',outline:'#171717',text:'CAN YOU DO IT?'},
-    travel:{bg:'#057b9b',color:'#ffffff',outline:'#06384b',text:'AMAZING PLACES!'}
-  };
-
-  document.querySelectorAll('[data-template]').forEach(button => {
-    button.addEventListener('click',() => {
-      const t = themes[button.dataset.template];
-      background = t.bg;
-      $('background').value = background;
-      objects = [];
-      const o = makeObject('text',{
-        text:t.text,y:560,font:'Impact',fontSize:82,
-        color:t.color,outline:t.outline,outlineWidth:10,shadow:true
-      });
-      objects.push(o);
-      selectedId = o.id;
-      saveHistory();
-      render();
-      syncControls();
-      status.textContent = 'Template loaded. Add your own photo and customize it.';
-    });
-  });
-
-  function pointerPosition(event) {
-    const r = canvas.getBoundingClientRect();
-    return {
-      x:(event.clientX-r.left)*canvas.width/r.width,
-      y:(event.clientY-r.top)*canvas.height/r.height
-    };
-  }
-
-  function hitTest(x,y) {
-    for (let i=objects.length-1;i>=0;i--) {
-      const b = bounds(objects[i]);
-      if (x>=b.x-12 && x<=b.x+b.w+12 &&
-          y>=b.y-12 && y<=b.y+b.h+12) return objects[i];
-    }
-    return null;
-  }
-
-  canvas.addEventListener('pointerdown',event => {
-    const p = pointerPosition(event);
-    const o = hitTest(p.x,p.y);
-    selectedId = o ? o.id : null;
-    drag = o ? {id:o.id,x:p.x,y:p.y,ox:o.x,oy:o.y,moved:false} : null;
-    canvas.setPointerCapture(event.pointerId);
-    render();
-    syncControls();
-  });
-
-  canvas.addEventListener('pointermove',event => {
-    if (!drag) return;
-    const p = pointerPosition(event);
-    const o = objects.find(item => item.id === drag.id);
-    if (!o) return;
-    if (Math.abs(p.x-drag.x)+Math.abs(p.y-drag.y)>2) drag.moved = true;
-    o.x = drag.ox+(p.x-drag.x);
-    o.y = drag.oy+(p.y-drag.y);
-    render();
-  });
-
-  canvas.addEventListener('pointerup',() => {
-    if (drag && drag.moved) saveHistory();
-    drag = null;
-  });
-  canvas.addEventListener('pointercancel',() => {drag=null;});
-
-  $('download').addEventListener('click',() => {
-    const format = $('format').value;
-    const mime = format === 'jpeg' ? 'image/jpeg' : 'image/png';
-
-    const output = document.createElement('canvas');
-    output.width = 1280;
-    output.height = 720;
-    const out = output.getContext('2d');
-
-    if (!out) {
-      status.textContent = 'Export failed. Please try again.';
-      return;
-    }
-
-    // Export without the green selection border.
-    const oldSelection = selectedId;
-    selectedId = null;
-    render(false);
-    out.drawImage(canvas,0,0);
-    selectedId = oldSelection;
-    render(true);
-
-    output.toBlob(blob => {
-      if (!blob) {
-        status.textContent = 'Download failed. Please try again.';
-        return;
-      }
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'manjesh-youtube-thumbnail.' + (format === 'jpeg' ? 'jpg' : 'png');
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url),1500);
-      status.textContent = 'Thumbnail downloaded: 1280 × 720 pixels.';
-    },mime,0.95);
-  });
-
-  saveHistory();
+  currentStyle=styleInput.value;
   render();
-  syncControls();
+  ready=true;
+  pngBtn.disabled=false;
+  jpgBtn.disabled=false;
+  setStatus("Your thumbnail is ready! Download it as PNG or JPG.");
+}
+
+photoInput.addEventListener("change",function(){
+  const file=this.files && this.files[0];
+  if(!file)return;
+
+  if(!/^image\/(jpeg|png|webp)$/.test(file.type)){
+    setStatus("Please choose a JPG, PNG or WebP image.",true);
+    this.value="";
+    return;
+  }
+  if(file.size>15*1024*1024){
+    setStatus("Your photo is too large. Please choose an image under 15 MB.",true);
+    this.value="";
+    return;
+  }
+
+  const reader=new FileReader();
+  reader.onload=function(event){
+    const img=new Image();
+    img.onload=function(){
+      photo=img;
+      uploadLabel.textContent=file.name;
+      render();
+      ready=false;
+      pngBtn.disabled=true;
+      jpgBtn.disabled=true;
+      setStatus("Photo loaded. Enter your title, then tap Create Thumbnail.");
+    };
+    img.onerror=function(){
+      setStatus("Could not open this photo. Please try another image.",true);
+    };
+    img.src=event.target.result;
+  };
+  reader.onerror=function(){
+    setStatus("Could not read this file. Please try again.",true);
+  };
+  reader.readAsDataURL(file);
+});
+
+titleInput.addEventListener("input",function(){
+  titleCount.textContent=this.value.length;
+  if(photo){
+    render();
+    ready=false;
+    pngBtn.disabled=true;
+    jpgBtn.disabled=true;
+    setStatus("Title updated. Tap Create Thumbnail to prepare your download.");
+  }
+});
+
+styleInput.addEventListener("change",function(){
+  render();
+  ready=false;
+  pngBtn.disabled=true;
+  jpgBtn.disabled=true;
+  if(photo)setStatus("Style updated. Tap Create Thumbnail to apply it.");
+});
+
+generateBtn.addEventListener("click",generate);
+
+document.getElementById("randomBtn").addEventListener("click",function(){
+  if(styleInput.value==="auto"){
+    variation++;
+    render();
+    ready=false;
+    pngBtn.disabled=true;
+    jpgBtn.disabled=true;
+    if(photo)setStatus("A new design variation is ready. Tap Create Thumbnail to confirm.");
+    else setStatus("Choose a photo and title to create your thumbnail.");
+  }else{
+    const styles=["auto","gaming","vlog","tech","education","challenge","travel"];
+    const next=(styles.indexOf(styleInput.value)+1)%styles.length;
+    styleInput.value=styles[next];
+    render();
+    ready=false;
+    pngBtn.disabled=true;
+    jpgBtn.disabled=true;
+    if(photo)setStatus("Design style changed. Tap Create Thumbnail to confirm.");
+  }
+});
+
+document.getElementById("resetBtn").addEventListener("click",function(){
+  photo=null;
+  photoInput.value="";
+  titleInput.value="";
+  titleCount.textContent="0";
+  uploadLabel.textContent="Tap to upload your photo";
+  styleInput.value="auto";
+  variation=0;
+  ready=false;
+  pngBtn.disabled=true;
+  jpgBtn.disabled=true;
+  render();
+  setStatus("Reset complete. Upload a photo and enter a title to start.");
+});
+
+function download(format){
+  if(!ready){
+    setStatus("Please create your thumbnail before downloading.",true);
+    return;
+  }
+  try{
+    const mime=format==="jpg"?"image/jpeg":"image/png";
+    const link=document.createElement("a");
+    link.download="manjesh-tools-thumbnail."+(format==="jpg"?"jpg":"png");
+    link.href=canvas.toDataURL(mime,format==="jpg"?.94:undefined);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setStatus("Your "+format.toUpperCase()+" thumbnail download has started.");
+  }catch(error){
+    setStatus("Download failed. Please try again in your browser.",true);
+  }
+}
+
+pngBtn.addEventListener("click",()=>download("png"));
+jpgBtn.addEventListener("click",()=>download("jpg"));
+
+document.getElementById("year").textContent=new Date().getFullYear();
+
+render();
 })();
 </script>
 </body>
