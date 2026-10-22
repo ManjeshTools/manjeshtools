@@ -1,21 +1,26 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#147d45">
+
   <title>Pricing Plans - MANJESH Tools</title>
   <meta name="description" content="Explore MANJESH Tools free and premium plans. Choose monthly or yearly pricing for your online tools.">
   <link rel="canonical" href="https://manjeshtools.github.io/manjeshtools/pricing.html">
+
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
   <style>
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: #f4f8f5;
       color: #17251c;
     }
+
     header {
       background: #147d45;
       color: white;
@@ -26,18 +31,26 @@
       flex-wrap: wrap;
       gap: 12px;
     }
+
     header a {
       color: white;
       text-decoration: none;
       margin-left: 15px;
       font-weight: bold;
     }
+
     .hero {
       text-align: center;
       padding: 45px 15px 25px;
     }
+
     .hero h1 { font-size: 34px; margin-bottom: 10px; }
-    .hero p { color: #526257; line-height: 1.6; }
+
+    .hero p {
+      color: #526257;
+      line-height: 1.6;
+    }
+
     .plans {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -46,6 +59,7 @@
       padding: 20px;
       margin: auto;
     }
+
     .plan {
       background: white;
       border: 1px solid #dce8df;
@@ -54,9 +68,9 @@
       box-shadow: 0 8px 25px rgba(0,0,0,.05);
       position: relative;
     }
-    .plan.featured {
-      border: 2px solid #147d45;
-    }
+
+    .plan.featured { border: 2px solid #147d45; }
+
     .tag {
       background: #147d45;
       color: white;
@@ -65,19 +79,24 @@
       font-size: 12px;
       display: inline-block;
     }
+
     .price {
       font-size: 38px;
       font-weight: bold;
       color: #147d45;
       margin: 20px 0 5px;
     }
+
     .price small {
       font-size: 15px;
       color: #647268;
       font-weight: normal;
     }
+
     .saving { color: #147d45; font-weight: bold; }
+
     ul { padding-left: 20px; line-height: 2; }
+
     .btn {
       display: block;
       width: 100%;
@@ -93,10 +112,17 @@
       cursor: pointer;
       margin-top: 22px;
     }
+
     .btn.secondary {
       background: #e7f3eb;
       color: #147d45;
     }
+
+    .btn:disabled {
+      opacity: .65;
+      cursor: wait;
+    }
+
     .note {
       max-width: 850px;
       margin: 10px auto 35px;
@@ -105,11 +131,21 @@
       color: #526257;
       font-size: 14px;
     }
+
+    #payment-status {
+      max-width: 850px;
+      margin: 10px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
     .faq {
       max-width: 850px;
       margin: 20px auto 45px;
       padding: 0 20px;
     }
+
     .faq details {
       background: white;
       border: 1px solid #dce8df;
@@ -117,15 +153,23 @@
       margin: 10px 0;
       border-radius: 10px;
     }
+
     footer {
       background: #102c1c;
       color: white;
       text-align: center;
       padding: 25px 15px;
     }
+
     footer a { color: white; }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 28px; }
+      header { justify-content: center; }
+    }
   </style>
 </head>
+
 <body>
 
 <header>
@@ -137,7 +181,7 @@
 </header>
 
 <section class="hero">
-  <h1>Simple & Affordable Pricing</h1>
+  <h1>Simple &amp; Affordable Pricing</h1>
   <p>Choose a plan that works for you.</p>
   <p>Start for free and upgrade whenever you need.</p>
 </section>
@@ -162,10 +206,13 @@
     <div class="price">₹99 <small>/ month</small></div>
     <ul>
       <li>Premium plan access</li>
-      <li>Convenient monthly payment</li>
+      <li>One payment for the monthly plan</li>
       <li>Premium benefits as introduced</li>
     </ul>
-    <button class="btn" onclick="paymentNotice()">Choose Monthly</button>
+    <button class="btn" id="monthly-btn" type="button"
+      onclick="startPayment('monthly', this)">
+      Pay ₹99 Monthly
+    </button>
   </article>
 
   <article class="plan featured">
@@ -176,19 +223,24 @@
     <p class="saving">Save ₹389 per year!</p>
     <ul>
       <li>Premium plan access</li>
-      <li>One annual payment</li>
+      <li>One payment for the yearly plan</li>
       <li>Premium benefits as introduced</li>
     </ul>
-    <button class="btn" onclick="paymentNotice()">Choose Yearly</button>
+    <button class="btn" id="yearly-btn" type="button"
+      onclick="startPayment('yearly', this)">
+      Pay ₹799 Yearly
+    </button>
   </article>
 
 </section>
 
+<p id="payment-status" role="status" aria-live="polite"></p>
+
 <div class="note">
-  <strong>Important:</strong> Premium payments are not enabled yet.
-  The monthly and yearly buttons currently display an information message.
-  Do not make a payment until an official, secure payment system is connected.
-  Premium access and usage limits must be implemented separately.
+  <strong>Payment information:</strong>
+  Monthly and yearly buttons connect to Razorpay through our payment server.
+  These are one-time payments, not automatic recurring subscriptions.
+  A successful checkout alone does not activate Premium access.
 </div>
 
 <section class="faq">
@@ -201,34 +253,157 @@
 
   <details>
     <summary>What is the monthly Premium price?</summary>
-    <p>The listed monthly Premium price is ₹99.</p>
+    <p>The monthly Premium price is ₹99 for one month.</p>
   </details>
 
   <details>
     <summary>What is the yearly Premium price?</summary>
-    <p>The listed yearly Premium price is ₹799. Compared with twelve monthly payments of ₹99, you save ₹389.</p>
+    <p>The yearly Premium price is ₹799. Compared with twelve monthly payments of ₹99, you save ₹389.</p>
   </details>
 
   <details>
-    <summary>Can I pay online right now?</summary>
-    <p>Online payments have not been activated yet. Payment options will be available after secure payment integration.</p>
+    <summary>Can I pay online?</summary>
+    <p>Use the payment buttons above to open Razorpay Checkout when the payment server is configured correctly.</p>
+  </details>
+
+  <details>
+    <summary>Will Premium access activate automatically?</summary>
+    <p>Not yet. Secure payment-status confirmation, account linking, and Premium membership storage must be implemented separately.</p>
   </details>
 </section>
 
 <footer>
   <p>© 2026 MANJESH Tools. All rights reserved.</p>
-  <p><a href="/manjeshtools/">Home</a> |
-     <a href="/manjeshtools/login.html">Login</a></p>
+  <p>
+    <a href="/manjeshtools/">Home</a> |
+    <a href="/manjeshtools/login.html">Login</a>
+  </p>
 </footer>
 
 <script>
-  function paymentNotice() {
-    alert(
-      "Thank you for choosing MANJESH Tools Premium! " +
-      "Online payments are not enabled yet. Please check back later."
-    );
+  // Your deployed Cloudflare Worker URL
+  const BACKEND_WORKER_URL =
+    "https://manjesh-tools-api.manjeshpaswan2026.workers.dev";
+
+  let paymentInProgress = false;
+
+  async function startPayment(plan, button) {
+    if (paymentInProgress) return;
+
+    const status = document.getElementById("payment-status");
+
+    if (!["monthly", "yearly"].includes(plan)) {
+      status.textContent = "Invalid plan selected.";
+      return;
+    }
+
+    if (typeof Razorpay === "undefined") {
+      status.textContent =
+        "Razorpay Checkout could not load. Check your internet connection and try again.";
+      return;
+    }
+
+    paymentInProgress = true;
+    const originalText = button.textContent;
+    button.disabled = true;
+    button.textContent = "Please wait...";
+    status.textContent = "Connecting securely to the payment server...";
+
+    try {
+      const orderResponse = await fetch(
+        `${BACKEND_WORKER_URL}/create-order`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ plan })
+        }
+      );
+
+      const order = await orderResponse.json();
+
+      if (!orderResponse.ok || !order.order_id || !order.key_id) {
+        throw new Error(
+          order.error || "Could not create the payment order."
+        );
+      }
+
+      const options = {
+        key: order.key_id,
+        amount: order.amount,
+        currency: order.currency || "INR",
+        name: "MANJESH Tools",
+        description:
+          plan === "monthly"
+            ? "Monthly Premium - ₹99"
+            : "Yearly Premium - ₹799",
+        order_id: order.order_id,
+
+        handler: async function (response) {
+          status.textContent =
+            "Payment submitted. Verifying payment details...";
+
+          try {
+            const verifyResponse = await fetch(
+              `${BACKEND_WORKER_URL}/verify-payment`,
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature
+                })
+              }
+            );
+
+            const result = await verifyResponse.json();
+
+            if (verifyResponse.ok && result.verified === true) {
+              status.textContent =
+                "Payment signature verified. Keep your payment ID: " +
+                response.razorpay_payment_id +
+                ". Premium access is not activated automatically yet. " +
+                "Do not pay again; contact support if you need membership activation.";
+            } else {
+              status.textContent =
+                "We could not verify the payment details. Save your payment ID and contact support before trying to pay again.";
+            }
+          } catch (error) {
+            status.textContent =
+              "Payment response received, but verification could not be completed. Save your payment ID and contact support before trying again.";
+          }
+        },
+
+        modal: {
+          ondismiss: function () {
+            status.textContent =
+              "Checkout closed. If you completed a payment, check its status before trying again.";
+          }
+        },
+
+        theme: { color: "#147d45" }
+      };
+
+      const checkout = new Razorpay(options);
+
+      checkout.on("payment.failed", function () {
+        status.textContent =
+          "Payment failed or was not completed. Check your Razorpay payment status before retrying.";
+      });
+
+      checkout.open();
+      status.textContent = "Razorpay Checkout opened.";
+    } catch (error) {
+      status.textContent =
+        "Could not start payment: " +
+        (error.message || "Please try again later.");
+    } finally {
+      paymentInProgress = false;
+      button.disabled = false;
+      button.textContent = originalText;
+    }
   }
 </script>
 
 </body>
-</html>
+      </html>
