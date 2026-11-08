@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#105c35">
+<title>PDF Compressor | MANJESH Tools</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f8f5;color:#183b29}
+header{background:white;padding:17px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e3ebe4}
+.brand{font-size:20px;font-weight:800;color:#105c35}
+.brand span{color:#ff8700}
+a{color:#147d45;text-decoration:none;font-weight:bold}
+main{max-width:700px;margin:35px auto;padding:0 15px}
+.card{background:white;padding:25px;border:1px solid #e3ebe4;border-radius:18px}
+h1{font-size:28px;margin:0 0 10px}
+p{color:#718075;line-height:1.7;font-size:14px}
+label{display:block;font-weight:bold;margin:22px 0 10px}
+input,button{width:100%;padding:14px;border-radius:10px;font-size:15px}
+input{border:1px solid #ccd9cf}
+button{border:0;background:#147d45;color:white;font-weight:bold;margin-top:18px;cursor:pointer}
+button:disabled{opacity:.6}
+#result{margin-top:20px;line-height:1.8;overflow-wrap:anywhere}
+#download{display:none;background:#ff8700;color:#172d20;padding:14px;border-radius:10px;text-align:center;margin-top:15px}
+.note{background:#fff5e7;padding:12px;border-radius:10px;font-size:12px}
+footer{text-align:center;color:#718075;padding:25px;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">MANJESH <span>Tools</span></div>
+<a href="../index.html">← Home</a>
+</header>
+
+<main>
+<div class="card">
+<h1>PDF Compressor</h1>
+<p>अपनी PDF फाइल चुनें और उसे दोबारा सेव करके छोटा करने की कोशिश करें।</p>
+
+<div class="note">
+ध्यान दें: यह शुरुआती browser-based compressor है। यह PDF की सामग्री और quality को कम करके compress नहीं करता। कुछ PDF का साइज कम नहीं भी हो सकता है।
+</div>
+
+<label for="pdfFile">अपनी PDF फाइल चुनें</label>
+<input type="file" id="pdfFile" accept=".pdf,application/pdf">
+
+<div id="result" aria-live="polite"></div>
+<button id="compressBtn">Compress PDF</button>
+<a id="download" download="manjesh-compressed.pdf">Download PDF</a>
+</div>
+</main>
+
+<footer>© 2026 MANJESH Tools. All Rights Reserved.</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script>
+const fileInput=document.getElementById("pdfFile");
+const button=document.getElementById("compressBtn");
+const result=document.getElementById("result");
+const download=document.getElementById("download");
+let downloadUrl=null;
+
+function formatSize(bytes){
+return bytes<1024*1024
+?(bytes/1024).toFixed(2)+" KB"
+:(bytes/1024/1024).toFixed(2)+" MB";
+}
+
+fileInput.addEventListener("change",()=>{
+result.textContent="";
+download.style.display="none";
+if(downloadUrl){
+URL.revokeObjectURL(downloadUrl);
+downloadUrl=null;
+}
+if(fileInput.files[0]){
+result.textContent="Original size: "+formatSize(fileInput.files[0].size);
+}
+});
+
+button.addEventListener("click",async()=>{
+const file=fileInput.files[0];
+
+if(!file){
+result.textContent="पहले PDF फाइल चुनें।";
+return;
+}
+
+if(!window.PDFLib){
+result.textContent="PDF library load नहीं हुई। Internet चालू करके Page Reload करें।";
+return;
+}
+
+button.disabled=true;
+download.style.display="none";
+result.textContent="PDF प्रोसेस हो रही है...";
+
+try{
+const bytes=await file.arrayBuffer();
+const pdf=await PDFLib.PDFDocument.load(bytes);
+const output=await pdf.save({useObjectStreams:true});
+const blob=new Blob([output],{type:"application/pdf"});
+
+if(downloadUrl)URL.revokeObjectURL(downloadUrl);
+downloadUrl=URL.createObjectURL(blob);
+download.href=downloadUrl;
+download.download="manjesh-compressed.pdf";
+download.style.display="block";
+
+const oldSize=file.size;
+const newSize=blob.size;
+const difference=oldSize-newSize;
+
+if(difference>0){
+const percent=(difference/oldSize*100).toFixed(2);
+result.textContent="प्रोसेस पूरा हुआ! Original: "+formatSize(oldSize)+" | New: "+formatSize(newSize)+" | Size कम हुआ: "+percent+"%";
+}else{
+result.textContent="PDF दोबारा सेव हो गई, लेकिन इसका साइज कम नहीं हुआ। Original: "+formatSize(oldSize)+" | New: "+formatSize(newSize)+".";
+}
+}catch(error){
+result.textContent="PDF प्रोसेस नहीं हो सकी। कृपया सही और बिना Password वाली PDF चुनें।";
+}finally{
+button.disabled=false;
+}
+});
+</script>
+</body>
+</html>
