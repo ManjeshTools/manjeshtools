@@ -5,126 +5,504 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#105c35">
-<title>PDF Compressor | MANJESH Tools</title>
+<title>Advanced PDF Compressor | MANJESH Tools</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f8f5;color:#183b29}
-header{background:white;padding:17px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e3ebe4}
-.brand{font-size:20px;font-weight:800;color:#105c35}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f3f7f4;
+ color:#183b29;
+}
+header{
+ background:#fff;
+ padding:16px;
+ border-bottom:1px solid #e0e9e2;
+}
+.container{width:min(850px,92%);margin:auto}
+.brand{font-size:20px;font-weight:800}
 .brand span{color:#ff8700}
-a{color:#147d45;text-decoration:none;font-weight:bold}
-main{max-width:700px;margin:35px auto;padding:0 15px}
-.card{background:white;padding:25px;border:1px solid #e3ebe4;border-radius:18px}
-h1{font-size:28px;margin:0 0 10px}
-p{color:#718075;line-height:1.7;font-size:14px}
-label{display:block;font-weight:bold;margin:22px 0 10px}
-input,button{width:100%;padding:14px;border-radius:10px;font-size:15px}
-input{border:1px solid #ccd9cf}
-button{border:0;background:#147d45;color:white;font-weight:bold;margin-top:18px;cursor:pointer}
-button:disabled{opacity:.6}
-#result{margin-top:20px;line-height:1.8;overflow-wrap:anywhere}
-#download{display:none;background:#ff8700;color:#172d20;padding:14px;border-radius:10px;text-align:center;margin-top:15px}
-.note{background:#fff5e7;padding:12px;border-radius:10px;font-size:12px}
-footer{text-align:center;color:#718075;padding:25px;font-size:12px}
+a{text-decoration:none;color:inherit}
+.hero{
+ margin:22px 0;
+ padding:25px 18px;
+ border-radius:18px;
+ background:linear-gradient(135deg,#105c35,#16834b);
+ color:white;
+ text-align:center;
+}
+.hero h1{margin:0 0 10px;font-size:27px}
+.hero p{font-size:13px;line-height:1.7}
+.card{
+ background:white;
+ border:1px solid #e1e9e3;
+ padding:20px;
+ border-radius:16px;
+ margin-bottom:16px;
+}
+h2{font-size:17px;margin:0 0 15px}
+.upload{
+ display:block;
+ border:2px dashed #86b99a;
+ border-radius:13px;
+ padding:28px 12px;
+ text-align:center;
+ background:#f7fbf8;
+ cursor:pointer;
+}
+.upload strong{display:block;font-size:16px}
+.upload small{display:block;margin-top:9px;color:#718075}
+input[type=file]{display:none}
+.levels{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:9px;
+}
+.level{
+ border:1px solid #dce7df;
+ border-radius:12px;
+ padding:13px 5px;
+ text-align:center;
+ cursor:pointer;
+ background:white;
+}
+.level input{accent-color:#147d45}
+.level:has(input:checked){
+ border:2px solid #147d45;
+ background:#eff8f1;
+}
+.level b{display:block;font-size:13px;margin:6px 0}
+.level small{font-size:10px;color:#718075}
+button{
+ width:100%;
+ border:0;
+ border-radius:11px;
+ padding:15px;
+ font-size:15px;
+ font-weight:bold;
+ cursor:pointer;
+}
+.primary{background:#147d45;color:white}
+.primary:disabled{opacity:.5;cursor:not-allowed}
+.secondary{
+ display:block;
+ background:#ff8700;
+ color:white;
+ text-align:center;
+ margin-top:12px;
+}
+.info{
+ font-size:12px;
+ color:#68796e;
+ line-height:1.7;
+}
+.progress{
+ height:10px;
+ background:#e5eee7;
+ border-radius:20px;
+ overflow:hidden;
+ margin:12px 0;
+}
+.bar{
+ width:0%;
+ height:100%;
+ background:#147d45;
+ transition:width .2s;
+}
+.stats{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:10px;
+}
+.stat{
+ background:#f2f8f3;
+ padding:14px;
+ border-radius:11px;
+}
+.stat small{color:#718075;font-size:11px}
+.stat strong{display:block;font-size:19px;margin-top:7px}
+.result{display:none}
+#preview{
+ width:100%;
+ max-height:260px;
+ object-fit:contain;
+ background:#f4f4f4;
+ border-radius:10px;
+}
+footer{
+ text-align:center;
+ padding:25px;
+ font-size:11px;
+ color:#718075;
+}
+@media(max-width:400px){
+ .levels{gap:5px}
+ .level{padding:10px 2px}
+}
 </style>
 </head>
+
 <body>
+
 <header>
-<div class="brand">MANJESH <span>Tools</span></div>
-<a href="../index.html">← Home</a>
+ <div class="container">
+  <a class="brand" href="../index.html">
+   MANJESH <span>Tools</span>
+  </a>
+ </div>
 </header>
 
-<main>
-<div class="card">
-<h1>PDF Compressor</h1>
-<p>अपनी PDF फाइल चुनें और उसे दोबारा सेव करके छोटा करने की कोशिश करें।</p>
+<main class="container">
 
-<div class="note">
-ध्यान दें: यह शुरुआती browser-based compressor है। यह PDF की सामग्री और quality को कम करके compress नहीं करता। कुछ PDF का साइज कम नहीं भी हो सकता है।
-</div>
+ <div class="hero">
+  <h1>Advanced PDF Compressor</h1>
+  <p>
+   PDF का साइज कम करें। अपनी जरूरत के अनुसार
+   Low, Medium या High Compression चुनें।
+  </p>
+ </div>
 
-<label for="pdfFile">अपनी PDF फाइल चुनें</label>
-<input type="file" id="pdfFile" accept=".pdf,application/pdf">
+ <div class="card">
+  <h2>📄 अपनी PDF चुनें</h2>
 
-<div id="result" aria-live="polite"></div>
-<button id="compressBtn">Compress PDF</button>
-<a id="download" download="manjesh-compressed.pdf">Download PDF</a>
-</div>
+  <label class="upload" for="pdfFile">
+   <strong>＋ Select PDF File</strong>
+   <small>यहाँ क्लिक करके PDF अपलोड करें</small>
+  </label>
+
+  <input type="file" id="pdfFile" accept=".pdf,application/pdf">
+
+  <p id="fileName" class="info">अभी कोई PDF नहीं चुनी गई।</p>
+ </div>
+
+ <div class="card">
+  <h2>⚙️ Compression Level चुनें</h2>
+
+  <div class="levels">
+
+   <label class="level">
+    <input type="radio" name="quality" value="low">
+    <b>Low</b>
+    <small>बेहतर Quality</small>
+   </label>
+
+   <label class="level">
+    <input type="radio" name="quality" value="medium" checked>
+    <b>Medium</b>
+    <small>Balanced</small>
+   </label>
+
+   <label class="level">
+    <input type="radio" name="quality" value="high">
+    <b>High</b>
+    <small>छोटा साइज</small>
+   </label>
+
+  </div>
+
+  <p class="info">
+   Low: 1.5x Resolution, 85% JPEG Quality<br>
+   Medium: 1.2x Resolution, 70% JPEG Quality<br>
+   High: 0.9x Resolution, 50% JPEG Quality
+  </p>
+
+  <button id="compressBtn" class="primary" disabled>
+   Compress PDF
+  </button>
+ </div>
+
+ <div class="card" id="progressBox" style="display:none">
+  <h2>⏳ PDF Processing...</h2>
+  <div class="progress">
+   <div class="bar" id="bar"></div>
+  </div>
+  <p id="progressText" class="info">Preparing...</p>
+ </div>
+
+ <div class="card result" id="resultBox">
+  <h2>✅ Compression Result</h2>
+
+  <div class="stats">
+   <div class="stat">
+    <small>Original Size</small>
+    <strong id="oldSize">-</strong>
+   </div>
+   <div class="stat">
+    <small>New Size</small>
+    <strong id="newSize">-</strong>
+   </div>
+   <div class="stat">
+    <small>Size Saved</small>
+    <strong id="saved">-</strong>
+   </div>
+   <div class="stat">
+    <small>Pages</small>
+    <strong id="pages">-</strong>
+   </div>
+  </div>
+
+  <p id="resultMessage" class="info"></p>
+
+  <a id="downloadBtn" class="secondary" style="padding:15px;border-radius:11px">
+   Download Compressed PDF
+  </a>
+ </div>
+
+ <div class="card">
+  <h2>👁️ PDF Preview</h2>
+  <canvas id="preview"></canvas>
+  <p id="previewText" class="info">
+   PDF चुनने के बाद पहले पेज का Preview दिखाई देगा।
+  </p>
+ </div>
+
+ <div class="card">
+  <h2>⚠️ जरूरी जानकारी</h2>
+  <p class="info">
+   यह Advanced Compressor PDF के पेज को इमेज में बदलकर
+   नई PDF बनाता है। इससे टेक्स्ट Select/Copy और Search
+   करने की सुविधा प्रभावित हो सकती है। डिजिटल सिग्नेचर,
+   फॉर्म और कुछ विशेष PDF सुविधाएँ भी सुरक्षित नहीं रह सकतीं।
+   Original PDF आपके पास सुरक्षित रहेगी।
+   बड़ी PDF में मोबाइल की Memory कम पड़ सकती है।
+   Processing आपके ब्राउजर में होती है।
+  </p>
+ </div>
+
 </main>
 
-<footer>© 2026 MANJESH Tools. All Rights Reserved.</footer>
+<footer>
+ © 2026 MANJESH Tools. All Rights Reserved.
+</footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
 <script>
-const fileInput=document.getElementById("pdfFile");
-const button=document.getElementById("compressBtn");
-const result=document.getElementById("result");
-const download=document.getElementById("download");
-let downloadUrl=null;
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+const fileInput = document.getElementById("pdfFile");
+const compressBtn = document.getElementById("compressBtn");
+const fileName = document.getElementById("fileName");
+const preview = document.getElementById("preview");
+
+let selectedFile = null;
+let outputUrl = null;
 
 function formatSize(bytes){
-return bytes<1024*1024
-?(bytes/1024).toFixed(2)+" KB"
-:(bytes/1024/1024).toFixed(2)+" MB";
+ if(bytes < 1024) return bytes + " B";
+ return (bytes/1024).toFixed(2) + " KB";
 }
 
-fileInput.addEventListener("change",()=>{
-result.textContent="";
-download.style.display="none";
-if(downloadUrl){
-URL.revokeObjectURL(downloadUrl);
-downloadUrl=null;
-}
-if(fileInput.files[0]){
-result.textContent="Original size: "+formatSize(fileInput.files[0].size);
-}
+fileInput.addEventListener("change",async()=>{
+ selectedFile = fileInput.files[0];
+
+ if(outputUrl){
+  URL.revokeObjectURL(outputUrl);
+  outputUrl = null;
+ }
+
+ document.getElementById("resultBox").style.display="none";
+
+ if(!selectedFile) return;
+
+ if(selectedFile.type !== "application/pdf" &&
+    !selectedFile.name.toLowerCase().endsWith(".pdf")){
+  alert("कृपया PDF फाइल चुनें।");
+  selectedFile=null;
+  compressBtn.disabled=true;
+  return;
+ }
+
+ fileName.textContent =
+ selectedFile.name + " | " + formatSize(selectedFile.size);
+
+ compressBtn.disabled=false;
+
+ try{
+  const bytes = await selectedFile.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({data:bytes}).promise;
+  const page = await pdf.getPage(1);
+  const viewport = page.getViewport({scale:0.7});
+
+  preview.width = Math.floor(viewport.width);
+  preview.height = Math.floor(viewport.height);
+
+  await page.render({
+   canvasContext:preview.getContext("2d"),
+   viewport:viewport
+  }).promise;
+
+  document.getElementById("previewText").textContent =
+  "Preview: " + pdf.numPages + " Pages";
+
+  await pdf.destroy();
+
+ }catch(e){
+  document.getElementById("previewText").textContent =
+  "Preview नहीं दिख सका। PDF Password Protected या खराब हो सकती है।";
+ }
 });
 
-button.addEventListener("click",async()=>{
-const file=fileInput.files[0];
+compressBtn.addEventListener("click",async()=>{
 
-if(!file){
-result.textContent="पहले PDF फाइल चुनें।";
-return;
-}
+ if(!selectedFile) return;
 
-if(!window.PDFLib){
-result.textContent="PDF library load नहीं हुई। Internet चालू करके Page Reload करें।";
-return;
-}
+ const choice = document.querySelector(
+ 'input[name="quality"]:checked'
+ ).value;
 
-button.disabled=true;
-download.style.display="none";
-result.textContent="PDF प्रोसेस हो रही है...";
+ let scale = 1.2;
+ let quality = 0.70;
 
-try{
-const bytes=await file.arrayBuffer();
-const pdf=await PDFLib.PDFDocument.load(bytes);
-const output=await pdf.save({useObjectStreams:true});
-const blob=new Blob([output],{type:"application/pdf"});
+ if(choice==="low"){
+  scale=1.5;
+  quality=0.85;
+ }
+ if(choice==="high"){
+  scale=0.9;
+  quality=0.50;
+ }
 
-if(downloadUrl)URL.revokeObjectURL(downloadUrl);
-downloadUrl=URL.createObjectURL(blob);
-download.href=downloadUrl;
-download.download="manjesh-compressed.pdf";
-download.style.display="block";
+ compressBtn.disabled=true;
+ document.getElementById("progressBox").style.display="block";
+ document.getElementById("resultBox").style.display="none";
 
-const oldSize=file.size;
-const newSize=blob.size;
-const difference=oldSize-newSize;
+ const bar=document.getElementById("bar");
+ const progressText=document.getElementById("progressText");
 
-if(difference>0){
-const percent=(difference/oldSize*100).toFixed(2);
-result.textContent="प्रोसेस पूरा हुआ! Original: "+formatSize(oldSize)+" | New: "+formatSize(newSize)+" | Size कम हुआ: "+percent+"%";
-}else{
-result.textContent="PDF दोबारा सेव हो गई, लेकिन इसका साइज कम नहीं हुआ। Original: "+formatSize(oldSize)+" | New: "+formatSize(newSize)+".";
-}
-}catch(error){
-result.textContent="PDF प्रोसेस नहीं हो सकी। कृपया सही और बिना Password वाली PDF चुनें।";
-}finally{
-button.disabled=false;
-}
+ try{
+
+  const bytes=await selectedFile.arrayBuffer();
+
+  const source=await pdfjsLib.getDocument({
+   data:bytes
+  }).promise;
+
+  const output=await PDFLib.PDFDocument.create();
+
+  const total=source.numPages;
+
+  for(let i=1;i<=total;i++){
+
+   progressText.textContent=
+   "Page " + i + " / " + total + " Processing...";
+
+   const page=await source.getPage(i);
+
+   const originalViewport=page.getViewport({scale:1});
+   const viewport=page.getViewport({scale:scale});
+
+   const canvas=document.createElement("canvas");
+
+   canvas.width=Math.ceil(viewport.width);
+   canvas.height=Math.ceil(viewport.height);
+
+   const context=canvas.getContext("2d",{
+    alpha:false
+   });
+
+   context.fillStyle="#ffffff";
+   context.fillRect(0,0,canvas.width,canvas.height);
+
+   await page.render({
+    canvasContext:context,
+    viewport:viewport
+   }).promise;
+
+   const imageData=canvas.toDataURL(
+    "image/jpeg",
+    quality
+   );
+
+   const imageBytes=await fetch(imageData).then(
+    r=>r.arrayBuffer()
+   );
+
+   const jpg=await output.embedJpg(imageBytes);
+
+   const newPage=output.addPage([
+    originalViewport.width,
+    originalViewport.height
+   ]);
+
+   newPage.drawImage(jpg,{
+    x:0,
+    y:0,
+    width:originalViewport.width,
+    height:originalViewport.height
+   });
+
+   canvas.width=1;
+   canvas.height=1;
+
+   bar.style.width=
+   Math.round((i/total)*100)+"%";
+
+   await page.cleanup();
+  }
+
+  const resultBytes=await output.save({
+   useObjectStreams:true
+  });
+
+  await source.destroy();
+
+  const blob=new Blob([resultBytes],{
+   type:"application/pdf"
+  });
+
+  if(outputUrl) URL.revokeObjectURL(outputUrl);
+
+  outputUrl=URL.createObjectURL(blob);
+
+  const old=selectedFile.size;
+  const fresh=blob.size;
+  const saved=old-fresh;
+  const percent=(saved/old)*100;
+
+  document.getElementById("oldSize").textContent=
+  formatSize(old);
+
+  document.getElementById("newSize").textContent=
+  formatSize(fresh);
+
+  document.getElementById("saved").textContent=
+  saved>0 ? percent.toFixed(2)+"%" : "0%";
+
+  document.getElementById("pages").textContent=total;
+
+  document.getElementById("resultMessage").textContent=
+  saved>0
+  ? "आपकी PDF का साइज "+formatSize(saved)+" कम हुआ।"
+  : "इस PDF का साइज कम नहीं हुआ। अलग Compression Level आजमाएँ।";
+
+  const download=document.getElementById("downloadBtn");
+  download.href=outputUrl;
+  download.download="manjesh-advanced-compressed.pdf";
+
+  document.getElementById("resultBox").style.display="block";
+  progressText.textContent="Compression Complete!";
+
+ }catch(error){
+
+  console.error(error);
+
+  progressText.textContent=
+  "Error: PDF Process नहीं हो सकी। छोटी PDF से दोबारा कोशिश करें।";
+
+  alert(
+   "PDF Compress नहीं हो सकी। यह Password Protected हो सकती है या मोबाइल की Memory कम हो सकती है।"
+  );
+
+ }finally{
+  compressBtn.disabled=false;
+ }
+
 });
 </script>
+
 </body>
 </html>
