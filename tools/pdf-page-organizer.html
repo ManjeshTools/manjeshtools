@@ -1,0 +1,295 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#105c35">
+<title>PDF Page Organizer - MANJESH Tools</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f7f4;color:#17251c}
+header{background:#105c35;color:white;padding:18px;text-align:center}
+header h1{margin:0;font-size:25px}
+header p{margin:7px 0 0;font-size:13px;color:#e1f2e7}
+.container{max-width:950px;margin:22px auto;padding:0 14px}
+.panel{background:white;padding:20px;border-radius:15px;box-shadow:0 4px 18px #0000000d;margin-bottom:18px}
+h2{font-size:19px;margin:0 0 12px}
+.upload{border:2px dashed #159451;border-radius:12px;padding:28px 12px;text-align:center;background:#f5fff8}
+input[type=file]{max-width:100%;margin-top:12px}
+button{border:0;border-radius:8px;padding:10px 13px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.45;cursor:not-allowed}
+.primary{background:#147d45;color:white}
+.secondary{background:#e8f4ec;color:#105c35}
+.danger{background:#ffe9e9;color:#b42318}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+#pages{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:13px}
+.page{border:1px solid #dce8df;border-radius:12px;padding:10px;text-align:center;background:#fff}
+.page canvas{width:100%;height:165px;object-fit:contain;background:#f4f4f4;border-radius:5px}
+.page-number{font-weight:bold;margin:8px 0;font-size:14px}
+.actions{display:flex;justify-content:center;gap:5px;flex-wrap:wrap}
+.actions button{padding:7px 9px;font-size:12px}
+.status{font-size:13px;color:#52665a;margin-top:10px}
+#progress{width:100%;height:8px;display:none;accent-color:#147d45}
+#download{display:none;margin-top:12px}
+.note{font-size:13px;color:#65746a;line-height:1.6}
+footer{text-align:center;padding:20px;color:#718078;font-size:12px}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>MANJESH Tools</h1>
+<p>PDF Page Organizer</p>
+</header>
+
+<div class="container">
+
+<div class="panel">
+<h2>📄 PDF अपलोड करें</h2>
+<div class="upload">
+<p>अपनी PDF फाइल चुनें</p>
+<input type="file" id="file" accept="application/pdf">
+<p class="note">आपके PDF पेज आपके ब्राउज़र में ही प्रोसेस होंगे।</p>
+</div>
+<div class="status" id="status">अभी कोई PDF अपलोड नहीं है।</div>
+</div>
+
+<div class="panel" id="editor" style="display:none">
+<h2>🛠️ PDF Pages व्यवस्थित करें</h2>
+
+<div class="toolbar">
+<button class="secondary" onclick="reversePages()">↔ Reverse Pages</button>
+<button class="secondary" onclick="resetPages()">Reset Order</button>
+<button class="primary" onclick="exportPDF()">⬇ Download PDF</button>
+</div>
+
+<div id="pages"></div>
+
+<progress id="progress" value="0" max="100"></progress>
+<div class="status" id="exportStatus"></div>
+<button class="primary" id="download">Download Organized PDF</button>
+
+<p class="note">
+ऊपर/नीचे बटन से पेज का क्रम बदलें। Rotate से पेज घुमाएँ और Delete से पेज हटाएँ।
+</p>
+</div>
+
+</div>
+
+<footer>© MANJESH Tools — Useful Tools Made Simple.</footer>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+let originalBytes = null;
+let pages = [];
+let originalPages = [];
+
+const fileInput = document.getElementById('file');
+const statusBox = document.getElementById('status');
+const editor = document.getElementById('editor');
+const pagesBox = document.getElementById('pages');
+
+fileInput.addEventListener('change', async function(){
+ const file = this.files[0];
+ if(!file) return;
+
+ if(file.type !== 'application/pdf'){
+  statusBox.textContent = 'कृपया सही PDF फाइल चुनें।';
+  return;
+ }
+
+ try{
+  statusBox.textContent = 'PDF लोड हो रही है...';
+  document.getElementById('download').style.display='none';
+
+  const buffer = await file.arrayBuffer();
+  originalBytes = new Uint8Array(buffer);
+
+  const pdf = await pdfjsLib.getDocument({
+   data: new Uint8Array(originalBytes)
+  }).promise;
+
+  pages = [];
+  originalPages = [];
+
+  for(let i=1;i<=pdf.numPages;i++){
+   pages.push({originalIndex:i-1, rotation:0});
+   originalPages.push({originalIndex:i-1, rotation:0});
+  }
+
+  editor.style.display='block';
+  statusBox.textContent = 'कुल '+pdf.numPages+' Pages लोड हुए।';
+  await renderPages(pdf);
+
+ }catch(error){
+  statusBox.textContent = 'PDF नहीं खुल सकी। दूसरी PDF आजमाएँ।';
+  console.error(error);
+ }
+});
+
+async function renderPages(pdf){
+ pagesBox.innerHTML='';
+
+ for(let i=0;i<pages.length;i++){
+  const item=pages[i];
+  const page=await pdf.getPage(item.originalIndex+1);
+  const viewport=page.getViewport({scale:0.55});
+
+  const canvas=document.createElement('canvas');
+  const context=canvas.getContext('2d');
+  canvas.width=viewport.width;
+  canvas.height=viewport.height;
+
+  await page.render({
+   canvasContext:context,
+   viewport:viewport
+  }).promise;
+
+  const card=document.createElement('div');
+  card.className='page';
+
+  const image=document.createElement('canvas');
+  image.width=canvas.width;
+  image.height=canvas.height;
+  image.getContext('2d').drawImage(canvas,0,0);
+
+  const number=document.createElement('div');
+  number.className='page-number';
+  number.textContent='Page '+(i+1);
+
+  const actions=document.createElement('div');
+  actions.className='actions';
+
+  const up=makeButton('↑','secondary',()=>movePage(i,-1));
+  const down=makeButton('↓','secondary',()=>movePage(i,1));
+  const rotate=makeButton('↻','secondary',()=>rotatePage(i));
+  const del=makeButton('✕','danger',()=>deletePage(i));
+
+  up.disabled=(i===0);
+  down.disabled=(i===pages.length-1);
+
+  actions.append(up,down,rotate,del);
+  card.append(image,number,actions);
+  pagesBox.appendChild(card);
+ }
+}
+
+function makeButton(label,cls,action){
+ const b=document.createElement('button');
+ b.textContent=label;
+ b.className=cls;
+ b.onclick=action;
+ return b;
+}
+
+function refresh(){
+ pdfjsLib.getDocument({data:new Uint8Array(originalBytes)}).promise
+ .then(pdf=>renderPages(pdf))
+ .catch(()=>{});
+}
+
+function movePage(index,direction){
+ const target=index+direction;
+ if(target<0 || target>=pages.length) return;
+
+ [pages[index],pages[target]]=[pages[target],pages[index]];
+ refresh();
+}
+
+function rotatePage(index){
+ pages[index].rotation=(pages[index].rotation+90)%360;
+ document.getElementById('exportStatus').textContent=
+ 'Page '+(index+1)+' को घुमाया गया है।';
+}
+
+function deletePage(index){
+ if(pages.length<=1){
+  alert('कम से कम एक पेज रखना जरूरी है।');
+  return;
+ }
+
+ if(!confirm('क्या आप यह पेज हटाना चाहते हैं?')) return;
+
+ pages.splice(index,1);
+ refresh();
+}
+
+function reversePages(){
+ pages.reverse();
+ refresh();
+}
+
+function resetPages(){
+ pages=originalPages.map(p=>({...p}));
+ refresh();
+}
+
+async function exportPDF(){
+ if(!originalBytes || pages.length===0){
+  alert('पहले PDF अपलोड करें।');
+  return;
+ }
+
+ const progress=document.getElementById('progress');
+ const status=document.getElementById('exportStatus');
+ const download=document.getElementById('download');
+
+ try{
+  download.style.display='none';
+  progress.style.display='block';
+  progress.value=15;
+  status.textContent='PDF तैयार हो रही है...';
+
+  const {PDFDocument,degrees}=PDFLib;
+  const source=await PDFDocument.load(originalBytes);
+  const output=await PDFDocument.create();
+
+  const indices=pages.map(p=>p.originalIndex);
+  const copied=await output.copyPages(source,indices);
+
+  progress.value=55;
+
+  for(let i=0;i<copied.length;i++){
+   const page=copied[i];
+   const originalPage=source.getPage(pages[i].originalIndex);
+   const oldRotation=originalPage.getRotation().angle;
+   const newRotation=(oldRotation+pages[i].rotation)%360;
+
+   page.setRotation(degrees(newRotation));
+   output.addPage(page);
+
+   progress.value=55+Math.round(((i+1)/copied.length)*40);
+  }
+
+  const bytes=await output.save();
+  const blob=new Blob([bytes],{type:'application/pdf'});
+  const url=URL.createObjectURL(blob);
+
+  download.onclick=function(){
+   const a=document.createElement('a');
+   a.href=url;
+   a.download='manjesh-organized.pdf';
+   a.click();
+  };
+
+  progress.value=100;
+  status.textContent='आपकी PDF तैयार है!';
+  download.style.display='inline-block';
+
+ }catch(error){
+  status.textContent='PDF तैयार नहीं हो सकी। दूसरी PDF आजमाएँ।';
+  console.error(error);
+ }
+}
+</script>
+
+</body>
+</html>
