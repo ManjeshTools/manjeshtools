@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#105c35">
+<title>Protect PDF - MANJESH Tools</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f7f4;color:#17251c;font-family:Arial,sans-serif}
+header{background:#105c35;color:white;text-align:center;padding:22px}
+header h1{margin:0;font-size:25px}
+header p{margin:7px 0 0;color:#e2f2e7;font-size:13px}
+.container{max-width:650px;margin:25px auto;padding:0 14px}
+.card{background:white;padding:22px;border-radius:16px;box-shadow:0 5px 20px #0000000c;margin-bottom:18px}
+h2{font-size:20px;margin:0 0 15px}
+.upload{border:2px dashed #159451;border-radius:12px;padding:25px 12px;text-align:center;background:#f5fff8}
+input[type=file]{max-width:100%;margin-top:10px}
+label{display:block;font-weight:bold;font-size:14px;margin:17px 0 7px}
+input[type=password],input[type=text]{width:100%;padding:13px;border:1px solid #cbd8ce;border-radius:9px;font-size:15px}
+button{width:100%;padding:14px;background:#147d45;color:white;border:0;border-radius:9px;font-size:16px;font-weight:bold;margin-top:18px}
+button:disabled{opacity:.55}
+.status{font-size:13px;color:#52665a;margin-top:13px;line-height:1.6}
+.note{font-size:13px;color:#65746a;line-height:1.7}
+#download{display:none;background:#ff8700}
+footer{text-align:center;padding:20px;color:#718078;font-size:12px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>MANJESH Tools</h1>
+<p>Protect PDF — Password Security</p>
+</header>
+
+<div class="container">
+<div class="card">
+<h2>🔐 PDF पर Password Lock लगाएँ</h2>
+
+<div class="upload">
+<p>अपनी PDF फाइल चुनें</p>
+<input type="file" id="pdfFile" accept="application/pdf">
+</div>
+
+<label>PDF खोलने का Password</label>
+<input type="password" id="password" placeholder="कम से कम 8 अक्षर" autocomplete="new-password">
+
+<label>Confirm Password</label>
+<input type="password" id="confirmPassword" placeholder="Password दोबारा लिखें" autocomplete="new-password">
+
+<p class="note">आपकी PDF फाइल और पासवर्ड इसी ब्राउज़र में प्रोसेस होंगे। पासवर्ड भूलने पर उसे वापस पाना संभव नहीं होगा।</p>
+
+<button id="protectBtn" onclick="protectPDF()">🔒 Protect PDF</button>
+<div class="status" id="status">PDF चुनें और पासवर्ड सेट करें।</div>
+<button id="download" onclick="downloadPDF()">⬇ Download Protected PDF</button>
+</div>
+
+<div class="card">
+<h2>🛡️ सुरक्षा जानकारी</h2>
+<p class="note">
+• PDF पर वास्तविक AES-256 encryption लगाया जाता है।<br>
+• PDF और पासवर्ड किसी सर्वर पर अपलोड नहीं किए जाते।<br>
+• डाउनलोड की गई PDF खोलने के लिए पासवर्ड जरूरी होगा।<br>
+• मजबूत और अलग पासवर्ड इस्तेमाल करें।
+</p>
+</div>
+</div>
+
+<footer>© MANJESH Tools — Useful Tools Made Simple.</footer>
+
+<script type="module">
+import createModule from "https://cdn.jsdelivr.net/npm/@neslinesli93/qpdf-wasm@0.3.0/+esm";
+
+const fileInput = document.getElementById("pdfFile");
+const passwordInput = document.getElementById("password");
+const confirmInput = document.getElementById("confirmPassword");
+const protectBtn = document.getElementById("protectBtn");
+const statusBox = document.getElementById("status");
+const downloadBtn = document.getElementById("download");
+
+let selectedFile = null;
+let protectedBlob = null;
+let qpdfInstance = null;
+
+fileInput.addEventListener("change", () => {
+ selectedFile = fileInput.files[0];
+ protectedBlob = null;
+ downloadBtn.style.display = "none";
+
+ if(!selectedFile) return;
+
+ if(selectedFile.type !== "application/pdf"){
+  statusBox.textContent = "कृपया PDF फाइल चुनें।";
+  selectedFile = null;
+  return;
+ }
+
+ statusBox.textContent = "फाइल चुनी गई: " + selectedFile.name;
+});
+
+async function getQpdf(){
+ if(qpdfInstance) return qpdfInstance;
+
+ statusBox.textContent = "Security Engine डाउनलोड हो रहा है...";
+
+ qpdfInstance = await createModule({
+  locateFile: (name) =>
+   name.endsWith(".wasm")
+   ? "https://cdn.jsdelivr.net/npm/@neslinesli93/qpdf-wasm@0.3.0/dist/qpdf.wasm"
+   : name,
+  noInitialRun: true
+ });
+
+ return qpdfInstance;
+}
+
+window.protectPDF = async function(){
+ const password = passwordInput.value;
+ const confirmPassword = confirmInput.value;
+
+ if(!selectedFile){
+  statusBox.textContent = "पहले PDF फाइल चुनें।";
+  return;
+ }
+
+ if(password.length < 8){
+  statusBox.textContent = "Password कम से कम 8 अक्षर का रखें।";
+  return;
+ }
+
+ if(password !== confirmPassword){
+  statusBox.textContent = "दोनों Password एक जैसे नहीं हैं।";
+  return;
+ }
+
+ protectBtn.disabled = true;
+ downloadBtn.style.display = "none";
+
+ let qpdf;
+
+ try{
+  qpdf = await getQpdf();
+
+  statusBox.textContent = "PDF encrypt हो रही है...";
+
+  const bytes = new Uint8Array(await selectedFile.arrayBuffer());
+
+  const inputPath = "/manjesh_input.pdf";
+  const outputPath = "/manjesh_protected.pdf";
+
+  try{ qpdf.FS.unlink(inputPath); }catch(e){}
+  try{ qpdf.FS.unlink(outputPath); }catch(e){}
+
+  qpdf.FS.writeFile(inputPath, bytes);
+
+  const random = new Uint8Array(24);
+  crypto.getRandomValues(random);
+  const ownerPassword = Array.from(random)
+   .map(x => x.toString(16).padStart(2,"0"))
+   .join("");
+
+  qpdf.callMain([
+   "--encrypt",
+   password,
+   ownerPassword,
+   "256",
+   "--",
+   inputPath,
+   outputPath
+  ]);
+
+  const result = qpdf.FS.readFile(outputPath);
+
+  if(!result || result.length === 0){
+   throw new Error("Encrypted PDF नहीं बनी।");
+  }
+
+  protectedBlob = new Blob([result],{type:"application/pdf"});
+
+  statusBox.textContent = "PDF सफलतापूर्वक AES-256 से सुरक्षित हो गई है।";
+  downloadBtn.style.display = "block";
+
+ }catch(error){
+  console.error(error);
+  protectedBlob = null;
+  statusBox.textContent =
+   "PDF Protect नहीं हो सकी। कृपया दोबारा कोशिश करें। " +
+   (error.message || "");
+ }finally{
+  protectBtn.disabled = false;
+ }
+};
+
+window.downloadPDF = function(){
+ if(!protectedBlob) return;
+
+ const url = URL.createObjectURL(protectedBlob);
+ const a = document.createElement("a");
+ a.href = url;
+ a.download = "manjesh-protected.pdf";
+ document.body.appendChild(a);
+ a.click();
+ a.remove();
+
+ setTimeout(()=>URL.revokeObjectURL(url),10000);
+};
+</script>
+</body>
+</html>
