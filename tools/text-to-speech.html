@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text to Speech Converter | MANJESH Tools</title>
+<meta name="description" content="Convert text into speech in Hindi and English with MANJESH Tools.">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f7f4;color:#183328;font-family:Arial,sans-serif}
+header{background:#105c35;color:white;padding:17px 16px}
+.brand{font-size:12px;letter-spacing:1.5px;color:#bce8ca}
+header h1{margin:7px 0 4px;font-size:23px}
+header p{margin:0;color:#d7eadc;font-size:13px}
+main{max-width:700px;margin:22px auto;padding:0 14px}
+.card{background:white;border:1px solid #e1ebe4;border-radius:16px;padding:19px;margin-bottom:15px;box-shadow:0 5px 20px #1833280b}
+h2{font-size:17px;margin:0 0 14px}
+label{display:block;font-size:13px;font-weight:bold;margin:14px 0 7px}
+textarea,select{width:100%;border:1px solid #d4e2d8;border-radius:10px;padding:12px;font-size:15px;background:#fff;color:#183328}
+textarea{min-height:170px;resize:vertical;line-height:1.6}
+select{height:45px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+input[type=range]{width:100%;accent-color:#147d45}
+.value{font-size:12px;color:#147d45;font-weight:bold}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+button{border:0;border-radius:10px;padding:13px;font-size:14px;font-weight:bold;cursor:pointer}
+.primary{background:#147d45;color:white}
+.secondary{background:#eaf6ee;color:#105c35}
+.stop{background:#fff0e8;color:#b84b17}
+button:disabled{opacity:.5;cursor:not-allowed}
+.status{font-size:13px;color:#52675a;margin-top:13px;min-height:18px}
+.counter{text-align:right;font-size:12px;color:#75877a;margin-top:5px}
+.note{background:#fff8e9;border:1px solid #f3dfb8;padding:12px;border-radius:10px;font-size:12px;line-height:1.6;color:#70521c}
+footer{text-align:center;color:#829187;font-size:12px;padding:20px}
+@media(max-width:480px){.row{grid-template-columns:1fr}.card{padding:15px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">MANJESH TOOLS</div>
+  <h1>Text to Speech</h1>
+  <p>Convert your text into natural speech.</p>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Enter Your Text</h2>
+    <textarea id="text" maxlength="5000" placeholder="यहाँ अपना टेक्स्ट लिखें...&#10;&#10;Write or paste your text here..."></textarea>
+    <div class="counter"><span id="count">0</span> / 5000 characters</div>
+
+    <label for="language">Language</label>
+    <select id="language">
+      <option value="all">All available voices</option>
+      <option value="hi">Hindi</option>
+      <option value="en">English</option>
+    </select>
+
+    <label for="voice">Select Voice</label>
+    <select id="voice">
+      <option value="">Loading voices...</option>
+    </select>
+
+    <div class="row">
+      <div>
+        <label for="speed">Speech Speed: <span class="value" id="speedValue">1.0x</span></label>
+        <input id="speed" type="range" min="0.5" max="2" step="0.1" value="1">
+      </div>
+      <div>
+        <label for="pitch">Voice Pitch: <span class="value" id="pitchValue">1.0</span></label>
+        <input id="pitch" type="range" min="0.5" max="2" step="0.1" value="1">
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button class="primary" id="speak">▶ Speak</button>
+      <button class="secondary" id="pause">Ⅱ Pause</button>
+      <button class="secondary" id="resume">▶ Resume</button>
+      <button class="stop" id="stop">■ Stop</button>
+    </div>
+    <div class="status" id="status" role="status">Ready to convert your text.</div>
+  </section>
+
+  <section class="card">
+    <h2>How to use</h2>
+    <ol style="font-size:13px;line-height:1.9;color:#52675a;padding-left:20px">
+      <li>Enter or paste your text.</li>
+      <li>Select Hindi or English voice.</li>
+      <li>Adjust speed and pitch.</li>
+      <li>Press Speak to hear your text.</li>
+    </ol>
+    <div class="note">
+      Note: Available voices depend on your phone and browser. On Android, Hindi or English voices may require Google Speech Services / Text-to-Speech to be installed and enabled. This tool speaks using your device; it does not generate an MP3 download.
+    </div>
+  </section>
+</main>
+
+<footer>© MANJESH Tools — Useful Tools Made Simple</footer>
+
+<script>
+const textBox = document.getElementById("text");
+const language = document.getElementById("language");
+const voiceSelect = document.getElementById("voice");
+const statusBox = document.getElementById("status");
+const speed = document.getElementById("speed");
+const pitch = document.getElementById("pitch");
+let voices = [];
+
+function loadVoices(){
+  if(!("speechSynthesis" in window)){
+    statusBox.textContent = "Sorry, your browser does not support Text to Speech.";
+    voiceSelect.innerHTML = '<option value="">Not supported</option>';
+    document.getElementById("speak").disabled = true;
+    return;
+  }
+
+  voices = window.speechSynthesis.getVoices();
+  updateVoiceList();
+}
+
+function updateVoiceList(){
+  const selectedLanguage = language.value;
+  const filtered = voices.filter(v =>
+    selectedLanguage === "all" ||
+    v.lang.toLowerCase().startsWith(selectedLanguage)
+  );
+
+  voiceSelect.innerHTML = "";
+
+  if(filtered.length === 0){
+    voiceSelect.innerHTML = '<option value="">No matching voice found</option>';
+    statusBox.textContent = "No voice found for this language. Try All available voices.";
+    return;
+  }
+
+  filtered.forEach(v => {
+    const option = document.createElement("option");
+    option.value = voices.indexOf(v);
+    option.textContent = v.name + " (" + v.lang + ")" + (v.default ? " — Default" : "");
+    voiceSelect.appendChild(option);
+  });
+
+  statusBox.textContent = filtered.length + " voice(s) available.";
+}
+
+textBox.addEventListener("input", () => {
+  document.getElementById("count").textContent = textBox.value.length;
+});
+
+language.addEventListener("change", updateVoiceList);
+
+speed.addEventListener("input", () => {
+  document.getElementById("speedValue").textContent = Number(speed.value).toFixed(1) + "x";
+});
+
+pitch.addEventListener("input", () => {
+  document.getElementById("pitchValue").textContent = Number(pitch.value).toFixed(1);
+});
+
+document.getElementById("speak").addEventListener("click", () => {
+  const value = textBox.value.trim();
+
+  if(!value){
+    statusBox.textContent = "Please enter some text first.";
+    textBox.focus();
+    return;
+  }
+
+  if(!("speechSynthesis" in window)){
+    statusBox.textContent = "Your browser does not support speech.";
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(value);
+  const voiceIndex = voiceSelect.value;
+
+  if(voiceIndex !== "" && voices[Number(voiceIndex)]){
+    utterance.voice = voices[Number(voiceIndex)];
+    utterance.lang = utterance.voice.lang;
+  } else {
+    utterance.lang = language.value === "hi" ? "hi-IN" :
+                     language.value === "en" ? "en-US" : "en-US";
+  }
+
+  utterance.rate = Number(speed.value);
+  utterance.pitch = Number(pitch.value);
+
+  utterance.onstart = () => statusBox.textContent = "Speaking...";
+  utterance.onend = () => statusBox.textContent = "Speech completed.";
+  utterance.onerror = (event) => statusBox.textContent = "Speech error: " + event.error;
+
+  window.speechSynthesis.speak(utterance);
+});
+
+document.getElementById("pause").addEventListener("click", () => {
+  if(window.speechSynthesis && window.speechSynthesis.speaking){
+    window.speechSynthesis.pause();
+    statusBox.textContent = "Speech paused.";
+  }
+});
+
+document.getElementById("resume").addEventListener("click", () => {
+  if(window.speechSynthesis && window.speechSynthesis.paused){
+    window.speechSynthesis.resume();
+    statusBox.textContent = "Speech resumed.";
+  }
+});
+
+document.getElementById("stop").addEventListener("click", () => {
+  if(window.speechSynthesis){
+    window.speechSynthesis.cancel();
+    statusBox.textContent = "Speech stopped.";
+  }
+});
+
+if("speechSynthesis" in window){
+  loadVoices();
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+} else {
+  loadVoices();
+}
+</script>
+</body>
+</html>
