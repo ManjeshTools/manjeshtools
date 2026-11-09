@@ -6,156 +6,63 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#105c35">
 <title>GST Invoice Maker - MANJESH Tools</title>
-
 <style>
 :root{
- --green:#147d45;
- --dark:#105c35;
- --orange:#ff8700;
- --bg:#f3f7f4;
- --border:#dfe9e1;
+ --green:#147d45;--dark:#105c35;--orange:#ff8700;
+ --bg:#f3f7f4;--border:#dfe9e1;
 }
 *{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,sans-serif;
- background:var(--bg);
- color:#193b29;
-}
-header{
- background:var(--dark);
- color:white;
- text-align:center;
- padding:22px 12px;
-}
+body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#193b29}
+header{background:var(--dark);color:white;text-align:center;padding:22px 12px}
 header h1{margin:0;font-size:25px}
 header p{font-size:13px;color:#e2f1e6;margin:8px 0 0}
 .container{max-width:1050px;margin:22px auto;padding:0 13px}
-.card{
- background:white;
- border:1px solid var(--border);
- border-radius:14px;
- padding:18px;
- margin-bottom:16px;
-}
+.card{background:white;border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:16px}
 h2{font-size:18px;margin:0 0 15px;color:var(--dark)}
-h3{font-size:15px;margin:0 0 12px}
-.grid{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:12px;
-}
-.field label{
- display:block;
- font-size:12px;
- font-weight:bold;
- margin-bottom:6px;
-}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.field label{display:block;font-size:12px;font-weight:bold;margin-bottom:6px}
 input,select,textarea{
- width:100%;
- padding:11px;
- border:1px solid #ccd9ce;
- border-radius:8px;
- font-size:14px;
- background:white;
- color:#193b29;
+ width:100%;padding:11px;border:1px solid #ccd9ce;border-radius:8px;
+ font-size:14px;background:white;color:#193b29
 }
 textarea{resize:vertical;min-height:70px}
-input:focus,select:focus,textarea:focus{
- outline:2px solid #b4dfc0;
- border-color:var(--green);
-}
+input:focus,select:focus,textarea:focus{outline:2px solid #b4dfc0;border-color:var(--green)}
 .full{grid-column:1/-1}
-.row-between{
- display:flex;
- justify-content:space-between;
- align-items:center;
- gap:10px;
-}
-button{
- border:0;
- border-radius:8px;
- padding:11px 15px;
- background:var(--green);
- color:white;
- font-weight:bold;
- cursor:pointer;
-}
+.row-between{display:flex;justify-content:space-between;align-items:center;gap:10px}
+button{border:0;border-radius:8px;padding:11px 15px;background:var(--green);color:white;font-weight:bold;cursor:pointer}
 button:disabled{opacity:.5}
 .orange{background:var(--orange)}
 .red{background:#c0392b}
 .secondary{background:#e8f4eb;color:var(--dark)}
 .table-wrap{overflow-x:auto}
-table{
- width:100%;
- border-collapse:collapse;
- min-width:700px;
-}
-th,td{
- padding:9px 7px;
- border-bottom:1px solid var(--border);
- text-align:left;
- font-size:12px;
-}
+table{width:100%;border-collapse:collapse;min-width:700px}
+th,td{padding:9px 7px;border-bottom:1px solid var(--border);text-align:left;font-size:12px}
 th{background:#eaf5ed;color:var(--dark)}
 td input,td select{padding:8px;min-width:65px}
 .amount{text-align:right;font-weight:bold;white-space:nowrap}
-.summary{
- max-width:390px;
- margin-left:auto;
-}
-.summary div{
- display:flex;
- justify-content:space-between;
- gap:15px;
- padding:8px 0;
- border-bottom:1px solid var(--border);
- font-size:13px;
-}
-.summary .grand{
- font-size:18px;
- font-weight:bold;
- color:var(--dark);
- border-bottom:0;
-}
-.actions{
- display:flex;
- flex-wrap:wrap;
- gap:9px;
-}
-.note{
- font-size:12px;
- color:#65766a;
- line-height:1.7;
-}
+.summary{max-width:390px;margin-left:auto}
+.summary div{display:flex;justify-content:space-between;gap:15px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px}
+.summary .grand{font-size:18px;font-weight:bold;color:var(--dark);border-bottom:0}
+.actions{display:flex;flex-wrap:wrap;gap:9px}
+.note{font-size:12px;color:#65766a;line-height:1.7}
 #message{font-size:13px;margin-top:12px;color:var(--dark)}
 footer{text-align:center;padding:25px;font-size:12px;color:#718075}
-
+.invoice-heading{display:none}
 @media(max-width:600px){
  .grid{grid-template-columns:1fr}
  .container{padding:0 9px}
  .card{padding:14px}
  .row-between{align-items:flex-start;flex-direction:column}
 }
-
-/* PRINT */
 @media print{
  body{background:white}
  header,.no-print,footer{display:none!important}
  .container{max-width:none;margin:0;padding:0}
- .card{
-  border:0;
-  box-shadow:none;
-  padding:8px;
-  margin:0;
-  break-inside:avoid;
- }
+ .card{border:0;box-shadow:none;padding:8px;margin:0;break-inside:avoid}
+ .invoice-heading{display:block;text-align:center;margin:8px 0 15px}
  input,select,textarea{
-  border:0!important;
-  padding:2px!important;
-  appearance:none;
-  color:#111!important;
-  background:transparent!important;
+  border:0!important;padding:2px!important;appearance:none;
+  color:#111!important;background:transparent!important
  }
  .table-wrap{overflow:visible}
  table{min-width:0}
@@ -165,7 +72,6 @@ footer{text-align:center;padding:25px;font-size:12px;color:#718075}
 }
 </style>
 </head>
-
 <body>
 
 <header>
@@ -175,9 +81,12 @@ footer{text-align:center;padding:25px;font-size:12px;color:#718075}
 
 <main class="container">
 
+<div class="invoice-heading">
+<h2>INVOICE / BILL</h2>
+</div>
+
 <div class="card no-print">
 <h2>🧾 Create Your Invoice</h2>
-
 <div class="grid">
 <div class="field">
 <label>Invoice Type</label>
@@ -186,20 +95,13 @@ footer{text-align:center;padding:25px;font-size:12px;color:#718075}
 <option value="non-gst">Non-GST Bill</option>
 </select>
 </div>
-
 <div class="field">
 <label>Invoice Number</label>
 <input id="invoiceNo" value="INV-001">
 </div>
-
 <div class="field">
 <label>Invoice Date</label>
 <input type="date" id="invoiceDate">
-</div>
-
-<div class="field">
-<label>Place of Supply / State</label>
-<input id="placeSupply" placeholder="e.g. Bihar">
 </div>
 </div>
 </div>
@@ -218,6 +120,10 @@ footer{text-align:center;padding:25px;font-size:12px;color:#718075}
 <div class="field full">
 <label>Business Address</label>
 <textarea id="businessAddress" placeholder="Complete business address"></textarea>
+</div>
+<div class="field">
+<label>Business State</label>
+<input id="sellerState" placeholder="e.g. Bihar">
 </div>
 <div class="field">
 <label>Phone Number</label>
@@ -245,6 +151,10 @@ footer{text-align:center;padding:25px;font-size:12px;color:#718075}
 <label>Customer Address</label>
 <textarea id="customerAddress" placeholder="Customer Address"></textarea>
 </div>
+<div class="field">
+<label>Place of Supply State</label>
+<input id="placeSupply" placeholder="e.g. Bihar">
+</div>
 </div>
 </div>
 
@@ -253,7 +163,6 @@ footer{text-align:center;padding:25px;font-size:12px;color:#718075}
 <h2>📦 Product / Service Details</h2>
 <button type="button" id="addItem" class="no-print">+ Add Product</button>
 </div>
-
 <div class="table-wrap">
 <table>
 <thead>
@@ -294,20 +203,20 @@ footer{text-align:center;padding:25px;font-size:12px;color:#718075}
 </div>
 </div>
 <p class="note">
-Automatic mode में Seller और Customer के राज्य समान होने पर CGST + SGST तथा अलग होने पर IGST दिखेगा। Place of Supply की सही जाँच आपकी जिम्मेदारी है।
+Automatic mode में Business State और Place of Supply State समान होने पर CGST + SGST तथा अलग होने पर IGST चुना जाएगा। दोनों राज्य भरना जरूरी है। सही Place of Supply और GST नियमों की जाँच करें।
 </p>
+<div id="taxMessage" class="note"></div>
 </div>
 
 <div class="card">
 <h2>💰 Invoice Summary</h2>
-
 <div class="summary">
 <div><span>Subtotal</span><strong id="subtotal">₹0.00</strong></div>
 <div><span>Total Discount</span><strong id="discountTotal">₹0.00</strong></div>
 <div><span>Taxable Amount</span><strong id="taxable">₹0.00</strong></div>
-<div><span>CGST</span><strong id="cgst">₹0.00</strong></div>
-<div><span>SGST</span><strong id="sgst">₹0.00</strong></div>
-<div><span>IGST</span><strong id="igst">₹0.00</strong></div>
+<div id="cgstRow"><span>CGST</span><strong id="cgst">₹0.00</strong></div>
+<div id="sgstRow"><span>SGST</span><strong id="sgst">₹0.00</strong></div>
+<div id="igstRow"><span>IGST</span><strong id="igst">₹0.00</strong></div>
 <div><span>Grand Total</span><strong id="grandTotal">₹0.00</strong></div>
 <div class="grand"><span>Payable Amount</span><strong id="payable">₹0.00</strong></div>
 </div>
@@ -319,12 +228,8 @@ Automatic mode में Seller और Customer के राज्य समा
 <div class="field">
 <label>Payment Method</label>
 <select id="payment">
-<option>Cash</option>
-<option>UPI</option>
-<option>Bank Transfer</option>
-<option>Card</option>
-<option>Credit</option>
-<option>Other</option>
+<option>Cash</option><option>UPI</option><option>Bank Transfer</option>
+<option>Card</option><option>Credit</option><option>Other</option>
 </select>
 </div>
 <div class="field">
@@ -336,10 +241,10 @@ Automatic mode में Seller और Customer के राज्य समा
 <textarea id="notes" placeholder="Thank you for your business."></textarea>
 </div>
 </div>
-
 <div class="summary">
 <div><span>Received</span><strong id="receivedDisplay">₹0.00</strong></div>
 <div><span>Balance Due</span><strong id="balance">₹0.00</strong></div>
+<div><span>Advance Received</span><strong id="advance">₹0.00</strong></div>
 </div>
 </div>
 
@@ -349,9 +254,7 @@ Automatic mode में Seller और Customer के राज्य समा
 <button type="button" id="printBtn">🖨️ Print / Save PDF</button>
 <button type="button" class="secondary" id="resetBtn">Reset Invoice</button>
 </div>
-<p class="note">
-PDF डाउनलोड करने के लिए Print / Save PDF दबाएँ और अपने ब्राउज़र में "Save as PDF" चुनें।
-</p>
+<p class="note">PDF डाउनलोड करने के लिए Print / Save PDF दबाएँ और ब्राउज़र में Save as PDF चुनें।</p>
 <div id="message" aria-live="polite"></div>
 </div>
 
@@ -360,26 +263,30 @@ PDF डाउनलोड करने के लिए Print / Save PDF दब�
 </p>
 
 </main>
-
 <footer>© MANJESH Tools — Useful Tools Made Simple.</footer>
 
 <script>
 const $ = id => document.getElementById(id);
+
 const money = n => "₹" + (Number(n)||0).toLocaleString("en-IN",{
  minimumFractionDigits:2,
  maximumFractionDigits:2
 });
 
 function today(){
- const d = new Date();
- const local = new Date(d.getTime()-d.getTimezoneOffset()*60000);
+ const d=new Date();
+ const local=new Date(d.getTime()-d.getTimezoneOffset()*60000);
  return local.toISOString().slice(0,10);
 }
-$("invoiceDate").value = today();
+$("invoiceDate").value=today();
+
+function value(row,selector){
+ return Math.max(0,Number(row.querySelector(selector).value)||0);
+}
 
 function addItem(){
- const tr = document.createElement("tr");
- tr.innerHTML = `
+ const tr=document.createElement("tr");
+ tr.innerHTML=`
  <td><input class="product" placeholder="Product name"></td>
  <td><input class="hsn" placeholder="HSN"></td>
  <td><input class="qty" type="number" min="0" step="any" value="1"></td>
@@ -401,8 +308,7 @@ function addItem(){
  <td class="total amount">₹0.00</td>
  <td class="remove-col no-print">
  <button type="button" class="red remove">×</button>
- </td>
- `;
+ </td>`;
  $("items").appendChild(tr);
  tr.addEventListener("input",calculate);
  tr.addEventListener("change",calculate);
@@ -413,22 +319,28 @@ function addItem(){
  calculate();
 }
 
-function value(row,selector){
- return Math.max(0,Number(row.querySelector(selector).value)||0);
-}
-
 function calculate(){
- const rows = [...$("items").querySelectorAll("tr")];
+ const rows=[...$("items").querySelectorAll("tr")];
  let subtotal=0,discount=0,taxable=0,cgst=0,sgst=0,igst=0;
 
  const type=$("invoiceType").value;
  const mode=$("taxMode").value;
- const sellerState=$("placeSupply").value.trim().toLowerCase();
- const customerState=$("customerAddress").value.trim().toLowerCase();
 
- const inter = mode==="inter" ||
-  (mode==="auto" && sellerState && customerState &&
-   !customerState.includes(sellerState));
+ const sellerState=$("sellerState").value.trim().toLowerCase();
+ const supplyState=$("placeSupply").value.trim().toLowerCase();
+
+ let inter=false;
+ let stateWarning="";
+
+ if(mode==="inter"){
+  inter=true;
+ }else if(mode==="intra"){
+  inter=false;
+ }else if(sellerState && supplyState){
+  inter=sellerState!==supplyState;
+ }else{
+  stateWarning="Automatic tax calculation के लिए Business State और Place of Supply State दोनों भरें।";
+ }
 
  rows.forEach(row=>{
   const qty=value(row,".qty");
@@ -439,7 +351,7 @@ function calculate(){
   const gross=qty*rate;
   const actualDiscount=Math.min(gross,disc);
   const base=Math.max(0,gross-actualDiscount);
-  const tax=type==="gst" ? base*gst/100 : 0;
+  const tax=type==="gst"?base*gst/100:0;
   const total=base+tax;
 
   subtotal+=gross;
@@ -447,7 +359,7 @@ function calculate(){
   taxable+=base;
 
   if(type==="gst"){
-   if(inter) igst+=tax;
+   if(inter)igst+=tax;
    else{
     cgst+=tax/2;
     sgst+=tax/2;
@@ -459,9 +371,12 @@ function calculate(){
  });
 
  const grand=taxable+cgst+sgst+igst;
- const payable=$("roundOff").value==="yes" ? Math.round(grand) : grand;
- const received=value($("received"),"") || 0;
- const balance=payable-received;
+ const payable=$("roundOff").value==="yes"?Math.round(grand):grand;
+
+ // FIXED: Read received amount directly from its input.
+ const received=Math.max(0,Number($("received").value)||0);
+ const balance=Math.max(0,payable-received);
+ const advance=Math.max(0,received-payable);
 
  $("subtotal").textContent=money(subtotal);
  $("discountTotal").textContent=money(discount);
@@ -473,24 +388,27 @@ function calculate(){
  $("payable").textContent=money(payable);
  $("receivedDisplay").textContent=money(received);
  $("balance").textContent=money(balance);
+ $("advance").textContent=money(advance);
 
- $("cgst").parentElement.style.display=type==="gst"&&!inter?"flex":"none";
- $("sgst").parentElement.style.display=type==="gst"&&!inter?"flex":"none";
- $("igst").parentElement.style.display=type==="gst"&&inter?"flex":"none";
- $("received").max=payable || "";
+ $("cgstRow").style.display=type==="gst"&&!inter?"flex":"none";
+ $("sgstRow").style.display=type==="gst"&&!inter?"flex":"none";
+ $("igstRow").style.display=type==="gst"&&inter?"flex":"none";
+
+ $("taxMessage").textContent=type==="gst"?stateWarning:"Non-GST Bill में GST नहीं जोड़ा जाएगा।";
 }
 
 $("addItem").addEventListener("click",addItem);
 $("invoiceType").addEventListener("change",calculate);
 $("taxMode").addEventListener("change",calculate);
 $("roundOff").addEventListener("change",calculate);
+$("sellerState").addEventListener("input",calculate);
 $("placeSupply").addEventListener("input",calculate);
-$("customerAddress").addEventListener("input",calculate);
 $("received").addEventListener("input",calculate);
 
 $("printBtn").addEventListener("click",()=>{
  const name=$("businessName").value.trim();
  const customer=$("customerName").value.trim();
+
  if(!name||!customer){
   $("message").textContent="कृपया Business Name और Customer Name भरें।";
   return;
@@ -499,26 +417,35 @@ $("printBtn").addEventListener("click",()=>{
   $("message").textContent="कम से कम एक Product जोड़ें।";
   return;
  }
+ if($("invoiceType").value==="gst" &&
+    $("taxMode").value==="auto" &&
+    (!$("sellerState").value.trim()||!$("placeSupply").value.trim())){
+  $("message").textContent="GST Invoice के लिए Business State और Place of Supply State भरें।";
+  return;
+ }
  $("message").textContent="Print window खुल रही है। Save as PDF चुनें।";
  window.print();
 });
 
 $("resetBtn").addEventListener("click",()=>{
  if(!confirm("क्या आप पूरा Invoice Reset करना चाहते हैं?"))return;
+
  document.querySelectorAll("input,textarea").forEach(el=>{
   if(el.id==="invoiceDate")el.value=today();
   else if(el.id==="invoiceNo")el.value="INV-001";
   else if(el.id==="received")el.value="0";
   else el.value="";
  });
+
  $("invoiceType").value="gst";
  $("taxMode").value="auto";
  $("roundOff").value="yes";
  $("payment").value="Cash";
  $("notes").value="Thank you for your business.";
  $("items").innerHTML="";
- addItem();
  $("message").textContent="Invoice Reset हो गया।";
+ addItem();
+ calculate();
 });
 
 addItem();
